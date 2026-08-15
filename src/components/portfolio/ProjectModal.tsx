@@ -33,18 +33,18 @@ export function ProjectModal({ project, onClose }: { project: Project; onClose: 
         <button
           onClick={onClose}
           aria-label="Cerrar"
-          className="absolute top-4 right-4 z-10 liquid-glass w-8 h-8 rounded-full flex items-center justify-center"
+          className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center bg-black/60 hover:bg-black/80 backdrop-blur-sm border border-white/10 transition-colors"
         >
-          <X size={16} />
+          <X size={18} />
         </button>
 
         {project.imageUrl && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={project.imageUrl} alt="" className="w-full h-56 object-cover" />
+          <img src={project.imageUrl} alt="" className="w-full h-56 md:h-72 object-cover" />
         )}
 
-        <div className="p-6">
-          <h2 className="text-2xl font-medium mb-3">{project.title}</h2>
+        <div className="p-6 md:p-8">
+          <h2 className="text-2xl md:text-3xl font-medium mb-3">{project.title}</h2>
           <p className="text-gray-400 text-sm mb-4">{project.description}</p>
 
           {project.tags.length > 0 && (
