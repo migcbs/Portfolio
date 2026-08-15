@@ -16,10 +16,12 @@ async function main() {
   const heroImageUrl =
     "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1920&q=80";
 
+  const logoUrl = "/logo.png";
+
   await prisma.siteSettings.upsert({
     where: { id: "singleton" },
-    update: { heroImageUrl },
-    create: { id: "singleton", heroImageUrl },
+    update: { heroImageUrl, logoUrl },
+    create: { id: "singleton", heroImageUrl, logoUrl },
   });
 
   const client = await prisma.client.upsert({
