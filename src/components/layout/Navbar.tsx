@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { Search, User, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
-import SpotlightSearch from "./SpotlightSearch";
 
 const NAV_LINKS = [
   { href: "/sobre-mi", label: "Sobre mí" },
@@ -15,30 +14,19 @@ const NAV_LINKS = [
   { href: "/contacto", label: "Contacto" },
 ];
 
-export default function Navbar({ brand }: { brand: string }) {
+export default function Navbar({ brand, logoUrl }: { brand: string; logoUrl: string | null }) {
   const [open, setOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        setSearchOpen(true);
-      }
-    }
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
 
   return (
     <>
       <nav className="relative z-50 flex justify-between items-center px-4 sm:px-6 md:px-12 py-4 md:py-6">
-        <Link
-          href="/"
-          className="text-base md:text-lg font-semibold tracking-tight animate-blur-fade-up"
-          style={{ animationDelay: "0ms" }}
-        >
-          {brand}
+        <Link href="/" className="animate-blur-fade-up" style={{ animationDelay: "0ms" }}>
+          {logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logoUrl} alt={brand} className="h-8 md:h-10 w-auto" />
+          ) : (
+            <span className="text-base md:text-lg font-semibold tracking-tight">{brand}</span>
+          )}
         </Link>
 
         <div className="hidden lg:flex items-center gap-8 text-sm">
@@ -54,56 +42,26 @@ export default function Navbar({ brand }: { brand: string }) {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setSearchOpen(true)}
-            className="hidden sm:flex liquid-glass rounded-full px-4 md:px-6 py-2 items-center gap-2 text-sm animate-blur-fade-up"
-            style={{ animationDelay: "350ms" }}
-          >
-            <Search size={18} />
-            Buscar
-            <kbd className="ml-1 text-[10px] text-gray-500 border border-white/10 rounded px-1.5 py-0.5">
-              ⌘K
-            </kbd>
-          </button>
-          <Link
-            href="/admin/login"
-            aria-label="Ingresar"
-            className="hidden sm:flex liquid-glass w-10 h-10 rounded-full items-center justify-center animate-blur-fade-up"
-            style={{ animationDelay: "400ms" }}
-          >
-            <User size={18} />
-          </Link>
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="lg:hidden liquid-glass w-10 h-10 rounded-full flex items-center justify-center animate-blur-fade-up"
-            style={{ animationDelay: "350ms" }}
-            aria-label="Abrir menú"
-          >
-            <span className="relative w-[18px] h-[18px] block">
-              <Menu
-                size={18}
-                className={`absolute inset-0 transition-all duration-500 ease-out ${open ? "rotate-180 opacity-0 scale-50" : "opacity-100"}`}
-              />
-              <X
-                size={18}
-                className={`absolute inset-0 transition-all duration-500 ease-out ${open ? "opacity-100" : "rotate-180 opacity-0 scale-50"}`}
-              />
-            </span>
-          </button>
-        </div>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="lg:hidden liquid-glass w-10 h-10 rounded-full flex items-center justify-center animate-blur-fade-up"
+          style={{ animationDelay: "350ms" }}
+          aria-label="Abrir menú"
+        >
+          <span className="relative w-[18px] h-[18px] block">
+            <Menu
+              size={18}
+              className={`absolute inset-0 transition-all duration-500 ease-out ${open ? "rotate-180 opacity-0 scale-50" : "opacity-100"}`}
+            />
+            <X
+              size={18}
+              className={`absolute inset-0 transition-all duration-500 ease-out ${open ? "opacity-100" : "rotate-180 opacity-0 scale-50"}`}
+            />
+          </span>
+        </button>
       </nav>
 
-      <MobileMenu
-        open={open}
-        links={NAV_LINKS}
-        onNavigate={() => setOpen(false)}
-        onSearch={() => {
-          setOpen(false);
-          setSearchOpen(true);
-        }}
-      />
-      <SpotlightSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <MobileMenu open={open} links={NAV_LINKS} onNavigate={() => setOpen(false)} />
     </>
   );
 }

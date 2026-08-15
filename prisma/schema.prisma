@@ -27,6 +27,7 @@ model SiteSettings {
   contactEmail    String   @default("")
   agencyTagline   String   @default("Agencia de marketing digital.")
   agencyServices  String[] @default(["Fotografía", "Video", "Diseño gráfico", "Impresiones", "Merch"])
+  logoUrl         String?
   updatedAt       DateTime @updatedAt
 }
 
@@ -48,15 +49,22 @@ enum StoryType {
   VIDEO
 }
 
+enum StoryCategory {
+  PHOTO
+  VIDEO
+  MERCH
+}
+
 model Story {
-  id        String    @id @default(cuid())
+  id        String        @id @default(cuid())
   clientId  String
-  client    Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  type      StoryType @default(IMAGE)
+  client    Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  category  StoryCategory @default(PHOTO)
+  type      StoryType     @default(IMAGE)
   mediaUrl  String
-  order     Int       @default(0)
-  active    Boolean   @default(true)
-  createdAt DateTime  @default(now())
+  order     Int           @default(0)
+  active    Boolean       @default(true)
+  createdAt DateTime      @default(now())
 }
 
 model PortfolioProject {

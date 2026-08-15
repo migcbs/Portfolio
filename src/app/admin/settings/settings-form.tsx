@@ -16,6 +16,7 @@ type Values = {
   contactEmail: string;
   agencyTagline: string;
   agencyServices: string;
+  logoUrl: string;
 };
 
 function Field({
@@ -63,6 +64,12 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
   return (
     <form action={formAction} className="liquid-glass rounded-2xl p-6 max-w-xl">
       {justSaved && <p className="text-green-400 text-sm mb-4">Guardado correctamente.</p>}
+      <Field
+        name="logoUrl"
+        label="Logo (URL, opcional — si lo dejas vacío se muestra el nombre como texto)"
+        defaultValue={defaultValues.logoUrl}
+        errors={state?.errors?.logoUrl}
+      />
       <Field
         name="portfolioBrand"
         label="Nombre del portafolio"

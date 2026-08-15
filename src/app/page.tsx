@@ -1,4 +1,4 @@
-import { Star, Clock, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, Clock, Calendar } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
 
 export const dynamic = "force-dynamic";
@@ -31,7 +31,7 @@ export default async function HomePage() {
       <div className="fixed inset-0 z-[1] bg-gradient-to-t from-black/80 via-black/30 to-black/10 pointer-events-none" />
 
       <div className="relative z-10 flex-1 flex flex-col justify-end px-4 sm:px-6 md:px-12 pb-8 md:pb-16">
-        <div className="flex flex-col md:flex-row items-end gap-8">
+        <div className="flex flex-col">
           <div className="flex-1">
             <div
               className="flex flex-wrap gap-3 sm:gap-6 mb-6 md:mb-8 text-xs sm:text-sm animate-blur-fade-up"
@@ -78,23 +78,6 @@ export default async function HomePage() {
                 Ver portafolio
               </a>
             </div>
-          </div>
-
-          <div className="flex gap-3">
-            <button
-              className="liquid-glass rounded-full px-4 sm:px-6 py-2.5 sm:py-3 animate-blur-fade-up"
-              style={{ animationDelay: "800ms" }}
-              aria-label="Anterior"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              className="liquid-glass rounded-full px-4 sm:px-6 py-2.5 sm:py-3 animate-blur-fade-up"
-              style={{ animationDelay: "900ms" }}
-              aria-label="Siguiente"
-            >
-              <ChevronRight size={18} />
-            </button>
           </div>
         </div>
       </div>
