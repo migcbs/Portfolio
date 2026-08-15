@@ -25,16 +25,16 @@ export default function Navbar({ brand, logoUrl }: { brand: string; logoUrl: str
             // eslint-disable-next-line @next/next/no-img-element
             <img src={logoUrl} alt={brand} className="h-8 md:h-10 w-auto" />
           ) : (
-            <span className="text-base md:text-lg font-semibold tracking-tight">{brand}</span>
+            <span className="font-display uppercase text-xl md:text-2xl tracking-wide">{brand}</span>
           )}
         </Link>
 
-        <div className="hidden lg:flex items-center gap-8 text-sm">
+        <div className="hidden lg:flex items-center gap-8">
           {NAV_LINKS.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
-              className="hover:text-gray-300 transition-colors animate-blur-fade-up"
+              className="font-display uppercase text-lg tracking-wide hover:text-gray-300 transition-colors animate-blur-fade-up"
               style={{ animationDelay: `${100 + i * 50}ms` }}
             >
               {link.label}

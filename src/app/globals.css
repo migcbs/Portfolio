@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+  }
+}
+
+@layer components {
+  /* Space Mono uppercase treatment for labels, categories, metadata, tags */
+  .label-mono {
+    font-family: var(--font-mono), monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+  }
+
+  /* Barlow Condensed Light Italic, restricted to quotes/pull-quotes/captions */
+  .quote-accent {
+    font-family: var(--font-accent), sans-serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+}
+
 /* @layer components places these rules before Tailwind's utilities layer in
    the cascade, so utility classes like `fixed`/`absolute`/`static` on the
    same element always win over `.liquid-glass`'s `position: relative` —

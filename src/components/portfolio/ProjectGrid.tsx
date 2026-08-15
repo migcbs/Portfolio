@@ -39,7 +39,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
               <p className="text-gray-400 text-sm mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="text-xs px-2 py-1 rounded-full bg-white/5">
+                  <span key={tag} className="label-mono px-2 py-1 rounded-full bg-white/5">
                     {tag}
                   </span>
                 ))}

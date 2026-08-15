@@ -25,8 +25,8 @@ export default async function ReviewsPage() {
                 <Star key={idx} size={16} className="fill-white" />
               ))}
             </div>
-            <p className="text-gray-300 text-sm mb-3">&ldquo;{review.text}&rdquo;</p>
-            <p className="text-gray-500 text-xs">{review.authorName}</p>
+            <p className="quote-accent text-gray-300 text-xl mb-3">&ldquo;{review.text}&rdquo;</p>
+            <p className="label-mono text-gray-500">{review.authorName}</p>
           </div>
         ))}
         {reviews.length === 0 && <p className="text-gray-500">Aún no hay reviews publicadas.</p>}

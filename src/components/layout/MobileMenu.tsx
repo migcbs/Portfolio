@@ -21,7 +21,7 @@ export default function MobileMenu({ open, links, onNavigate }: Props) {
             key={link.href}
             href={link.href}
             onClick={onNavigate}
-            className="py-3 px-3 rounded-lg hover:bg-gray-800/50 transition-all"
+            className="font-display uppercase text-xl tracking-wide py-3 px-3 rounded-lg hover:bg-gray-800/50 transition-all"
             style={{
               transitionDelay: `${i * 50}ms`,
               transform: open ? "translateX(0)" : "translateX(-16px)",
