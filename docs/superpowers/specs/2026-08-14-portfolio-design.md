@@ -44,10 +44,14 @@ Referencias de diseño/funcionalidad:
 - `/agencia` — ATENU BrandHouse: servicios (foto, video, diseño gráfico, impresiones, merch),
   grid de clientes, stories por cliente (visor tipo Instagram stories, ≤15s, autoplay)
 - `/paquetes` — Paquetes y precios
-- `/reviews` — Testimonios aprobados
+- `/reviews` — Testimonios aprobados + formulario público para dejar una reseña nueva
+  (se guarda como no-aprobada, requiere aprobación en el admin antes de mostrarse)
 - `/contacto` — Formulario de contacto + consulta de paquete de interés
+- `/buscar` — Búsqueda por palabra clave sobre proyectos de portafolio y paquetes
 
-**Admin oculto (`/admin`, no enlazado desde nav pública):**
+**Admin (`/admin`), enlazado desde el ícono de usuario del navbar:**
+La protección es por contraseña (Auth.js), no por ocultamiento — el botón "Ingresar"
+del navbar lleva a `/admin/login`, pero solo el usuario admin seedeado puede autenticar.
 - `/admin/login` — login credentials
 - `/admin` — dashboard con resumen (leads sin leer, etc.)
 - `/admin/settings` — editor de SiteSettings (títulos, textos, fondos, marcas)
@@ -57,13 +61,26 @@ Referencias de diseño/funcionalidad:
 
 ## Fases
 
-1. **F1 — Fundación** *(este ciclo)*: scaffold Next.js + Tailwind + design system
+1. **F1 — Fundación** ✅ *(completo)*: scaffold Next.js + Tailwind + design system
    (liquid-glass, blurFadeUp, Inter), schema Prisma completo + migración inicial,
    Auth.js con login admin funcional, layout público con navegación a todas las páginas
-   con contenido placeholder/seed, shell del admin con dashboard vacío. Todo corre en
-   local contra una rama Neon de desarrollo.
-2. **F2** — CRUD completo de cada módulo admin (settings, clientes, portafolio, paquetes, reviews, social links).
-3. **F3** — Stories: subida a Vercel Blob, visor tipo stories (≤15s, autoplay, navegación).
+   con contenido placeholder/seed, shell del admin con dashboard vacío. Corrió en local
+   contra Postgres vía Homebrew (Docker no disponible en la máquina de desarrollo).
+2. **F2 — CRUD del admin** *(este ciclo)*: formularios de creación/edición/eliminación
+   para `SiteSettings` (editor único), `Client`, `PortfolioProject`, `Service`, `Review`,
+   `SocialLink` — patrón tabla + página de formulario separada (`/admin/{modulo}`,
+   `/admin/{modulo}/new`, `/admin/{modulo}/[id]/edit`), validación con `zod` en Server
+   Actions, eliminar vía `confirm()` nativo. Los campos de imagen/video son inputs de
+   URL de texto (el uploader real llega en F3). Además, en este ciclo:
+   - Contenido placeholder reemplazado por imágenes reales (fondo del hero, proyectos
+     de portafolio, logos de clientes) usando URLs de fotos ya alojadas en internet.
+   - Búsqueda funcional (`/buscar`) sobre proyectos de portafolio y paquetes.
+   - El botón "Ingresar" del navbar enlaza a `/admin/login` (ya no oculto — protegido
+     solo por contraseña).
+   - Formulario público en `/reviews` para que visitantes dejen una reseña, guardada
+     como no-aprobada hasta que el admin la apruebe en `/admin/reviews`.
+3. **F3** — Stories: subida a Vercel Blob, visor tipo stories (≤15s, autoplay, navegación),
+   CRUD completo del módulo Stories (queda fuera de F2 por su dependencia de Blob).
 4. **F4** — Formulario de contacto → tabla `Lead` + bandeja en admin, pulido de UX/responsive.
 5. **F5** — Preparación de deploy a Vercel (variables de entorno documentadas, build de producción).
 
@@ -74,9 +91,17 @@ Referencias de diseño/funcionalidad:
 `BLOB_READ_WRITE_TOKEN`). Sin `BLOB_READ_WRITE_TOKEN` el resto de la app funciona con
 normalidad; solo la subida de archivos queda deshabilitada hasta agregar la key.
 
-## Fuera de alcance (F1)
+## Fuera de alcance (F1) — histórico
 
 - Subida real de archivos a Blob (F3)
 - CRUD funcional en el admin más allá del login (F2+)
 - Envío de email de notificación de leads (se descartó; solo se guardan en BD)
 - Internacionalización, analítica, testing automatizado
+
+## Fuera de alcance (F2)
+
+- CRUD del módulo Stories (depende de Blob, va en F3)
+- Subida real de archivos — los campos de imagen/video siguen siendo URLs de texto
+- Formulario de contacto funcional y bandeja de leads (F4)
+- Moderación de reviews más allá de aprobar/ocultar (sin edición del texto del visitante)
+- Testing automatizado (sigue fuera de alcance en todo el proyecto)
