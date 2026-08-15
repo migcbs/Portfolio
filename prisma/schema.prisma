@@ -15,7 +15,7 @@ model User {
 }
 
 model SiteSettings {
-  id              String   @id @default(cuid())
+  id              String   @id @default("singleton")
   portfolioBrand  String   @default("Miguel Ceballos — Portafolio")
   agencyBrand     String   @default("ATENU BrandHouse")
   heroTitle       String   @default("Step Through. Work Smarter.")
@@ -28,14 +28,15 @@ model SiteSettings {
 }
 
 model Client {
-  id        String   @id @default(cuid())
-  name      String
-  logoUrl   String?
-  website   String?
-  active    Boolean  @default(true)
-  order     Int      @default(0)
-  stories   Story[]
-  createdAt DateTime @default(now())
+  id          String       @id @default(cuid())
+  name        String
+  logoUrl     String?
+  website     String?
+  active      Boolean      @default(true)
+  order       Int          @default(0)
+  stories     Story[]
+  socialLinks SocialLink[]
+  createdAt   DateTime     @default(now())
 }
 
 enum StoryType {
@@ -106,6 +107,8 @@ model SocialLink {
   label     String
   url       String
   scope     SocialScope @default(PERSONAL)
+  clientId  String?
+  client    Client?     @relation(fields: [clientId], references: [id], onDelete: Cascade)
   order     Int         @default(0)
   createdAt DateTime    @default(now())
 }
