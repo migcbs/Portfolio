@@ -1,5 +1,11 @@
-import { auth } from "@/lib/auth";
+import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
+import { authConfig } from "@/lib/auth.config";
+
+// Uses the lightweight, provider-free config so the middleware's Edge
+// bundle never pulls in Prisma/bcrypt (which live in the full auth.ts,
+// used only by Node.js runtime routes like the login server action).
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
