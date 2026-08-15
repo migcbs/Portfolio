@@ -12,6 +12,15 @@ module.exports = {
         mono: ['var(--font-mono)', 'monospace'],
         accent: ['var(--font-accent)', 'sans-serif'],
       },
+      colors: {
+        // Brand palette: dark "ink" for backgrounds, warm "paper" for
+        // typography/titles/light surfaces. Overriding Tailwind's core
+        // black/white means every existing bg-black, text-white,
+        // border-white/10, fill-white, etc. across the whole site picks
+        // these up automatically — no need to touch each usage.
+        black: '#0C0C0C',
+        white: '#F5F3EE',
+      },
     },
   },
   plugins: [],
