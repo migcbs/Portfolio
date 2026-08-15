@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { prisma } from "@/lib/prisma";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
 
@@ -9,10 +12,18 @@ export const metadata: Metadata = {
   description: "Desarrollo web y soluciones digitales — ATENU BrandHouse",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await prisma.siteSettings.findFirst();
+  const portfolioBrand = settings?.portfolioBrand ?? "Miguel Ceballos — Portafolio";
+  const agencyBrand = settings?.agencyBrand ?? "ATENU BrandHouse";
+
   return (
     <html lang="es">
-      <body className={`${inter.className} bg-black text-white antialiased`}>{children}</body>
+      <body className={`${inter.className} bg-black text-white antialiased min-h-screen flex flex-col`}>
+        <Navbar brand={portfolioBrand} />
+        <main className="flex-1 flex flex-col">{children}</main>
+        <Footer agencyBrand={agencyBrand} />
+      </body>
     </html>
   );
 }
