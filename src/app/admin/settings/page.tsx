@@ -16,6 +16,7 @@ export default async function AdminSettingsPage() {
           heroVideoUrl: settings?.heroVideoUrl ?? "",
           heroImageUrl: settings?.heroImageUrl ?? "",
           aboutText: settings?.aboutText ?? "",
+          aboutImageUrl: settings?.aboutImageUrl ?? "",
           contactEmail: settings?.contactEmail ?? "",
         }}
       />

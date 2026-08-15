@@ -9,6 +9,7 @@ export const siteSettingsSchema = z.object({
   heroVideoUrl: optionalUrl,
   heroImageUrl: optionalUrl,
   aboutText: optionalText,
+  aboutImageUrl: optionalUrl,
   contactEmail: optionalText,
 });
 

@@ -12,6 +12,7 @@ type Values = {
   heroVideoUrl: string;
   heroImageUrl: string;
   aboutText: string;
+  aboutImageUrl: string;
   contactEmail: string;
 };
 
@@ -103,6 +104,12 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
         defaultValue={defaultValues.aboutText}
         errors={state?.errors?.aboutText}
         textarea
+      />
+      <Field
+        name="aboutImageUrl"
+        label="Foto para 'Sobre mí' (URL, opcional)"
+        defaultValue={defaultValues.aboutImageUrl}
+        errors={state?.errors?.aboutImageUrl}
       />
       <Field
         name="contactEmail"
