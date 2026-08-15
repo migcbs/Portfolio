@@ -97,6 +97,21 @@ async function main() {
     },
   });
 
+  const socialLinks = [
+    { id: "seed-social-instagram", label: "Instagram", url: "https://instagram.com/tuusuario" },
+    { id: "seed-social-facebook", label: "Facebook", url: "https://facebook.com/tuusuario" },
+    { id: "seed-social-tiktok", label: "TikTok", url: "https://tiktok.com/@tuusuario" },
+    { id: "seed-social-linkedin", label: "LinkedIn", url: "https://linkedin.com/in/tuusuario" },
+    { id: "seed-social-whatsapp", label: "WhatsApp", url: "https://wa.me/521234567890" },
+  ];
+  for (const [i, link] of socialLinks.entries()) {
+    await prisma.socialLink.upsert({
+      where: { id: link.id },
+      update: { url: link.url },
+      create: { id: link.id, label: link.label, url: link.url, scope: "PERSONAL", order: i },
+    });
+  }
+
   console.log("Seed completado. Admin:", adminEmail);
 }
 

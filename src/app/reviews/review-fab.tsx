@@ -43,13 +43,16 @@ export function ReviewFab() {
             className="relative w-full max-w-md md:max-w-lg liquid-glass rounded-2xl p-6 sm:p-8 bg-gray-950"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              onClick={() => setOpen(false)}
-              aria-label="Cerrar"
-              className="absolute top-4 right-4 liquid-glass w-8 h-8 rounded-full flex items-center justify-center"
-            >
-              <X size={16} />
-            </button>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-medium">Deja tu reseña</h2>
+              <button
+                onClick={() => setOpen(false)}
+                aria-label="Cerrar"
+                className="liquid-glass w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+              >
+                <X size={18} />
+              </button>
+            </div>
 
             {state?.success ? (
               <p className="text-green-400 text-sm py-4">
@@ -57,7 +60,6 @@ export function ReviewFab() {
               </p>
             ) : (
               <form action={formAction}>
-                <h2 className="text-lg font-medium mb-4">Deja tu reseña</h2>
                 <div className="mb-4">
                   <label className="block text-sm text-gray-400 mb-1.5" htmlFor="authorName">
                     Tu nombre
