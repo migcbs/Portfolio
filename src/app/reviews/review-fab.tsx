@@ -24,13 +24,15 @@ export function ReviewFab() {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        aria-label="Dejar una reseña"
-        className="fixed bottom-6 right-6 z-40 liquid-glass w-14 h-14 rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-200 transition-colors shadow-lg"
-      >
-        <Plus size={24} />
-      </button>
+      <div className="fixed bottom-6 right-6 z-40">
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Dejar una reseña"
+          className="w-14 h-14 rounded-full flex items-center justify-center bg-white text-black hover:bg-gray-200 transition-colors shadow-lg"
+        >
+          <Plus size={24} />
+        </button>
+      </div>
 
       {open && (
         <div
