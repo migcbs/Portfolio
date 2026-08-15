@@ -1,6 +1,5 @@
 import { Star, Clock, Calendar, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
-import HorizontalShowcase from "@/components/home/HorizontalShowcase";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +12,6 @@ export default async function HomePage() {
   const imageUrl = settings?.heroImageUrl;
 
   return (
-    <>
     <div className="relative flex-1 flex flex-col min-h-[calc(100vh-88px)]">
       {videoUrl ? (
         <video
@@ -28,7 +26,9 @@ export default async function HomePage() {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={imageUrl} alt="" className="fixed inset-0 w-full h-full object-cover z-0" />
       ) : null}
+      <div className="fixed inset-0 z-[1] bg-black/55 pointer-events-none" />
       <div className="fixed inset-0 z-[1] backdrop-blur-xl bottom-blur-mask pointer-events-none" />
+      <div className="fixed inset-0 z-[1] bg-gradient-to-t from-black/80 via-black/30 to-black/10 pointer-events-none" />
 
       <div className="relative z-10 flex-1 flex flex-col justify-end px-4 sm:px-6 md:px-12 pb-8 md:pb-16">
         <div className="flex flex-col md:flex-row items-end gap-8">
@@ -99,7 +99,5 @@ export default async function HomePage() {
         </div>
       </div>
     </div>
-    <HorizontalShowcase />
-    </>
   );
 }
