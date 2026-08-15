@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model SiteSettings {
+  id              String   @id @default(cuid())
+  portfolioBrand  String   @default("Miguel Ceballos — Portafolio")
+  agencyBrand     String   @default("ATENU BrandHouse")
+  heroTitle       String   @default("Step Through. Work Smarter.")
+  heroDescription String   @default("Desarrollo web y soluciones digitales para tu marca.")
+  heroVideoUrl    String?
+  heroImageUrl    String?
+  aboutText       String   @default("")
+  contactEmail    String   @default("")
+  updatedAt       DateTime @updatedAt
+}
+
+model Client {
+  id        String   @id @default(cuid())
+  name      String
+  logoUrl   String?
+  website   String?
+  active    Boolean  @default(true)
+  order     Int      @default(0)
+  stories   Story[]
+  createdAt DateTime @default(now())
+}
+
+enum StoryType {
+  IMAGE
+  VIDEO
+}
+
+model Story {
+  id        String    @id @default(cuid())
+  clientId  String
+  client    Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  type      StoryType @default(IMAGE)
+  mediaUrl  String
+  order     Int       @default(0)
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+}
+
+model PortfolioProject {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String?
+  projectUrl  String?
+  tags        String[]
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Decimal? @db.Decimal(10, 2)
+  features    String[]
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  authorName String
+  text       String
+  rating     Int      @default(5)
+  approved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Lead {
+  id                String   @id @default(cuid())
+  name              String
+  email             String
+  message           String
+  interestedPackage String?
+  read              Boolean  @default(false)
+  createdAt         DateTime @default(now())
+}
+
+enum SocialScope {
+  PERSONAL
+  AGENCY
+}
+
+model SocialLink {
+  id        String      @id @default(cuid())
+  label     String
+  url       String
+  scope     SocialScope @default(PERSONAL)
+  order     Int         @default(0)
+  createdAt DateTime    @default(now())
+}
