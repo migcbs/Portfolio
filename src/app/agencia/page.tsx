@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getSiteSettings } from "@/lib/site-settings";
+import { ClientGrid } from "@/components/agencia/ClientGrid";
 
 export const dynamic = "force-dynamic";
 
@@ -35,30 +36,7 @@ export default async function AgenciaPage() {
       </div>
 
       <h2 className="text-xl font-medium mb-6">Clientes</h2>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {clients.map((client, i) => (
-          <div
-            key={client.id}
-            className="liquid-glass rounded-2xl overflow-hidden animate-blur-fade-up"
-            style={{ animationDelay: `${i * 100}ms` }}
-          >
-            {client.logoUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={client.logoUrl} alt="" className="w-full h-32 object-cover" />
-            )}
-            <div className="p-6">
-            <h3 className="font-medium mb-1">{client.name}</h3>
-            {client.website && (
-              <a href={client.website} target="_blank" rel="noreferrer" className="text-sm text-gray-400 hover:text-gray-300">
-                {client.website}
-              </a>
-            )}
-            <p className="text-xs text-gray-500 mt-2">{client.stories.length} stories</p>
-            </div>
-          </div>
-        ))}
-        {clients.length === 0 && <p className="text-gray-500">Aún no hay clientes publicados.</p>}
-      </div>
+      <ClientGrid clients={clients} />
     </div>
   );
 }
