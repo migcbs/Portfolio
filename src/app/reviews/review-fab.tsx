@@ -40,7 +40,7 @@ export function ReviewFab() {
           onClick={() => setOpen(false)}
         >
           <div
-            className="relative w-full max-w-md md:max-w-lg liquid-glass rounded-2xl p-6 sm:p-8 bg-gray-950"
+            className="relative w-full max-w-md md:max-w-lg liquid-glass rounded-2xl p-6 sm:p-8"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
