@@ -32,12 +32,21 @@ export default function MobileMenu({ open, links, onNavigate }: Props) {
           </Link>
         ))}
         <div className="sm:hidden flex gap-3 mt-3 pt-3 border-t border-gray-800">
-          <button className="liquid-glass flex-1 rounded-full px-4 py-2 flex items-center justify-center gap-2 text-sm">
+          <Link
+            href="/buscar"
+            onClick={onNavigate}
+            className="liquid-glass flex-1 rounded-full px-4 py-2 flex items-center justify-center gap-2 text-sm"
+          >
             <Search size={16} /> Buscar
-          </button>
-          <button className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center">
+          </Link>
+          <Link
+            href="/admin/login"
+            onClick={onNavigate}
+            aria-label="Ingresar"
+            className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center"
+          >
             <User size={16} />
-          </button>
+          </Link>
         </div>
       </div>
     </div>
