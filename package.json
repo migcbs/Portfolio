@@ -10,6 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@number-flow/react": "^0.6.2",
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "lucide-react": "^1.31.0",
