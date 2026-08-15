@@ -14,6 +14,8 @@ type Values = {
   aboutText: string;
   aboutImageUrl: string;
   contactEmail: string;
+  agencyTagline: string;
+  agencyServices: string;
 };
 
 function Field({
@@ -116,6 +118,18 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
         label="Email de contacto (opcional)"
         defaultValue={defaultValues.contactEmail}
         errors={state?.errors?.contactEmail}
+      />
+      <Field
+        name="agencyTagline"
+        label="Subtítulo de la agencia"
+        defaultValue={defaultValues.agencyTagline}
+        errors={state?.errors?.agencyTagline}
+      />
+      <Field
+        name="agencyServices"
+        label="Servicios de la agencia (separados por coma)"
+        defaultValue={defaultValues.agencyServices}
+        errors={state?.errors?.agencyServices}
       />
       <button
         type="submit"

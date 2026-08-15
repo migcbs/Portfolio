@@ -15,6 +15,7 @@ export default async function EditClientPage({ params }: { params: Promise<{ id:
         action={updateClient.bind(null, id)}
         defaultValues={{
           name: client.name,
+          description: client.description ?? "",
           logoUrl: client.logoUrl ?? "",
           website: client.website ?? "",
           active: client.active,

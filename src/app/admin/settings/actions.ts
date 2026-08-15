@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 import { siteSettingsSchema } from "@/lib/validations/site-settings";
+import { parseCommaList } from "@/lib/validations/shared";
 
 export type SettingsFormState = { errors?: Record<string, string[] | undefined> } | undefined;
 
@@ -24,6 +25,8 @@ export async function updateSiteSettings(
     aboutText: formData.get("aboutText"),
     aboutImageUrl: formData.get("aboutImageUrl"),
     contactEmail: formData.get("contactEmail"),
+    agencyTagline: formData.get("agencyTagline"),
+    agencyServices: parseCommaList(String(formData.get("agencyServices") ?? "")),
   });
 
   if (!parsed.success) {

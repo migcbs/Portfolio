@@ -1,4 +1,4 @@
-import { Star, Clock, Calendar, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, Clock, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
 
 export const dynamic = "force-dynamic";
@@ -68,7 +68,7 @@ export default async function HomePage() {
                 className="bg-white text-black rounded-full font-medium px-6 sm:px-8 py-2.5 sm:py-3 flex items-center gap-2 hover:bg-gray-200 transition-colors animate-blur-fade-up"
                 style={{ animationDelay: "600ms" }}
               >
-                <Play size={18} className="fill-black" /> Contáctame
+                Contáctame
               </a>
               <a
                 href="/portafolio"

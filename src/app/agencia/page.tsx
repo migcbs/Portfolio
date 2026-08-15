@@ -12,7 +12,9 @@ export default async function AgenciaPage() {
     include: { stories: { where: { active: true }, orderBy: { order: "asc" } } },
   });
 
-  const SERVICES = ["Fotografía", "Video", "Diseño gráfico", "Impresiones", "Merch"];
+  const services = settings?.agencyServices?.length
+    ? settings.agencyServices
+    : ["Fotografía", "Video", "Diseño gráfico", "Impresiones", "Merch"];
 
   return (
     <div className="px-4 sm:px-6 md:px-12 py-16 md:py-24">
@@ -20,11 +22,11 @@ export default async function AgenciaPage() {
         {settings?.agencyBrand ?? "ATENU BrandHouse"}
       </h1>
       <p className="text-gray-400 mb-10 animate-blur-fade-up" style={{ animationDelay: "100ms" }}>
-        Agencia de marketing digital.
+        {settings?.agencyTagline ?? "Agencia de marketing digital."}
       </p>
 
       <div className="flex flex-wrap gap-3 mb-12">
-        {SERVICES.map((service, i) => (
+        {services.map((service, i) => (
           <span
             key={service}
             className="liquid-glass rounded-full px-5 py-2 text-sm animate-blur-fade-up"

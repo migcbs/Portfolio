@@ -11,6 +11,7 @@ export type ClientFormState = { errors?: Record<string, string[] | undefined> } 
 function parseForm(formData: FormData) {
   return clientSchema.safeParse({
     name: formData.get("name"),
+    description: formData.get("description"),
     logoUrl: formData.get("logoUrl"),
     website: formData.get("website"),
     active: formData.get("active") === "on",

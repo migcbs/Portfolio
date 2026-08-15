@@ -1,8 +1,9 @@
 import { z } from "zod";
-import { optionalUrl } from "./shared";
+import { optionalUrl, optionalText } from "./shared";
 
 export const clientSchema = z.object({
   name: z.string().trim().min(1, "El nombre es requerido"),
+  description: optionalText,
   logoUrl: optionalUrl,
   website: optionalUrl,
   active: z.boolean(),

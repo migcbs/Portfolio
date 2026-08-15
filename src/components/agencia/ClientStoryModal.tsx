@@ -10,10 +10,12 @@ const MAX_VIDEO_DURATION_MS = 15000;
 
 export function ClientStoryModal({
   clientName,
+  description,
   stories,
   onClose,
 }: {
   clientName: string;
+  description: string | null;
   stories: Story[];
   onClose: () => void;
 }) {
@@ -52,7 +54,30 @@ export function ClientStoryModal({
     setIndex((i) => Math.max(0, i - 1));
   }
 
-  if (!current) return null;
+  // No stories: show a simple project-details panel instead of the story viewer.
+  if (!current) {
+    return (
+      <div
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
+        onClick={onClose}
+      >
+        <div
+          className="relative w-full max-w-md liquid-glass rounded-2xl p-6"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-medium">{clientName}</h3>
+            <button onClick={onClose} aria-label="Cerrar" className="liquid-glass w-8 h-8 rounded-full flex items-center justify-center">
+              <X size={16} />
+            </button>
+          </div>
+          <p className="text-sm text-gray-400">
+            {description || "Aún no hay detalles publicados sobre este proyecto."}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm px-4">
@@ -107,6 +132,12 @@ export function ClientStoryModal({
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
           <img key={current.id} src={current.mediaUrl} alt="" className="w-full h-full object-cover" />
+        )}
+
+        {description && (
+          <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/90 to-transparent p-4 pt-10">
+            <p className="text-xs text-gray-300">{description}</p>
+          </div>
         )}
       </div>
     </div>
