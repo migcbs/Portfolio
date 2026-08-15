@@ -1,5 +1,6 @@
 import { Star, Clock, Calendar, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
+import HorizontalShowcase from "@/components/home/HorizontalShowcase";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +13,7 @@ export default async function HomePage() {
   const imageUrl = settings?.heroImageUrl;
 
   return (
+    <>
     <div className="relative flex-1 flex flex-col min-h-[calc(100vh-88px)]">
       {videoUrl ? (
         <video
@@ -97,5 +99,7 @@ export default async function HomePage() {
         </div>
       </div>
     </div>
+    <HorizontalShowcase />
+    </>
   );
 }
