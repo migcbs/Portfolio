@@ -23,6 +23,7 @@ model SiteSettings {
   heroVideoUrl    String?
   heroImageUrl    String?
   aboutText       String   @default("")
+  aboutImageUrl   String?
   contactEmail    String   @default("")
   updatedAt       DateTime @updatedAt
 }

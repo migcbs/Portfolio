@@ -22,6 +22,7 @@ export async function updateSiteSettings(
     heroVideoUrl: formData.get("heroVideoUrl"),
     heroImageUrl: formData.get("heroImageUrl"),
     aboutText: formData.get("aboutText"),
+    aboutImageUrl: formData.get("aboutImageUrl"),
     contactEmail: formData.get("contactEmail"),
   });
 
