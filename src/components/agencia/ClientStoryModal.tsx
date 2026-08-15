@@ -61,7 +61,7 @@ export function ClientStoryModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg md:max-w-2xl liquid-glass rounded-2xl p-6 sm:p-8 bg-gray-950 max-h-[85vh] overflow-y-auto"
+        className="relative w-full max-w-lg md:max-w-2xl liquid-glass rounded-2xl p-6 sm:p-8 max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between mb-6 gap-4">
