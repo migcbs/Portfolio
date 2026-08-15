@@ -1,0 +1,5 @@
+# macOS AppleDouble junk files (exFAT/network volumes)
+._*
+
+# Claude Code harness state (worktrees, local session config)
+.claude/
