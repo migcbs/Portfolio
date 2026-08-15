@@ -38,21 +38,52 @@ async function main() {
     },
   });
 
-  await prisma.story.upsert({
-    where: { id: "seed-story-1" },
-    update: {
-      mediaUrl:
-        "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=720&q=80",
-    },
-    create: {
+  const stories = [
+    {
       id: "seed-story-1",
-      clientId: client.id,
-      type: "IMAGE",
-      mediaUrl:
-        "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=720&q=80",
-      order: 0,
+      category: "PHOTO" as const,
+      type: "IMAGE" as const,
+      mediaUrl: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=720&q=80",
     },
-  });
+    {
+      id: "seed-story-2",
+      category: "PHOTO" as const,
+      type: "IMAGE" as const,
+      mediaUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=720&q=80",
+    },
+    {
+      id: "seed-story-3",
+      category: "VIDEO" as const,
+      type: "VIDEO" as const,
+      mediaUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    },
+    {
+      id: "seed-story-4",
+      category: "MERCH" as const,
+      type: "IMAGE" as const,
+      mediaUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=720&q=80",
+    },
+    {
+      id: "seed-story-5",
+      category: "MERCH" as const,
+      type: "IMAGE" as const,
+      mediaUrl: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=720&q=80",
+    },
+  ];
+  for (const [i, story] of stories.entries()) {
+    await prisma.story.upsert({
+      where: { id: story.id },
+      update: { mediaUrl: story.mediaUrl, category: story.category, type: story.type },
+      create: {
+        id: story.id,
+        clientId: client.id,
+        category: story.category,
+        type: story.type,
+        mediaUrl: story.mediaUrl,
+        order: i,
+      },
+    });
+  }
 
   await prisma.portfolioProject.upsert({
     where: { id: "seed-project-1" },
