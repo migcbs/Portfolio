@@ -13,6 +13,7 @@ export const siteSettingsSchema = z.object({
   contactEmail: optionalText,
   agencyTagline: z.string().trim().min(1, "Requerido"),
   agencyServices: z.array(z.string()).default([]),
+  logoUrl: optionalUrl,
 });
 
 export type SiteSettingsInput = z.infer<typeof siteSettingsSchema>;

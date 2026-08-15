@@ -1,16 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Search, User } from "lucide-react";
 
 type Props = {
   open: boolean;
   links: { href: string; label: string }[];
   onNavigate: () => void;
-  onSearch: () => void;
 };
 
-export default function MobileMenu({ open, links, onNavigate, onSearch }: Props) {
+export default function MobileMenu({ open, links, onNavigate }: Props) {
   return (
     <div
       className={`absolute top-[72px] left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-lg border-t border-b border-gray-800 shadow-2xl transition-all duration-500 ease-out ${
@@ -32,22 +30,6 @@ export default function MobileMenu({ open, links, onNavigate, onSearch }: Props)
             {link.label}
           </Link>
         ))}
-        <div className="sm:hidden flex gap-3 mt-3 pt-3 border-t border-gray-800">
-          <button
-            onClick={onSearch}
-            className="liquid-glass flex-1 rounded-full px-4 py-2 flex items-center justify-center gap-2 text-sm"
-          >
-            <Search size={16} /> Buscar
-          </button>
-          <Link
-            href="/admin/login"
-            onClick={onNavigate}
-            aria-label="Ingresar"
-            className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center"
-          >
-            <User size={16} />
-          </Link>
-        </div>
       </div>
     </div>
   );

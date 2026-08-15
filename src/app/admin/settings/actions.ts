@@ -27,6 +27,7 @@ export async function updateSiteSettings(
     contactEmail: formData.get("contactEmail"),
     agencyTagline: formData.get("agencyTagline"),
     agencyServices: parseCommaList(String(formData.get("agencyServices") ?? "")),
+    logoUrl: formData.get("logoUrl"),
   });
 
   if (!parsed.success) {

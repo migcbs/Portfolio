@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ClientStoryModal } from "./ClientStoryModal";
 
-type Story = { id: string; type: "IMAGE" | "VIDEO"; mediaUrl: string };
+type Story = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
 type Client = {
   id: string;
   name: string;

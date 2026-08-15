@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="es">
       <body className={`${inter.className} bg-black text-white antialiased min-h-screen flex flex-col`}>
-        <Navbar brand={portfolioBrand} />
+        <Navbar brand={portfolioBrand} logoUrl={settings?.logoUrl ?? null} />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer agencyBrand={agencyBrand} />
       </body>

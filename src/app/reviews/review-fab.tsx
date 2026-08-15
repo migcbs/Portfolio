@@ -40,7 +40,7 @@ export function ReviewFab() {
           onClick={() => setOpen(false)}
         >
           <div
-            className="relative w-full max-w-md liquid-glass rounded-2xl p-6 bg-gray-950"
+            className="relative w-full max-w-md md:max-w-lg liquid-glass rounded-2xl p-6 sm:p-8 bg-gray-950"
             onClick={(e) => e.stopPropagation()}
           >
             <button
