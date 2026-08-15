@@ -43,19 +43,21 @@ export default function Navbar({ brand }: { brand: string }) {
 
         <div className="flex items-center gap-3">
           <Link
-            href="/contacto"
+            href="/buscar"
             className="hidden sm:flex liquid-glass rounded-full px-4 md:px-6 py-2 items-center gap-2 text-sm animate-blur-fade-up"
             style={{ animationDelay: "350ms" }}
           >
             <Search size={18} />
             Buscar
           </Link>
-          <div
+          <Link
+            href="/admin/login"
             className="hidden sm:flex liquid-glass w-10 h-10 rounded-full items-center justify-center animate-blur-fade-up"
             style={{ animationDelay: "400ms" }}
+            aria-label="Ingresar"
           >
             <User size={18} />
-          </div>
+          </Link>
           <button
             onClick={() => setOpen((v) => !v)}
             className="lg:hidden liquid-glass w-10 h-10 rounded-full flex items-center justify-center animate-blur-fade-up"

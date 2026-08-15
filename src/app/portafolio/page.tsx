@@ -18,17 +18,23 @@ export default async function PortafolioPage() {
             href={project.projectUrl ?? "#"}
             target="_blank"
             rel="noreferrer"
-            className="liquid-glass rounded-2xl p-6 animate-blur-fade-up"
+            className="liquid-glass rounded-2xl overflow-hidden animate-blur-fade-up"
             style={{ animationDelay: `${i * 100}ms` }}
           >
-            <h2 className="text-xl font-medium mb-2">{project.title}</h2>
-            <p className="text-gray-400 text-sm mb-4">{project.description}</p>
-            <div className="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span key={tag} className="text-xs px-2 py-1 rounded-full bg-white/5">
-                  {tag}
-                </span>
-              ))}
+            {project.imageUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={project.imageUrl} alt="" className="w-full h-40 object-cover" />
+            )}
+            <div className="p-6">
+              <h2 className="text-xl font-medium mb-2">{project.title}</h2>
+              <p className="text-gray-400 text-sm mb-4">{project.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span key={tag} className="text-xs px-2 py-1 rounded-full bg-white/5">
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           </a>
         ))}

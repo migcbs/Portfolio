@@ -13,43 +13,60 @@ async function main() {
     create: { email: adminEmail, passwordHash: await hashPassword(adminPassword) },
   });
 
+  const heroImageUrl =
+    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1920&q=80";
+
   await prisma.siteSettings.upsert({
     where: { id: "singleton" },
-    update: {},
-    create: { id: "singleton" },
+    update: { heroImageUrl },
+    create: { id: "singleton", heroImageUrl },
   });
 
   const client = await prisma.client.upsert({
     where: { id: "seed-client-1" },
-    update: {},
+    update: {
+      logoUrl:
+        "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=400&q=80",
+    },
     create: {
       id: "seed-client-1",
       name: "Cliente Demo",
       website: "https://example.com",
+      logoUrl:
+        "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=400&q=80",
       order: 0,
     },
   });
 
   await prisma.story.upsert({
     where: { id: "seed-story-1" },
-    update: {},
+    update: {
+      mediaUrl:
+        "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=720&q=80",
+    },
     create: {
       id: "seed-story-1",
       clientId: client.id,
       type: "IMAGE",
-      mediaUrl: "https://placehold.co/720x1280/000000/FFFFFF?text=Story+Demo",
+      mediaUrl:
+        "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=720&q=80",
       order: 0,
     },
   });
 
   await prisma.portfolioProject.upsert({
     where: { id: "seed-project-1" },
-    update: {},
+    update: {
+      imageUrl:
+        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=800&q=80",
+    },
     create: {
       id: "seed-project-1",
       title: "Proyecto Demo",
       description: "Sitio web desarrollado a la medida.",
       projectUrl: "https://example.com",
+      imageUrl:
+        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=800&q=80",
       tags: ["Next.js", "Diseño Web"],
       order: 0,
     },
