@@ -25,12 +25,15 @@ model SiteSettings {
   aboutText       String   @default("")
   aboutImageUrl   String?
   contactEmail    String   @default("")
+  agencyTagline   String   @default("Agencia de marketing digital.")
+  agencyServices  String[] @default(["Fotografía", "Video", "Diseño gráfico", "Impresiones", "Merch"])
   updatedAt       DateTime @updatedAt
 }
 
 model Client {
   id          String       @id @default(cuid())
   name        String
+  description String?
   logoUrl     String?
   website     String?
   active      Boolean      @default(true)

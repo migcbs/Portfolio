@@ -7,6 +7,7 @@ type Story = { id: string; type: "IMAGE" | "VIDEO"; mediaUrl: string };
 type Client = {
   id: string;
   name: string;
+  description: string | null;
   logoUrl: string | null;
   website: string | null;
   stories: Story[];
@@ -24,11 +25,12 @@ export function ClientGrid({ clients }: { clients: Client[] }) {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {clients.map((client, i) => {
           const hasStories = client.stories.length > 0;
+          const hasDetails = hasStories || Boolean(client.description);
           return (
             <button
               key={client.id}
               type="button"
-              disabled={!hasStories}
+              disabled={!hasDetails}
               onClick={() => setActiveClient(client)}
               className="liquid-glass rounded-2xl overflow-hidden text-left animate-blur-fade-up disabled:cursor-default"
               style={{ animationDelay: `${i * 100}ms` }}
@@ -51,7 +53,7 @@ export function ClientGrid({ clients }: { clients: Client[] }) {
                   </a>
                 )}
                 <p className="text-xs text-gray-500 mt-2">
-                  {hasStories ? `${client.stories.length} stories — click para ver` : "Sin stories aún"}
+                  {hasDetails ? "Click para ver el proyecto" : "Sin detalles aún"}
                 </p>
               </div>
             </button>
@@ -59,9 +61,10 @@ export function ClientGrid({ clients }: { clients: Client[] }) {
         })}
       </div>
 
-      {activeClient && activeClient.stories.length > 0 && (
+      {activeClient && (
         <ClientStoryModal
           clientName={activeClient.name}
+          description={activeClient.description}
           stories={activeClient.stories}
           onClose={() => setActiveClient(null)}
         />

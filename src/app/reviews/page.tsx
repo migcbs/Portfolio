@@ -1,6 +1,6 @@
 import { Star } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import { ReviewSubmitForm } from "./review-submit-form";
+import { ReviewFab } from "./review-fab";
 
 export const dynamic = "force-dynamic";
 
@@ -31,9 +31,7 @@ export default async function ReviewsPage() {
         ))}
         {reviews.length === 0 && <p className="text-gray-500">Aún no hay reviews publicadas.</p>}
       </div>
-      <div className="mt-12">
-        <ReviewSubmitForm />
-      </div>
+      <ReviewFab />
     </div>
   );
 }

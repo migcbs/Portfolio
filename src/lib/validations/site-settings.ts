@@ -11,6 +11,8 @@ export const siteSettingsSchema = z.object({
   aboutText: optionalText,
   aboutImageUrl: optionalUrl,
   contactEmail: optionalText,
+  agencyTagline: z.string().trim().min(1, "Requerido"),
+  agencyServices: z.array(z.string()).default([]),
 });
 
 export type SiteSettingsInput = z.infer<typeof siteSettingsSchema>;

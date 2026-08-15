@@ -18,6 +18,8 @@ export default async function AdminSettingsPage() {
           aboutText: settings?.aboutText ?? "",
           aboutImageUrl: settings?.aboutImageUrl ?? "",
           contactEmail: settings?.contactEmail ?? "",
+          agencyTagline: settings?.agencyTagline ?? "",
+          agencyServices: (settings?.agencyServices ?? []).join(", "),
         }}
       />
     </div>

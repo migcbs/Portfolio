@@ -3,7 +3,14 @@
 import { useActionState } from "react";
 import type { ClientFormState } from "./actions";
 
-type Values = { name: string; logoUrl: string; website: string; active: boolean; order: number };
+type Values = {
+  name: string;
+  description: string;
+  logoUrl: string;
+  website: string;
+  active: boolean;
+  order: number;
+};
 
 export function ClientForm({
   action,
@@ -24,6 +31,24 @@ export function ClientForm({
         </label>
         <input id="name" name="name" defaultValue={defaultValues?.name} className={inputClass} required />
         {state?.errors?.name?.map((e) => (
+          <p key={e} className="text-red-400 text-xs mt-1">
+            {e}
+          </p>
+        ))}
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="description">
+          Descripción del proyecto/trabajo (opcional)
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          defaultValue={defaultValues?.description}
+          rows={3}
+          className={inputClass}
+          placeholder="Qué se hizo para esta marca: foto, video, diseño..."
+        />
+        {state?.errors?.description?.map((e) => (
           <p key={e} className="text-red-400 text-xs mt-1">
             {e}
           </p>
