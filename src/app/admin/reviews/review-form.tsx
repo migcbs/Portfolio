@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import type { ReviewFormState } from "./actions";
+import { StarRatingInput } from "@/components/ui/StarRatingInput";
 
 type Values = { authorName: string; text: string; rating: number; approved: boolean };
 
@@ -47,18 +48,8 @@ export function ReviewForm({
         ))}
       </div>
       <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="rating">
-          Calificación (1-5)
-        </label>
-        <input
-          id="rating"
-          name="rating"
-          type="number"
-          min={1}
-          max={5}
-          defaultValue={defaultValues?.rating ?? 5}
-          className={inputClass}
-        />
+        <label className="block text-sm text-gray-400 mb-1.5">Calificación</label>
+        <StarRatingInput name="rating" defaultValue={defaultValues?.rating ?? 5} />
         {state?.errors?.rating?.map((e) => (
           <p key={e} className="text-red-400 text-xs mt-1">
             {e}
