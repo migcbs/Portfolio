@@ -9,10 +9,11 @@ export default async function HomePage() {
   const description =
     settings?.heroDescription ?? "Desarrollo web y soluciones digitales para tu marca.";
   const videoUrl = settings?.heroVideoUrl;
+  const imageUrl = settings?.heroImageUrl;
 
   return (
     <div className="relative flex-1 flex flex-col min-h-[calc(100vh-88px)]">
-      {videoUrl && (
+      {videoUrl ? (
         <video
           className="fixed inset-0 w-full h-full object-cover z-0"
           src={videoUrl}
@@ -21,7 +22,10 @@ export default async function HomePage() {
           loop
           playsInline
         />
-      )}
+      ) : imageUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={imageUrl} alt="" className="fixed inset-0 w-full h-full object-cover z-0" />
+      ) : null}
       <div className="fixed inset-0 z-[1] backdrop-blur-xl bottom-blur-mask pointer-events-none" />
 
       <div className="relative z-10 flex-1 flex flex-col justify-end px-4 sm:px-6 md:px-12 pb-8 md:pb-16">
