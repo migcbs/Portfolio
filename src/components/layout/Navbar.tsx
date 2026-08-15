@@ -23,7 +23,7 @@ export default function Navbar({ brand, logoUrl }: { brand: string; logoUrl: str
         <Link href="/" className="animate-blur-fade-up" style={{ animationDelay: "0ms" }}>
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={logoUrl} alt={brand} className="h-8 md:h-10 w-auto" />
+            <img src={logoUrl} alt={brand} className="h-8 md:h-10 w-auto brightness-0 invert" />
           ) : (
             <span className="font-display uppercase text-xl md:text-2xl tracking-wide">{brand}</span>
           )}
