@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 export default function ContactoPage() {
   return (
     <div className="px-4 sm:px-6 md:px-12 py-16 md:py-24 max-w-xl">

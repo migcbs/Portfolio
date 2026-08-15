@@ -1,7 +1,9 @@
-import { prisma } from "@/lib/prisma";
+import { getSiteSettings } from "@/lib/site-settings";
+
+export const dynamic = "force-dynamic";
 
 export default async function SobreMiPage() {
-  const settings = await prisma.siteSettings.findFirst();
+  const settings = await getSiteSettings();
 
   return (
     <div className="px-4 sm:px-6 md:px-12 py-16 md:py-24 max-w-3xl">

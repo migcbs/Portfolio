@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
+import { getSiteSettings } from "@/lib/site-settings";
+
+export const dynamic = "force-dynamic";
 
 export default async function AgenciaPage() {
-  const settings = await prisma.siteSettings.findFirst();
+  const settings = await getSiteSettings();
   const clients = await prisma.client.findMany({
     where: { active: true },
     orderBy: { order: "asc" },

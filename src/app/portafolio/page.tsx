@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function PortafolioPage() {
   const projects = await prisma.portfolioProject.findMany({
     where: { active: true },

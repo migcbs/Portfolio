@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { prisma } from "@/lib/prisma";
+import { getSiteSettings } from "@/lib/site-settings";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
 
@@ -13,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = await prisma.siteSettings.findFirst();
+  const settings = await getSiteSettings();
   const portfolioBrand = settings?.portfolioBrand ?? "Miguel Ceballos — Portafolio";
   const agencyBrand = settings?.agencyBrand ?? "ATENU BrandHouse";
 

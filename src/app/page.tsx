@@ -1,8 +1,10 @@
 import { Star, Clock, Calendar, Play, ChevronLeft, ChevronRight } from "lucide-react";
-import { prisma } from "@/lib/prisma";
+import { getSiteSettings } from "@/lib/site-settings";
+
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const settings = await prisma.siteSettings.findFirst();
+  const settings = await getSiteSettings();
   const title = settings?.heroTitle ?? "Step Through. Work Smarter.";
   const description =
     settings?.heroDescription ?? "Desarrollo web y soluciones digitales para tu marca.";

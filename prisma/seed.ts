@@ -13,10 +13,11 @@ async function main() {
     create: { email: adminEmail, passwordHash: await hashPassword(adminPassword) },
   });
 
-  const settingsCount = await prisma.siteSettings.count();
-  if (settingsCount === 0) {
-    await prisma.siteSettings.create({ data: {} });
-  }
+  await prisma.siteSettings.upsert({
+    where: { id: "singleton" },
+    update: {},
+    create: { id: "singleton" },
+  });
 
   const client = await prisma.client.upsert({
     where: { id: "seed-client-1" },
