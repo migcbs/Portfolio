@@ -29,7 +29,7 @@ export default async function AgenciaPage() {
         {services.map((service, i) => (
           <span
             key={service}
-            className="liquid-glass rounded-full px-5 py-2 text-sm animate-blur-fade-up"
+            className="label-mono liquid-glass rounded-full px-5 py-2 animate-blur-fade-up"
             style={{ animationDelay: `${150 + i * 50}ms` }}
           >
             {service}

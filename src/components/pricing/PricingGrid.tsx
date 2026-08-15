@@ -31,11 +31,11 @@ export function PricingGrid({ services }: { services: Service[] }) {
             style={{ animationDelay: `${i * 100}ms` }}
           >
             {isPopular && (
-              <span className="self-start mb-3 text-xs px-3 py-1 rounded-full bg-white text-black font-medium">
+              <span className="label-mono self-start mb-3 px-3 py-1 rounded-full bg-white text-black">
                 Más popular
               </span>
             )}
-            <h2 className="text-xl font-medium mb-2">{service.name}</h2>
+            <h2 className="text-xl mb-2">{service.name}</h2>
             <p className="text-gray-400 text-sm mb-4">{service.description}</p>
             <div className="mb-6 text-3xl font-semibold">
               {service.price !== null ? (

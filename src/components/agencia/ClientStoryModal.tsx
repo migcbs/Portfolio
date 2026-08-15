@@ -81,7 +81,7 @@ export function ClientStoryModal({
           <div className="space-y-8">
             {groups.map((group) => (
               <div key={group.category}>
-                <h4 className="text-sm font-medium text-gray-400 mb-3">{CATEGORY_LABEL[group.category]}</h4>
+                <h4 className="label-mono text-gray-400 mb-3">{CATEGORY_LABEL[group.category]}</h4>
                 <div className="grid grid-cols-3 gap-1 sm:gap-1.5">
                   {group.items.map((story, i) => (
                     <button
@@ -198,7 +198,7 @@ function StoryViewer({
         <div className="absolute top-8 left-4 right-4 z-20 flex items-center justify-between">
           <button
             onClick={onBack}
-            className="liquid-glass h-8 pl-2 pr-3 rounded-full flex items-center gap-1 text-xs"
+            className="label-mono liquid-glass h-8 pl-2 pr-3 rounded-full flex items-center gap-1"
           >
             <ChevronLeft size={14} /> {clientName} · {categoryLabel}
           </button>

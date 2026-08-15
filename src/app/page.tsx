@@ -34,10 +34,10 @@ export default async function HomePage() {
         <div className="flex flex-col">
           <div className="flex-1">
             <div
-              className="flex flex-wrap gap-3 sm:gap-6 mb-6 md:mb-8 text-xs sm:text-sm animate-blur-fade-up"
+              className="label-mono flex flex-wrap gap-3 sm:gap-6 mb-6 md:mb-8 animate-blur-fade-up"
               style={{ animationDelay: "300ms" }}
             >
-              <span className="flex items-center gap-1.5 font-medium">
+              <span className="flex items-center gap-1.5">
                 <Star size={16} className="fill-white sm:w-5 sm:h-5" /> 5.0 Clientes
               </span>
               <span className="flex items-center gap-1.5">

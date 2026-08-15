@@ -50,7 +50,7 @@ export function ProjectModal({ project, onClose }: { project: Project; onClose: 
           {project.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tags.map((tag) => (
-                <span key={tag} className="text-xs px-2 py-1 rounded-full bg-white/5">
+                <span key={tag} className="label-mono px-2 py-1 rounded-full bg-white/5">
                   {tag}
                 </span>
               ))}
