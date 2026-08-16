@@ -2,6 +2,7 @@
 
 import NumberFlow from "@number-flow/react";
 import { Check } from "lucide-react";
+import { BookingButton } from "@/components/booking/BookingButton";
 
 type Service = {
   id: string;
@@ -11,7 +12,14 @@ type Service = {
   features: string[];
 };
 
-export function PricingGrid({ services }: { services: Service[] }) {
+export function PricingGrid({
+  services,
+  bookingSource,
+}: {
+  services: Service[];
+  /** When set, each card's CTA opens the booking modal (tagged with this source) instead of linking to /contacto. */
+  bookingSource?: string;
+}) {
   if (services.length === 0) {
     return <p className="text-gray-500">Aún no hay paquetes publicados.</p>;
   }
@@ -55,12 +63,20 @@ export function PricingGrid({ services }: { services: Service[] }) {
                 </li>
               ))}
             </ul>
-            <a
-              href="/contacto"
-              className="bg-white text-black rounded-full font-medium px-6 py-2.5 text-center hover:bg-gray-200 transition-colors"
-            >
-              Contáctame
-            </a>
+            {bookingSource ? (
+              <BookingButton
+                source={`${bookingSource}:${service.name}`}
+                label="Agenda ya"
+                className="w-full justify-center"
+              />
+            ) : (
+              <a
+                href="/contacto"
+                className="bg-white text-black rounded-full font-medium px-6 py-2.5 text-center hover:bg-gray-200 transition-colors"
+              >
+                Contáctame
+              </a>
+            )}
           </div>
         );
       })}

@@ -118,6 +118,20 @@ async function main() {
     },
   });
 
+  await prisma.service.upsert({
+    where: { id: "seed-agency-package-1" },
+    update: {},
+    create: {
+      id: "seed-agency-package-1",
+      name: "Contenido Mensual",
+      description: "Sesión de fotografía y video para redes sociales, una vez al mes.",
+      price: 4500,
+      features: ["1 sesión de foto/video", "10 piezas editadas", "Entrega en 5 días hábiles"],
+      scope: "AGENCY",
+      order: 0,
+    },
+  });
+
   await prisma.review.upsert({
     where: { id: "seed-review-1" },
     update: {},

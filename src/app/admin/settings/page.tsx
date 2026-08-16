@@ -20,6 +20,8 @@ export default async function AdminSettingsPage() {
           contactEmail: settings?.contactEmail ?? "",
           agencyTagline: settings?.agencyTagline ?? "",
           agencyServices: (settings?.agencyServices ?? []).join(", "),
+          atenuIntro: settings?.atenuIntro ?? "",
+          atenuCustomText: settings?.atenuCustomText ?? "",
           logoUrl: settings?.logoUrl ?? "",
         }}
       />

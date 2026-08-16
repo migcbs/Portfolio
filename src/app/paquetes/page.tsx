@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export default async function PaquetesPage() {
   const services = await prisma.service.findMany({
-    where: { active: true },
+    where: { active: true, scope: "PERSONAL" },
     orderBy: { order: "asc" },
   });
 

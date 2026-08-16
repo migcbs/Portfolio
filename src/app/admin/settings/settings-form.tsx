@@ -16,6 +16,8 @@ type Values = {
   contactEmail: string;
   agencyTagline: string;
   agencyServices: string;
+  atenuIntro: string;
+  atenuCustomText: string;
   logoUrl: string;
 };
 
@@ -122,21 +124,35 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
       />
       <Field
         name="contactEmail"
-        label="Email de contacto (opcional)"
+        label="Email de contacto (recibe las solicitudes de agenda)"
         defaultValue={defaultValues.contactEmail}
         errors={state?.errors?.contactEmail}
       />
       <Field
         name="agencyTagline"
-        label="Subtítulo de la agencia"
+        label="Subtítulo de ATENU"
         defaultValue={defaultValues.agencyTagline}
         errors={state?.errors?.agencyTagline}
       />
       <Field
         name="agencyServices"
-        label="Servicios de la agencia (separados por coma)"
+        label="Servicios de ATENU (separados por coma)"
         defaultValue={defaultValues.agencyServices}
         errors={state?.errors?.agencyServices}
+      />
+      <Field
+        name="atenuIntro"
+        label="Introducción del landing de ATENU"
+        defaultValue={defaultValues.atenuIntro}
+        errors={state?.errors?.atenuIntro}
+        textarea
+      />
+      <Field
+        name="atenuCustomText"
+        label="Texto de 'A tu medida' (paquetes personalizados)"
+        defaultValue={defaultValues.atenuCustomText}
+        errors={state?.errors?.atenuCustomText}
+        textarea
       />
       <button
         type="submit"

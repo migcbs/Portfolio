@@ -27,6 +27,8 @@ export async function updateSiteSettings(
     contactEmail: formData.get("contactEmail"),
     agencyTagline: formData.get("agencyTagline"),
     agencyServices: parseCommaList(String(formData.get("agencyServices") ?? "")),
+    atenuIntro: formData.get("atenuIntro"),
+    atenuCustomText: formData.get("atenuCustomText"),
     logoUrl: formData.get("logoUrl"),
   });
 
@@ -43,6 +45,6 @@ export async function updateSiteSettings(
   revalidatePath("/admin/settings");
   revalidatePath("/");
   revalidatePath("/sobre-mi");
-  revalidatePath("/agencia");
+  revalidatePath("/atenu");
   redirect("/admin/settings?success=1");
 }

@@ -18,6 +18,7 @@ export default async function EditServicePage({ params }: { params: Promise<{ id
           description: service.description,
           price: service.price?.toString() ?? "",
           features: service.features.join(", "),
+          scope: service.scope,
           active: service.active,
           order: service.order,
         }}

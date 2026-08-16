@@ -22,6 +22,7 @@ export default async function AdminPackagesPage() {
           <thead>
             <tr className="text-left text-gray-400 border-b border-white/10">
               <th className="p-4">Nombre</th>
+              <th className="p-4">Sección</th>
               <th className="p-4">Precio</th>
               <th className="p-4">Activo</th>
               <th className="p-4"></th>
@@ -31,6 +32,7 @@ export default async function AdminPackagesPage() {
             {services.map((service) => (
               <tr key={service.id} className="border-b border-white/5 last:border-0">
                 <td className="p-4">{service.name}</td>
+                <td className="p-4 text-gray-400">{service.scope === "AGENCY" ? "ATENU" : "Paquetes"}</td>
                 <td className="p-4 text-gray-400">{service.price ? `$${service.price.toString()}` : "—"}</td>
                 <td className="p-4 text-gray-400">{service.active ? "Sí" : "No"}</td>
                 <td className="p-4 text-right space-x-4">
@@ -43,7 +45,7 @@ export default async function AdminPackagesPage() {
             ))}
             {services.length === 0 && (
               <tr>
-                <td colSpan={4} className="p-4 text-gray-500">
+                <td colSpan={5} className="p-4 text-gray-500">
                   Aún no hay paquetes.
                 </td>
               </tr>
