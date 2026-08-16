@@ -11,6 +11,7 @@ const LINKS = [
   { href: "/admin/reviews", label: "Reviews" },
   { href: "/admin/social-links", label: "Redes sociales" },
   { href: "/admin/leads", label: "Leads" },
+  { href: "/admin/requests", label: "Solicitudes" },
 ];
 
 export default function AdminSidebar() {

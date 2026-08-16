@@ -29,7 +29,7 @@ export async function createSocialLink(
   await prisma.socialLink.create({ data: parsed.data });
   revalidatePath("/admin/social-links");
   revalidatePath("/");
-  revalidatePath("/agencia");
+  revalidatePath("/atenu");
   redirect("/admin/social-links?success=created");
 }
 
@@ -45,7 +45,7 @@ export async function updateSocialLink(
   await prisma.socialLink.update({ where: { id }, data: parsed.data });
   revalidatePath("/admin/social-links");
   revalidatePath("/");
-  revalidatePath("/agencia");
+  revalidatePath("/atenu");
   redirect("/admin/social-links?success=updated");
 }
 
@@ -54,5 +54,5 @@ export async function deleteSocialLink(id: string): Promise<void> {
   await prisma.socialLink.delete({ where: { id } });
   revalidatePath("/admin/social-links");
   revalidatePath("/");
-  revalidatePath("/agencia");
+  revalidatePath("/atenu");
 }

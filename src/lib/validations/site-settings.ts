@@ -13,6 +13,8 @@ export const siteSettingsSchema = z.object({
   contactEmail: optionalText,
   agencyTagline: z.string().trim().min(1, "Requerido"),
   agencyServices: z.array(z.string()).default([]),
+  atenuIntro: z.string().trim().min(1, "Requerido"),
+  atenuCustomText: z.string().trim().min(1, "Requerido"),
   logoUrl: optionalUrl,
 });
 

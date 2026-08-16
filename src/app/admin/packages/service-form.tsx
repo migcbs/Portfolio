@@ -8,6 +8,7 @@ type Values = {
   description: string;
   price: string;
   features: string;
+  scope: "PERSONAL" | "AGENCY";
   active: boolean;
   order: number;
 };
@@ -76,6 +77,15 @@ export function ServiceForm({
           className={inputClass}
           placeholder="Diseño a medida, Hosting incluido"
         />
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="scope">
+          Para qué sección
+        </label>
+        <select id="scope" name="scope" defaultValue={defaultValues?.scope ?? "PERSONAL"} className={inputClass}>
+          <option value="PERSONAL">Paquetes (portafolio personal)</option>
+          <option value="AGENCY">ATENU (agencia)</option>
+        </select>
       </div>
       <div className="mb-4">
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="order">

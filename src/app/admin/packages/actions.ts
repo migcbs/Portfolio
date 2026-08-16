@@ -16,6 +16,7 @@ function parseForm(formData: FormData) {
     description: formData.get("description"),
     price: rawPrice === "" ? null : rawPrice,
     features: parseCommaList(String(formData.get("features") ?? "")),
+    scope: formData.get("scope"),
     active: formData.get("active") === "on",
     order: formData.get("order"),
   });
@@ -32,7 +33,7 @@ export async function createService(
   await prisma.service.create({ data: parsed.data });
   revalidatePath("/admin/packages");
   revalidatePath("/paquetes");
-  revalidatePath("/buscar");
+  revalidatePath("/atenu");
   redirect("/admin/packages?success=created");
 }
 
@@ -48,7 +49,7 @@ export async function updateService(
   await prisma.service.update({ where: { id }, data: parsed.data });
   revalidatePath("/admin/packages");
   revalidatePath("/paquetes");
-  revalidatePath("/buscar");
+  revalidatePath("/atenu");
   redirect("/admin/packages?success=updated");
 }
 
@@ -57,5 +58,5 @@ export async function deleteService(id: string): Promise<void> {
   await prisma.service.delete({ where: { id } });
   revalidatePath("/admin/packages");
   revalidatePath("/paquetes");
-  revalidatePath("/buscar");
+  revalidatePath("/atenu");
 }

@@ -29,7 +29,7 @@ export async function createClient(
 
   await prisma.client.create({ data: parsed.data });
   revalidatePath("/admin/clients");
-  revalidatePath("/agencia");
+  revalidatePath("/atenu");
   redirect("/admin/clients?success=created");
 }
 
@@ -44,7 +44,7 @@ export async function updateClient(
 
   await prisma.client.update({ where: { id }, data: parsed.data });
   revalidatePath("/admin/clients");
-  revalidatePath("/agencia");
+  revalidatePath("/atenu");
   redirect("/admin/clients?success=updated");
 }
 
@@ -52,5 +52,5 @@ export async function deleteClient(id: string): Promise<void> {
   await requireAdmin();
   await prisma.client.delete({ where: { id } });
   revalidatePath("/admin/clients");
-  revalidatePath("/agencia");
+  revalidatePath("/atenu");
 }

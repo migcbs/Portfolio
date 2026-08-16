@@ -27,6 +27,8 @@ model SiteSettings {
   contactEmail    String   @default("")
   agencyTagline   String   @default("Agencia de marketing digital.")
   agencyServices  String[] @default(["Fotografía", "Video", "Diseño gráfico", "Impresiones", "Merch"])
+  atenuIntro      String   @default("Ayudamos a marcas a verse y sonar como se sienten: fotografía, video, diseño e impresión bajo un mismo equipo.")
+  atenuCustomText String   @default("¿Tu negocio necesita algo distinto? También armamos soluciones a la medida, fuera de estos paquetes.")
   logoUrl         String?
   updatedAt       DateTime @updatedAt
 }
@@ -79,15 +81,21 @@ model PortfolioProject {
   createdAt   DateTime @default(now())
 }
 
+enum ServiceScope {
+  PERSONAL
+  AGENCY
+}
+
 model Service {
-  id          String   @id @default(cuid())
+  id          String       @id @default(cuid())
   name        String
   description String
-  price       Decimal? @db.Decimal(10, 2)
+  price       Decimal?     @db.Decimal(10, 2)
   features    String[]
-  order       Int      @default(0)
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
+  scope       ServiceScope @default(PERSONAL)
+  order       Int          @default(0)
+  active      Boolean      @default(true)
+  createdAt   DateTime     @default(now())
 }
 
 model Review {
@@ -107,6 +115,25 @@ model Lead {
   interestedPackage String?
   read              Boolean  @default(false)
   createdAt         DateTime @default(now())
+}
+
+enum PreferredContact {
+  EMAIL
+  PHONE
+  WHATSAPP
+}
+
+model BookingRequest {
+  id               String           @id @default(cuid())
+  name             String
+  company          String?
+  email            String
+  phone            String?
+  preferredContact PreferredContact @default(EMAIL)
+  message          String?
+  source           String
+  read             Boolean          @default(false)
+  createdAt        DateTime         @default(now())
 }
 
 enum SocialScope {

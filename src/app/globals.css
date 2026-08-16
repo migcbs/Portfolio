@@ -100,3 +100,11 @@
     width: 100%;
   }
 }
+
+/* Only hides the OS cursor once CustomCursor.tsx confirms a real desktop
+   mouse (hover + fine pointer) and toggles this class — never touches
+   touch/mobile, where the class is never added. */
+body.custom-cursor-active,
+body.custom-cursor-active * {
+  cursor: none !important;
+}
