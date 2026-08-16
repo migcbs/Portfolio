@@ -1,32 +1,25 @@
 import { prisma } from "@/lib/prisma";
 import { ProjectGrid } from "@/components/portfolio/ProjectGrid";
-import { ClientGrid } from "@/components/agencia/ClientGrid";
 import { BookingButton } from "@/components/booking/BookingButton";
 
 export const dynamic = "force-dynamic";
 
 export default async function PortafolioPage() {
-  const [projects, clients] = await Promise.all([
-    prisma.portfolioProject.findMany({
-      where: { active: true },
-      orderBy: { order: "asc" },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        imageUrl: true,
-        projectUrl: true,
-        tags: true,
-        category: true,
-        status: true,
-      },
-    }),
-    prisma.client.findMany({
-      where: { active: true },
-      orderBy: { order: "asc" },
-      include: { stories: { where: { active: true }, orderBy: { order: "asc" } } },
-    }),
-  ]);
+  const projects = await prisma.portfolioProject.findMany({
+    where: { active: true },
+    orderBy: { order: "asc" },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      imageUrl: true,
+      projectUrl: true,
+      tags: true,
+      category: true,
+      status: true,
+      media: { select: { id: true, category: true, type: true, mediaUrl: true }, orderBy: { order: "asc" } },
+    },
+  });
 
   return (
     <div className="px-4 sm:px-6 md:px-12 py-16 md:py-24">
@@ -37,9 +30,6 @@ export default async function PortafolioPage() {
         </div>
       </div>
       <ProjectGrid projects={projects} />
-
-      <h2 className="text-xl font-medium mt-20 mb-6">Clientes</h2>
-      <ClientGrid clients={clients} />
     </div>
   );
 }

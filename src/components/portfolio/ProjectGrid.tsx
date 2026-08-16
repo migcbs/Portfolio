@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { ProjectModal } from "./ProjectModal";
 
+export type ProjectMediaItem = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
+
 export type Project = {
   id: string;
   title: string;
@@ -12,6 +14,7 @@ export type Project = {
   tags: string[];
   category: string;
   status: string;
+  media: ProjectMediaItem[];
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -25,6 +28,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 const STATUS_BADGE: Record<string, string> = {
   PLANNING: "Procesando",
   IN_PROGRESS: "En desarrollo",
+};
+
+const STATUS_BADGE_CLASS: Record<string, string> = {
+  PLANNING: "bg-black/70 border-white/20",
+  IN_PROGRESS: "bg-yellow-500/90 border-yellow-400/60 text-black",
 };
 
 export function ProjectGrid({ projects }: { projects: Project[] }) {
@@ -80,7 +88,9 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
             style={{ animationDelay: `${i * 100}ms` }}
           >
             {STATUS_BADGE[project.status] && (
-              <span className="label-mono absolute top-3 right-3 z-10 px-3 py-1 rounded-full bg-black/70 backdrop-blur-sm border border-white/20">
+              <span
+                className={`label-mono absolute top-3 right-3 z-10 px-3 py-1 rounded-full backdrop-blur-sm border ${STATUS_BADGE_CLASS[project.status]}`}
+              >
                 {STATUS_BADGE[project.status]}
               </span>
             )}

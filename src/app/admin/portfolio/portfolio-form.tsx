@@ -4,10 +4,12 @@ import { useActionState, useEffect, useState } from "react";
 import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { ProgressSlider } from "@/components/admin/ProgressSlider";
 import { ProjectChecklist } from "@/components/admin/ProjectChecklist";
+import { ProjectMediaManager } from "@/components/admin/ProjectMediaManager";
 import { PROJECT_TYPE_LABELS } from "@/lib/project-templates";
 import type { PortfolioFormState } from "./actions";
 
 type Task = { id: string; phase: string; label: string; done: boolean };
+type Media = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
 
 type Values = {
   title: string;
@@ -46,8 +48,8 @@ export function PortfolioForm({
 }: {
   action: (prevState: PortfolioFormState, formData: FormData) => Promise<PortfolioFormState>;
   defaultValues?: Values;
-  /** Set when editing an existing project — enables the live progress slider and checklist. */
-  editing?: { id: string; progress: number; tasks: Task[] };
+  /** Set when editing an existing project — enables the live progress slider, checklist, and gallery. */
+  editing?: { id: string; progress: number; tasks: Task[]; media: Media[] };
   onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState<PortfolioFormState, FormData>(action, undefined);
@@ -251,6 +253,10 @@ export function PortfolioForm({
           tasks={editing.tasks}
           projectType={defaultValues?.projectType || null}
         />
+      )}
+
+      {editing && category === "DIGITAL_MARKETING" && (
+        <ProjectMediaManager projectId={editing.id} media={editing.media} />
       )}
     </form>
   );

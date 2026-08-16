@@ -21,6 +21,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 type Task = { id: string; phase: string; label: string; done: boolean };
+type Media = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
 type Project = {
   id: string;
   title: string;
@@ -37,6 +38,7 @@ type Project = {
   active: boolean;
   order: number;
   tasks: Task[];
+  media: Media[];
 };
 
 export function PortfolioManager({ projects }: { projects: Project[] }) {
@@ -126,7 +128,12 @@ export function PortfolioManager({ projects }: { projects: Project[] }) {
               active: editingProject.active,
               order: editingProject.order,
             }}
-            editing={{ id: editingProject.id, progress: editingProject.progress, tasks: editingProject.tasks }}
+            editing={{
+              id: editingProject.id,
+              progress: editingProject.progress,
+              tasks: editingProject.tasks,
+              media: editingProject.media,
+            }}
             onSuccess={() => setEditingId(null)}
           />
         )}

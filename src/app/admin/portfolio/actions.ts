@@ -112,3 +112,34 @@ export async function deleteProjectTask(taskId: string): Promise<void> {
   await prisma.projectTask.delete({ where: { id: taskId } });
   revalidatePath("/admin/portfolio");
 }
+
+const MEDIA_CATEGORIES = ["PHOTO", "VIDEO", "MERCH"] as const;
+const MEDIA_TYPES = ["IMAGE", "VIDEO"] as const;
+
+export async function addProjectMedia(id: string, formData: FormData): Promise<void> {
+  await requireAdmin();
+  const category = String(formData.get("category") ?? "PHOTO");
+  const type = String(formData.get("type") ?? "IMAGE");
+  const mediaUrl = String(formData.get("mediaUrl") ?? "").trim();
+  if (
+    !mediaUrl ||
+    !MEDIA_CATEGORIES.includes(category as (typeof MEDIA_CATEGORIES)[number]) ||
+    !MEDIA_TYPES.includes(type as (typeof MEDIA_TYPES)[number])
+  ) {
+    return;
+  }
+
+  const count = await prisma.projectMedia.count({ where: { projectId: id } });
+  await prisma.projectMedia.create({
+    data: { projectId: id, category: category as never, type: type as never, mediaUrl, order: count },
+  });
+  revalidatePath("/admin/portfolio");
+  revalidatePath("/portafolio");
+}
+
+export async function deleteProjectMedia(mediaId: string): Promise<void> {
+  await requireAdmin();
+  await prisma.projectMedia.delete({ where: { id: mediaId } });
+  revalidatePath("/admin/portfolio");
+  revalidatePath("/portafolio");
+}

@@ -8,10 +8,19 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
+  id                  String    @id @default(cuid())
+  email               String    @unique
+  passwordHash        String
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+  createdAt           DateTime  @default(now())
+}
+
+model LegalPage {
+  id        String   @id // "terms" | "privacy"
+  title     String
+  content   String
+  updatedAt DateTime @updatedAt
 }
 
 model SiteSettings {
@@ -112,6 +121,17 @@ model ProjectTask {
   createdAt DateTime         @default(now())
 }
 
+model ProjectMedia {
+  id        String           @id @default(cuid())
+  projectId String
+  project   PortfolioProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  category  StoryCategory    @default(PHOTO)
+  type      StoryType        @default(IMAGE)
+  mediaUrl  String
+  order     Int              @default(0)
+  createdAt DateTime         @default(now())
+}
+
 model PortfolioProject {
   id            String          @id @default(cuid())
   title         String
@@ -126,6 +146,7 @@ model PortfolioProject {
   devTime       String?
   internalNotes String?
   tasks         ProjectTask[]
+  media         ProjectMedia[]
   order         Int             @default(0)
   active        Boolean         @default(true)
   createdAt     DateTime        @default(now())
