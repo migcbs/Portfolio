@@ -9,7 +9,6 @@ const NAV_LINKS = [
   { href: "/sobre-mi", label: "Sobre mí" },
   { href: "/portafolio", label: "Portafolio" },
   { href: "/atenu", label: "ATENU" },
-  { href: "/atenu#desarrollo-web", label: "Paquetes" },
   { href: "/reviews", label: "Reviews" },
   { href: "/contacto", label: "Contacto" },
 ];
