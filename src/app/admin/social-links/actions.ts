@@ -1,12 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 import { socialLinkSchema } from "@/lib/validations/social-link";
 
-export type SocialLinkFormState = { errors?: Record<string, string[] | undefined> } | undefined;
+export type SocialLinkFormState =
+  | { errors?: Record<string, string[] | undefined>; success?: boolean }
+  | undefined;
 
 function parseForm(formData: FormData) {
   return socialLinkSchema.safeParse({
@@ -18,6 +19,13 @@ function parseForm(formData: FormData) {
   });
 }
 
+function revalidateAll() {
+  revalidatePath("/admin/social-links");
+  revalidatePath("/");
+  revalidatePath("/atenu");
+  revalidatePath("/contacto");
+}
+
 export async function createSocialLink(
   _prevState: SocialLinkFormState,
   formData: FormData
@@ -27,11 +35,8 @@ export async function createSocialLink(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.socialLink.create({ data: parsed.data });
-  revalidatePath("/admin/social-links");
-  revalidatePath("/");
-  revalidatePath("/atenu");
-  revalidatePath("/contacto");
-  redirect("/admin/social-links?success=created");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function updateSocialLink(
@@ -44,18 +49,12 @@ export async function updateSocialLink(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.socialLink.update({ where: { id }, data: parsed.data });
-  revalidatePath("/admin/social-links");
-  revalidatePath("/");
-  revalidatePath("/atenu");
-  revalidatePath("/contacto");
-  redirect("/admin/social-links?success=updated");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function deleteSocialLink(id: string): Promise<void> {
   await requireAdmin();
   await prisma.socialLink.delete({ where: { id } });
-  revalidatePath("/admin/social-links");
-  revalidatePath("/");
-  revalidatePath("/atenu");
-  revalidatePath("/contacto");
+  revalidateAll();
 }

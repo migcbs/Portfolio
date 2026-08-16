@@ -1,12 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 import { storySchema } from "@/lib/validations/story";
 
-export type StoryFormState = { errors?: Record<string, string[] | undefined> } | undefined;
+export type StoryFormState = { errors?: Record<string, string[] | undefined>; success?: boolean } | undefined;
 
 function parseForm(formData: FormData) {
   return storySchema.safeParse({
@@ -19,6 +18,11 @@ function parseForm(formData: FormData) {
   });
 }
 
+function revalidateAll() {
+  revalidatePath("/admin/stories");
+  revalidatePath("/portafolio");
+}
+
 export async function createStory(
   _prevState: StoryFormState,
   formData: FormData
@@ -28,9 +32,8 @@ export async function createStory(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.story.create({ data: parsed.data });
-  revalidatePath("/admin/stories");
-  revalidatePath("/portafolio");
-  redirect("/admin/stories?success=created");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function updateStory(
@@ -43,14 +46,12 @@ export async function updateStory(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.story.update({ where: { id }, data: parsed.data });
-  revalidatePath("/admin/stories");
-  revalidatePath("/portafolio");
-  redirect("/admin/stories?success=updated");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function deleteStory(id: string): Promise<void> {
   await requireAdmin();
   await prisma.story.delete({ where: { id } });
-  revalidatePath("/admin/stories");
-  revalidatePath("/portafolio");
+  revalidateAll();
 }

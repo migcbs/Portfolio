@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { ProgressSlider } from "@/components/admin/ProgressSlider";
 import { ProjectChecklist } from "@/components/admin/ProjectChecklist";
@@ -42,14 +42,21 @@ export function PortfolioForm({
   action,
   defaultValues,
   editing,
+  onSuccess,
 }: {
   action: (prevState: PortfolioFormState, formData: FormData) => Promise<PortfolioFormState>;
   defaultValues?: Values;
   /** Set when editing an existing project — enables the live progress slider and checklist. */
   editing?: { id: string; progress: number; tasks: Task[] };
+  onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState<PortfolioFormState, FormData>(action, undefined);
   const [category, setCategory] = useState(defaultValues?.category ?? "WEB_DEV");
+
+  useEffect(() => {
+    if (state?.success) onSuccess?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
 
