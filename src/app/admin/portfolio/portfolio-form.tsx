@@ -10,8 +10,27 @@ type Values = {
   imageUrl: string;
   projectUrl: string;
   tags: string;
+  category: string;
+  status: string;
+  progress: number;
+  devTime: string;
+  internalNotes: string;
   active: boolean;
   order: number;
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+  WEB_DEV: "Desarrollo Web",
+  DIGITAL_MARKETING: "Marketing Digital",
+  PHOTO: "Fotografía",
+  VIDEO: "Video",
+  GRAPHIC_DESIGN: "Diseño Gráfico",
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  PLANNING: "Procesando (aún no inicia)",
+  IN_PROGRESS: "En desarrollo",
+  COMPLETED: "Terminado",
 };
 
 export function PortfolioForm({
@@ -55,6 +74,18 @@ export function PortfolioForm({
             {e}
           </p>
         ))}
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="category">
+          Categoría
+        </label>
+        <select id="category" name="category" defaultValue={defaultValues?.category ?? "WEB_DEV"} className={inputClass}>
+          {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
       </div>
       <MediaUploadField
         name="imageUrl"
@@ -104,6 +135,66 @@ export function PortfolioForm({
           Activo (visible en el sitio público)
         </label>
       </div>
+
+      <div className="mb-2 pt-4 border-t border-white/10">
+        <p className="text-sm font-medium mb-1">Seguimiento interno</p>
+        <p className="text-xs text-gray-500 mb-4">
+          Solo para ti — el estado sí se refleja como etiqueta pública (&quot;En desarrollo&quot; / &quot;Procesando&quot;)
+          cuando el proyecto no está terminado. El progreso y las notas nunca se muestran al público.
+        </p>
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="status">
+          Estado del proyecto
+        </label>
+        <select id="status" name="status" defaultValue={defaultValues?.status ?? "COMPLETED"} className={inputClass}>
+          {Object.entries(STATUS_LABELS).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="progress">
+          Avance (%)
+        </label>
+        <input
+          id="progress"
+          name="progress"
+          type="number"
+          min={0}
+          max={100}
+          defaultValue={defaultValues?.progress ?? 100}
+          className={inputClass}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="devTime">
+          Tiempo de desarrollo (opcional)
+        </label>
+        <input
+          id="devTime"
+          name="devTime"
+          defaultValue={defaultValues?.devTime}
+          className={inputClass}
+          placeholder="3 semanas, 48 horas..."
+        />
+      </div>
+      <div className="mb-6">
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="internalNotes">
+          Notas internas (opcional)
+        </label>
+        <textarea
+          id="internalNotes"
+          name="internalNotes"
+          defaultValue={defaultValues?.internalNotes}
+          rows={3}
+          className={inputClass}
+          placeholder="Pendientes, bloqueos, próximos pasos..."
+        />
+      </div>
+
       <button
         type="submit"
         disabled={pending}

@@ -2,14 +2,19 @@
 
 import { useEffect } from "react";
 import { X, ExternalLink } from "lucide-react";
+import type { Project } from "./ProjectGrid";
 
-type Project = {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string | null;
-  projectUrl: string | null;
-  tags: string[];
+const CATEGORY_LABELS: Record<string, string> = {
+  WEB_DEV: "Desarrollo Web",
+  DIGITAL_MARKETING: "Marketing Digital",
+  PHOTO: "Fotografía",
+  VIDEO: "Video",
+  GRAPHIC_DESIGN: "Diseño Gráfico",
+};
+
+const STATUS_BADGE: Record<string, string> = {
+  PLANNING: "Procesando",
+  IN_PROGRESS: "En desarrollo",
 };
 
 export function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
@@ -44,6 +49,14 @@ export function ProjectModal({ project, onClose }: { project: Project; onClose: 
         )}
 
         <div className="p-6 md:p-8">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span className="label-mono text-gray-500">{CATEGORY_LABELS[project.category]}</span>
+            {STATUS_BADGE[project.status] && (
+              <span className="label-mono px-3 py-1 rounded-full bg-white/10 border border-white/20">
+                {STATUS_BADGE[project.status]}
+              </span>
+            )}
+          </div>
           <h2 className="text-2xl md:text-3xl font-medium mb-3">{project.title}</h2>
           <p className="text-gray-400 text-sm mb-4">{project.description}</p>
 

@@ -32,7 +32,7 @@ export default async function AdminPackagesPage() {
             {services.map((service) => (
               <tr key={service.id} className="border-b border-white/5 last:border-0">
                 <td className="p-4">{service.name}</td>
-                <td className="p-4 text-gray-400">{service.scope === "AGENCY" ? "ATENU" : "Paquetes"}</td>
+                <td className="p-4 text-gray-400">{service.scope === "AGENCY" ? "Agencia" : "Desarrollo Web"}</td>
                 <td className="p-4 text-gray-400">{service.price ? `$${service.price.toString()}` : "—"}</td>
                 <td className="p-4 text-gray-400">{service.active ? "Sí" : "No"}</td>
                 <td className="p-4 text-right space-x-4">

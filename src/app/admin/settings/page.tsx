@@ -1,31 +1,18 @@
 import { getSiteSettings } from "@/lib/site-settings";
-import { SettingsForm } from "./settings-form";
+import { GeneralForm } from "./general-form";
 
-export default async function AdminSettingsPage() {
+export default async function AdminGeneralSettingsPage() {
   const settings = await getSiteSettings();
 
   return (
-    <div>
-      <h1 className="text-2xl font-medium mb-6">Ajustes del sitio</h1>
-      <SettingsForm
-        defaultValues={{
-          portfolioBrand: settings?.portfolioBrand ?? "",
-          agencyBrand: settings?.agencyBrand ?? "",
-          heroTitle: settings?.heroTitle ?? "",
-          heroDescription: settings?.heroDescription ?? "",
-          heroVideoUrl: settings?.heroVideoUrl ?? "",
-          heroImageUrl: settings?.heroImageUrl ?? "",
-          aboutText: settings?.aboutText ?? "",
-          aboutImageUrl: settings?.aboutImageUrl ?? "",
-          contactEmail: settings?.contactEmail ?? "",
-          agencyTagline: settings?.agencyTagline ?? "",
-          agencyServices: (settings?.agencyServices ?? []).join(", "),
-          atenuIntro: settings?.atenuIntro ?? "",
-          atenuCustomText: settings?.atenuCustomText ?? "",
-          logoUrl: settings?.logoUrl ?? "",
-          backgroundUrl: settings?.backgroundUrl ?? "",
-        }}
-      />
-    </div>
+    <GeneralForm
+      defaultValues={{
+        portfolioBrand: settings?.portfolioBrand ?? "",
+        agencyBrand: settings?.agencyBrand ?? "",
+        logoUrl: settings?.logoUrl ?? "",
+        backgroundUrl: settings?.backgroundUrl ?? "",
+        contactEmail: settings?.contactEmail ?? "",
+      }}
+    />
   );
 }

@@ -19,6 +19,11 @@ export default async function EditPortfolioProjectPage({ params }: { params: Pro
           imageUrl: project.imageUrl ?? "",
           projectUrl: project.projectUrl ?? "",
           tags: project.tags.join(", "),
+          category: project.category,
+          status: project.status,
+          progress: project.progress,
+          devTime: project.devTime ?? "",
+          internalNotes: project.internalNotes ?? "",
           active: project.active,
           order: project.order,
         }}
