@@ -84,6 +84,34 @@ enum ProjectStatus {
   COMPLETED
 }
 
+enum ProjectType {
+  LANDING
+  CORPORATE
+  ECOMMERCE
+  SAAS
+  WEBAPP
+  CUSTOM
+}
+
+enum TaskPhase {
+  DESIGN
+  DEVELOPMENT
+  CLIENT_REVIEW
+  QA
+  DELIVERY
+}
+
+model ProjectTask {
+  id        String           @id @default(cuid())
+  projectId String
+  project   PortfolioProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  phase     TaskPhase
+  label     String
+  done      Boolean          @default(false)
+  order     Int              @default(0)
+  createdAt DateTime         @default(now())
+}
+
 model PortfolioProject {
   id            String          @id @default(cuid())
   title         String
@@ -92,10 +120,12 @@ model PortfolioProject {
   projectUrl    String?
   tags          String[]
   category      ProjectCategory @default(WEB_DEV)
+  projectType   ProjectType?
   status        ProjectStatus   @default(COMPLETED)
   progress      Int             @default(100)
   devTime       String?
   internalNotes String?
+  tasks         ProjectTask[]
   order         Int             @default(0)
   active        Boolean         @default(true)
   createdAt     DateTime        @default(now())
