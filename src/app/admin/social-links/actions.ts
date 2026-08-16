@@ -30,6 +30,7 @@ export async function createSocialLink(
   revalidatePath("/admin/social-links");
   revalidatePath("/");
   revalidatePath("/atenu");
+  revalidatePath("/contacto");
   redirect("/admin/social-links?success=created");
 }
 
@@ -46,6 +47,7 @@ export async function updateSocialLink(
   revalidatePath("/admin/social-links");
   revalidatePath("/");
   revalidatePath("/atenu");
+  revalidatePath("/contacto");
   redirect("/admin/social-links?success=updated");
 }
 
@@ -55,4 +57,5 @@ export async function deleteSocialLink(id: string): Promise<void> {
   revalidatePath("/admin/social-links");
   revalidatePath("/");
   revalidatePath("/atenu");
+  revalidatePath("/contacto");
 }

@@ -29,7 +29,7 @@ export async function createStory(
 
   await prisma.story.create({ data: parsed.data });
   revalidatePath("/admin/stories");
-  revalidatePath("/atenu");
+  revalidatePath("/portafolio");
   redirect("/admin/stories?success=created");
 }
 
@@ -44,7 +44,7 @@ export async function updateStory(
 
   await prisma.story.update({ where: { id }, data: parsed.data });
   revalidatePath("/admin/stories");
-  revalidatePath("/atenu");
+  revalidatePath("/portafolio");
   redirect("/admin/stories?success=updated");
 }
 
@@ -52,5 +52,5 @@ export async function deleteStory(id: string): Promise<void> {
   await requireAdmin();
   await prisma.story.delete({ where: { id } });
   revalidatePath("/admin/stories");
-  revalidatePath("/atenu");
+  revalidatePath("/portafolio");
 }

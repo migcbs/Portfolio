@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { getSiteSettings } from "@/lib/site-settings";
-import { ClientGrid } from "@/components/agencia/ClientGrid";
 import { PricingGrid } from "@/components/pricing/PricingGrid";
 import { BookingButton } from "@/components/booking/BookingButton";
 
@@ -8,12 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AtenuPage() {
   const settings = await getSiteSettings();
-  const [clients, webDevPackages, agencyPackages] = await Promise.all([
-    prisma.client.findMany({
-      where: { active: true },
-      orderBy: { order: "asc" },
-      include: { stories: { where: { active: true }, orderBy: { order: "asc" } } },
-    }),
+  const [webDevPackages, agencyPackages] = await Promise.all([
     prisma.service.findMany({
       where: { active: true, scope: "PERSONAL" },
       orderBy: { order: "asc" },
@@ -98,10 +92,6 @@ export default async function AtenuPage() {
         </div>
         <BookingButton source="atenu-custom" variant="glass" label="Cuéntanos qué necesitas" />
       </div>
-
-      {/* Clients */}
-      <h2 className="text-xl font-medium mb-6">Clientes</h2>
-      <ClientGrid clients={clients} />
     </div>
   );
 }
