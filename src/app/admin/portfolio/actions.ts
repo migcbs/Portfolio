@@ -1,14 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 import { portfolioProjectSchema } from "@/lib/validations/portfolio-project";
 import { parseCommaList } from "@/lib/validations/shared";
 import { PROJECT_TEMPLATES, TASK_PHASES } from "@/lib/project-templates";
 
-export type PortfolioFormState = { errors?: Record<string, string[] | undefined> } | undefined;
+export type PortfolioFormState = { errors?: Record<string, string[] | undefined>; success?: boolean } | undefined;
 
 function parseForm(formData: FormData) {
   return portfolioProjectSchema.safeParse({
@@ -27,6 +26,11 @@ function parseForm(formData: FormData) {
   });
 }
 
+function revalidateAll() {
+  revalidatePath("/admin/portfolio");
+  revalidatePath("/portafolio");
+}
+
 export async function createPortfolioProject(
   _prevState: PortfolioFormState,
   formData: FormData
@@ -36,9 +40,8 @@ export async function createPortfolioProject(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.portfolioProject.create({ data: parsed.data });
-  revalidatePath("/admin/portfolio");
-  revalidatePath("/portafolio");
-  redirect("/admin/portfolio?success=created");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function updatePortfolioProject(
@@ -51,23 +54,20 @@ export async function updatePortfolioProject(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.portfolioProject.update({ where: { id }, data: parsed.data });
-  revalidatePath("/admin/portfolio");
-  revalidatePath("/portafolio");
-  redirect("/admin/portfolio?success=updated");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function deletePortfolioProject(id: string): Promise<void> {
   await requireAdmin();
   await prisma.portfolioProject.delete({ where: { id } });
-  revalidatePath("/admin/portfolio");
-  revalidatePath("/portafolio");
+  revalidateAll();
 }
 
 export async function updateProjectProgress(id: string, progress: number): Promise<void> {
   await requireAdmin();
   const clamped = Math.max(0, Math.min(100, Math.round(progress)));
   await prisma.portfolioProject.update({ where: { id }, data: { progress: clamped } });
-  revalidatePath(`/admin/portfolio/${id}/edit`);
   revalidatePath("/admin/portfolio");
 }
 
@@ -85,7 +85,7 @@ export async function applyProjectTemplate(id: string, projectType: string): Pro
     ),
   ]);
 
-  revalidatePath(`/admin/portfolio/${id}/edit`);
+  revalidatePath("/admin/portfolio");
 }
 
 export async function addProjectTask(id: string, formData: FormData): Promise<void> {
@@ -98,17 +98,17 @@ export async function addProjectTask(id: string, formData: FormData): Promise<vo
   await prisma.projectTask.create({
     data: { projectId: id, phase: phase as never, label, order: count },
   });
-  revalidatePath(`/admin/portfolio/${id}/edit`);
+  revalidatePath("/admin/portfolio");
 }
 
 export async function toggleProjectTask(taskId: string, done: boolean): Promise<void> {
   await requireAdmin();
-  const task = await prisma.projectTask.update({ where: { id: taskId }, data: { done }, select: { projectId: true } });
-  revalidatePath(`/admin/portfolio/${task.projectId}/edit`);
+  await prisma.projectTask.update({ where: { id: taskId }, data: { done } });
+  revalidatePath("/admin/portfolio");
 }
 
 export async function deleteProjectTask(taskId: string): Promise<void> {
   await requireAdmin();
-  const task = await prisma.projectTask.delete({ where: { id: taskId }, select: { projectId: true } });
-  revalidatePath(`/admin/portfolio/${task.projectId}/edit`);
+  await prisma.projectTask.delete({ where: { id: taskId } });
+  revalidatePath("/admin/portfolio");
 }

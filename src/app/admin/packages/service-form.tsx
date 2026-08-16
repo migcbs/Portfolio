@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import type { ServiceFormState } from "./actions";
 
 type Values = {
@@ -16,11 +16,18 @@ type Values = {
 export function ServiceForm({
   action,
   defaultValues,
+  onSuccess,
 }: {
   action: (prevState: ServiceFormState, formData: FormData) => Promise<ServiceFormState>;
   defaultValues?: Values;
+  onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState<ServiceFormState, FormData>(action, undefined);
+
+  useEffect(() => {
+    if (state?.success) onSuccess?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
 

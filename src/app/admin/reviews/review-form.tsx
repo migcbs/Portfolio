@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import type { ReviewFormState } from "./actions";
 import { StarRatingInput } from "@/components/ui/StarRatingInput";
 
@@ -9,11 +9,18 @@ type Values = { authorName: string; text: string; rating: number; approved: bool
 export function ReviewForm({
   action,
   defaultValues,
+  onSuccess,
 }: {
   action: (prevState: ReviewFormState, formData: FormData) => Promise<ReviewFormState>;
   defaultValues?: Values;
+  onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState<ReviewFormState, FormData>(action, undefined);
+
+  useEffect(() => {
+    if (state?.success) onSuccess?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
 

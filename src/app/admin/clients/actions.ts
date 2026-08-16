@@ -1,12 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 import { clientSchema } from "@/lib/validations/client";
 
-export type ClientFormState = { errors?: Record<string, string[] | undefined> } | undefined;
+export type ClientFormState = { errors?: Record<string, string[] | undefined>; success?: boolean } | undefined;
 
 function parseForm(formData: FormData) {
   return clientSchema.safeParse({
@@ -19,6 +18,11 @@ function parseForm(formData: FormData) {
   });
 }
 
+function revalidateAll() {
+  revalidatePath("/admin/clients");
+  revalidatePath("/portafolio");
+}
+
 export async function createClient(
   _prevState: ClientFormState,
   formData: FormData
@@ -28,9 +32,8 @@ export async function createClient(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.client.create({ data: parsed.data });
-  revalidatePath("/admin/clients");
-  revalidatePath("/portafolio");
-  redirect("/admin/clients?success=created");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function updateClient(
@@ -43,14 +46,12 @@ export async function updateClient(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.client.update({ where: { id }, data: parsed.data });
-  revalidatePath("/admin/clients");
-  revalidatePath("/portafolio");
-  redirect("/admin/clients?success=updated");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function deleteClient(id: string): Promise<void> {
   await requireAdmin();
   await prisma.client.delete({ where: { id } });
-  revalidatePath("/admin/clients");
-  revalidatePath("/portafolio");
+  revalidateAll();
 }

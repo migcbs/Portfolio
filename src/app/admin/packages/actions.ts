@@ -1,13 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
 import { serviceSchema } from "@/lib/validations/service";
 import { parseCommaList } from "@/lib/validations/shared";
 
-export type ServiceFormState = { errors?: Record<string, string[] | undefined> } | undefined;
+export type ServiceFormState = { errors?: Record<string, string[] | undefined>; success?: boolean } | undefined;
 
 function parseForm(formData: FormData) {
   const rawPrice = String(formData.get("price") ?? "").trim();
@@ -22,6 +21,12 @@ function parseForm(formData: FormData) {
   });
 }
 
+function revalidateAll() {
+  revalidatePath("/admin/packages");
+  revalidatePath("/paquetes");
+  revalidatePath("/atenu");
+}
+
 export async function createService(
   _prevState: ServiceFormState,
   formData: FormData
@@ -31,10 +36,8 @@ export async function createService(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.service.create({ data: parsed.data });
-  revalidatePath("/admin/packages");
-  revalidatePath("/paquetes");
-  revalidatePath("/atenu");
-  redirect("/admin/packages?success=created");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function updateService(
@@ -47,16 +50,12 @@ export async function updateService(
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.service.update({ where: { id }, data: parsed.data });
-  revalidatePath("/admin/packages");
-  revalidatePath("/paquetes");
-  revalidatePath("/atenu");
-  redirect("/admin/packages?success=updated");
+  revalidateAll();
+  return { success: true };
 }
 
 export async function deleteService(id: string): Promise<void> {
   await requireAdmin();
   await prisma.service.delete({ where: { id } });
-  revalidatePath("/admin/packages");
-  revalidatePath("/paquetes");
-  revalidatePath("/atenu");
+  revalidateAll();
 }

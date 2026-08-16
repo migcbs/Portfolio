@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import type { StoryFormState } from "./actions";
 
@@ -18,13 +18,20 @@ export function StoryForm({
   action,
   defaultValues,
   clients,
+  onSuccess,
 }: {
   action: (prevState: StoryFormState, formData: FormData) => Promise<StoryFormState>;
   defaultValues?: Values;
   clients: ClientOption[];
+  onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState<StoryFormState, FormData>(action, undefined);
   const [type, setType] = useState<"IMAGE" | "VIDEO">(defaultValues?.type ?? "IMAGE");
+
+  useEffect(() => {
+    if (state?.success) onSuccess?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
 
