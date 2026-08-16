@@ -5,6 +5,7 @@ import { getSiteSettings } from "@/lib/site-settings";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { AmbientBackground } from "@/components/layout/AmbientBackground";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +42,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="es" className={`${bebasNeue.variable} ${spaceMono.variable} ${barlowCondensed.variable}`}>
       <body className="font-mono bg-black text-white antialiased min-h-screen flex flex-col">
+        <AmbientBackground backgroundUrl={settings?.backgroundUrl} />
         <CustomCursor />
         <Navbar brand={portfolioBrand} logoUrl={settings?.logoUrl ?? null} />
         <main className="flex-1 flex flex-col">{children}</main>

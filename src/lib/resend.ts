@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import type { BookingRequest } from "@prisma/client";
+import type { BookingRequest, Lead, Review } from "@prisma/client";
 
 const CONTACT_LABEL: Record<string, string> = {
   EMAIL: "Email",
@@ -7,32 +7,59 @@ const CONTACT_LABEL: Record<string, string> = {
   WHATSAPP: "WhatsApp",
 };
 
-export async function sendBookingNotification(booking: BookingRequest, toEmail: string) {
+async function sendNotification(subject: string, lines: (string | null)[], toEmail: string) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey || !toEmail) {
-    console.warn("RESEND_API_KEY o email de destino no configurados — solicitud guardada, sin correo enviado.");
+    console.warn("RESEND_API_KEY o email de destino no configurados — guardado en la base de datos, sin correo enviado.");
     return;
   }
 
   try {
     const resend = new Resend(apiKey);
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
       to: toEmail,
-      subject: `Nueva solicitud de agenda — ${booking.name}${booking.company ? ` (${booking.company})` : ""}`,
-      text: [
-        `Nombre: ${booking.name}`,
-        booking.company ? `Empresa: ${booking.company}` : null,
-        `Email: ${booking.email}`,
-        booking.phone ? `Teléfono: ${booking.phone}` : null,
-        `Contacto preferido: ${CONTACT_LABEL[booking.preferredContact] ?? booking.preferredContact}`,
-        `Origen: ${booking.source}`,
-        booking.message ? `Mensaje:\n${booking.message}` : null,
-      ]
-        .filter(Boolean)
-        .join("\n"),
+      subject,
+      text: lines.filter(Boolean).join("\n"),
     });
+    if (error) {
+      console.error("Resend rechazó el envío:", error);
+    }
   } catch (error) {
     console.error("Error enviando notificación de Resend:", error);
   }
+}
+
+export async function sendBookingNotification(booking: BookingRequest, toEmail: string) {
+  await sendNotification(
+    `Nueva solicitud de agenda — ${booking.name}${booking.company ? ` (${booking.company})` : ""}`,
+    [
+      `Nombre: ${booking.name}`,
+      booking.company ? `Empresa: ${booking.company}` : null,
+      `Email: ${booking.email}`,
+      booking.phone ? `Teléfono: ${booking.phone}` : null,
+      `Contacto preferido: ${CONTACT_LABEL[booking.preferredContact] ?? booking.preferredContact}`,
+      `Origen: ${booking.source}`,
+      booking.message ? `Mensaje:\n${booking.message}` : null,
+    ],
+    toEmail
+  );
+}
+
+export async function sendLeadNotification(lead: Lead, toEmail: string) {
+  await sendNotification(`Nuevo mensaje de contacto — ${lead.name}`, [
+    `Nombre: ${lead.name}`,
+    `Email: ${lead.email}`,
+    `Mensaje:\n${lead.message}`,
+  ], toEmail);
+}
+
+export async function sendReviewNotification(review: Review, toEmail: string) {
+  await sendNotification(`Nueva reseña pendiente de aprobar — ${review.authorName}`, [
+    `Autor: ${review.authorName}`,
+    `Calificación: ${review.rating}/5`,
+    `Texto:\n${review.text}`,
+    "",
+    "Revísala y apruébala desde /admin/reviews.",
+  ], toEmail);
 }

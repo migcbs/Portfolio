@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import type { ClientFormState } from "./actions";
 
 type Values = {
@@ -54,17 +55,13 @@ export function ClientForm({
           </p>
         ))}
       </div>
-      <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="logoUrl">
-          URL del logo (opcional)
-        </label>
-        <input id="logoUrl" name="logoUrl" defaultValue={defaultValues?.logoUrl} className={inputClass} />
-        {state?.errors?.logoUrl?.map((e) => (
-          <p key={e} className="text-red-400 text-xs mt-1">
-            {e}
-          </p>
-        ))}
-      </div>
+      <MediaUploadField
+        name="logoUrl"
+        label="Logo (opcional)"
+        defaultValue={defaultValues?.logoUrl}
+        errors={state?.errors?.logoUrl}
+        kind="image"
+      />
       <div className="mb-4">
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="website">
           Sitio web (opcional)

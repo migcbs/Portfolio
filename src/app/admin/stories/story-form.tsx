@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import type { StoryFormState } from "./actions";
 
 type Values = {
@@ -23,6 +24,7 @@ export function StoryForm({
   clients: ClientOption[];
 }) {
   const [state, formAction, pending] = useActionState<StoryFormState, FormData>(action, undefined);
+  const [type, setType] = useState<"IMAGE" | "VIDEO">(defaultValues?.type ?? "IMAGE");
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
 
@@ -62,22 +64,24 @@ export function StoryForm({
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="type">
           Tipo de archivo
         </label>
-        <select id="type" name="type" defaultValue={defaultValues?.type ?? "IMAGE"} className={inputClass}>
+        <select
+          id="type"
+          name="type"
+          value={type}
+          onChange={(e) => setType(e.target.value as "IMAGE" | "VIDEO")}
+          className={inputClass}
+        >
           <option value="IMAGE">Imagen</option>
           <option value="VIDEO">Video</option>
         </select>
       </div>
-      <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="mediaUrl">
-          URL del archivo
-        </label>
-        <input id="mediaUrl" name="mediaUrl" defaultValue={defaultValues?.mediaUrl} className={inputClass} required />
-        {state?.errors?.mediaUrl?.map((e) => (
-          <p key={e} className="text-red-400 text-xs mt-1">
-            {e}
-          </p>
-        ))}
-      </div>
+      <MediaUploadField
+        name="mediaUrl"
+        label="Archivo"
+        defaultValue={defaultValues?.mediaUrl}
+        errors={state?.errors?.mediaUrl}
+        kind={type === "VIDEO" ? "video" : "image"}
+      />
       <div className="mb-4">
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="order">
           Orden

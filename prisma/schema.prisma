@@ -30,6 +30,7 @@ model SiteSettings {
   atenuIntro      String   @default("Ayudamos a marcas a verse y sonar como se sienten: fotografía, video, diseño e impresión bajo un mismo equipo.")
   atenuCustomText String   @default("¿Tu negocio necesita algo distinto? También armamos soluciones a la medida, fuera de estos paquetes.")
   logoUrl         String?
+  backgroundUrl   String?
   updatedAt       DateTime @updatedAt
 }
 

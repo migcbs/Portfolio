@@ -23,6 +23,7 @@ export default async function AdminSettingsPage() {
           atenuIntro: settings?.atenuIntro ?? "",
           atenuCustomText: settings?.atenuCustomText ?? "",
           logoUrl: settings?.logoUrl ?? "",
+          backgroundUrl: settings?.backgroundUrl ?? "",
         }}
       />
     </div>

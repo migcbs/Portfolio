@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { updateSiteSettings, type SettingsFormState } from "./actions";
 
 type Values = {
@@ -19,6 +20,7 @@ type Values = {
   atenuIntro: string;
   atenuCustomText: string;
   logoUrl: string;
+  backgroundUrl: string;
 };
 
 function Field({
@@ -66,11 +68,12 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
   return (
     <form action={formAction} className="liquid-glass rounded-2xl p-6 max-w-xl">
       {justSaved && <p className="text-green-400 text-sm mb-4">Guardado correctamente.</p>}
-      <Field
+      <MediaUploadField
         name="logoUrl"
-        label="Logo (URL, opcional — si lo dejas vacío se muestra el nombre como texto)"
+        label="Logo (opcional — si lo dejas vacío se muestra el nombre como texto)"
         defaultValue={defaultValues.logoUrl}
         errors={state?.errors?.logoUrl}
+        kind="image"
       />
       <Field
         name="portfolioBrand"
@@ -97,17 +100,19 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
         errors={state?.errors?.heroDescription}
         textarea
       />
-      <Field
+      <MediaUploadField
         name="heroVideoUrl"
-        label="URL de video de fondo (opcional)"
+        label="Video de fondo del hero (opcional)"
         defaultValue={defaultValues.heroVideoUrl}
         errors={state?.errors?.heroVideoUrl}
+        kind="video"
       />
-      <Field
+      <MediaUploadField
         name="heroImageUrl"
-        label="URL de imagen de fondo (opcional, se usa si no hay video)"
+        label="Imagen de fondo del hero (opcional, se usa si no hay video)"
         defaultValue={defaultValues.heroImageUrl}
         errors={state?.errors?.heroImageUrl}
+        kind="image"
       />
       <Field
         name="aboutText"
@@ -116,11 +121,12 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
         errors={state?.errors?.aboutText}
         textarea
       />
-      <Field
+      <MediaUploadField
         name="aboutImageUrl"
-        label="Foto para 'Sobre mí' (URL, opcional)"
+        label="Foto para 'Sobre mí' (opcional)"
         defaultValue={defaultValues.aboutImageUrl}
         errors={state?.errors?.aboutImageUrl}
+        kind="image"
       />
       <Field
         name="contactEmail"
@@ -153,6 +159,13 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
         defaultValue={defaultValues.atenuCustomText}
         errors={state?.errors?.atenuCustomText}
         textarea
+      />
+      <MediaUploadField
+        name="backgroundUrl"
+        label="Fondo de la interfaz (opcional — si lo dejas vacío se usa el fondo de estrellas por defecto)"
+        defaultValue={defaultValues.backgroundUrl}
+        errors={state?.errors?.backgroundUrl}
+        kind="image"
       />
       <button
         type="submit"

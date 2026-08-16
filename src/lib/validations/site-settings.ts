@@ -16,6 +16,7 @@ export const siteSettingsSchema = z.object({
   atenuIntro: z.string().trim().min(1, "Requerido"),
   atenuCustomText: z.string().trim().min(1, "Requerido"),
   logoUrl: optionalUrl,
+  backgroundUrl: optionalUrl,
 });
 
 export type SiteSettingsInput = z.infer<typeof siteSettingsSchema>;
