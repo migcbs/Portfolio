@@ -5,7 +5,10 @@ import { updatePortfolioProject } from "../../actions";
 
 export default async function EditPortfolioProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const project = await prisma.portfolioProject.findUnique({ where: { id } });
+  const project = await prisma.portfolioProject.findUnique({
+    where: { id },
+    include: { tasks: { orderBy: { order: "asc" } } },
+  });
   if (!project) notFound();
 
   return (
@@ -20,13 +23,14 @@ export default async function EditPortfolioProjectPage({ params }: { params: Pro
           projectUrl: project.projectUrl ?? "",
           tags: project.tags.join(", "),
           category: project.category,
+          projectType: project.projectType ?? "",
           status: project.status,
-          progress: project.progress,
           devTime: project.devTime ?? "",
           internalNotes: project.internalNotes ?? "",
           active: project.active,
           order: project.order,
         }}
+        editing={{ id: project.id, progress: project.progress, tasks: project.tasks }}
       />
     </div>
   );
