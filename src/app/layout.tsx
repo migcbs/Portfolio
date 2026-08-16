@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { AmbientBackground } from "@/components/layout/AmbientBackground";
+import { CookieConsentBanner } from "@/components/layout/CookieConsent";
 
 export const dynamic = "force-dynamic";
 
@@ -47,6 +48,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Navbar brand={portfolioBrand} logoUrl={settings?.logoUrl ?? null} />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer agencyBrand={agencyBrand} />
+        <CookieConsentBanner />
       </body>
     </html>
   );

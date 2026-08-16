@@ -11,17 +11,25 @@ export function MediaUploadField({
   defaultValue,
   errors,
   kind = "image",
+  onValueChange,
 }: {
   name: string;
   label: string;
   defaultValue?: string | null;
   errors?: string[];
   kind?: Kind;
+  /** Optional — lets a parent that isn't a plain <form> (e.g. reads via FormData on its own submit) track the current value. */
+  onValueChange?: (value: string) => void;
 }) {
-  const [value, setValue] = useState(defaultValue ?? "");
+  const [value, setValueState] = useState(defaultValue ?? "");
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function setValue(next: string) {
+    setValueState(next);
+    onValueChange?.(next);
+  }
 
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";

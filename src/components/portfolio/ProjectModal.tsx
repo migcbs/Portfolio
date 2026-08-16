@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { X, ExternalLink } from "lucide-react";
+import { MediaGallery } from "@/components/ui/MediaGallery";
 import type { Project } from "./ProjectGrid";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -17,7 +18,14 @@ const STATUS_BADGE: Record<string, string> = {
   IN_PROGRESS: "En desarrollo",
 };
 
+const STATUS_BADGE_CLASS: Record<string, string> = {
+  PLANNING: "bg-white/10 border-white/20",
+  IN_PROGRESS: "bg-yellow-500/90 border-yellow-400/60 text-black",
+};
+
 export function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  const isMarketing = project.category === "DIGITAL_MARKETING";
+
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") onClose();
@@ -43,7 +51,7 @@ export function ProjectModal({ project, onClose }: { project: Project; onClose: 
           <X size={18} />
         </button>
 
-        {project.imageUrl && (
+        {!isMarketing && project.imageUrl && (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={project.imageUrl} alt="" className="w-full h-56 md:h-72 object-cover" />
         )}
@@ -52,7 +60,9 @@ export function ProjectModal({ project, onClose }: { project: Project; onClose: 
           <div className="flex flex-wrap items-center gap-2 mb-3">
             <span className="label-mono text-gray-500">{CATEGORY_LABELS[project.category]}</span>
             {STATUS_BADGE[project.status] && (
-              <span className="label-mono px-3 py-1 rounded-full bg-white/10 border border-white/20">
+              <span
+                className={`label-mono px-3 py-1 rounded-full border ${STATUS_BADGE_CLASS[project.status]}`}
+              >
                 {STATUS_BADGE[project.status]}
               </span>
             )}
@@ -70,15 +80,19 @@ export function ProjectModal({ project, onClose }: { project: Project; onClose: 
             </div>
           )}
 
-          {project.projectUrl && (
-            <a
-              href={project.projectUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-black rounded-full font-medium px-6 py-2.5 hover:bg-gray-200 transition-colors"
-            >
-              Ver sitio <ExternalLink size={16} />
-            </a>
+          {isMarketing ? (
+            <MediaGallery title={project.title} items={project.media} />
+          ) : (
+            project.projectUrl && (
+              <a
+                href={project.projectUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 bg-white text-black rounded-full font-medium px-6 py-2.5 hover:bg-gray-200 transition-colors"
+              >
+                Ver sitio <ExternalLink size={16} />
+              </a>
+            )
           )}
         </div>
       </div>
