@@ -101,6 +101,9 @@ async function main() {
       imageUrl:
         "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=800&q=80",
       tags: ["Next.js", "Diseño Web"],
+      category: "WEB_DEV",
+      status: "COMPLETED",
+      progress: 100,
       order: 0,
     },
   });
@@ -113,7 +116,7 @@ async function main() {
       name: "Paquete Esencial",
       description: "Sitio web de una página, optimizado y responsivo.",
       price: 8000,
-      features: ["Diseño a medida", "Hosting incluido 1 año", "Soporte 30 días"],
+      features: ["Diseño a medida", "1 año gratis de hosting y dominio", "Soporte 30 días"],
       order: 0,
     },
   });

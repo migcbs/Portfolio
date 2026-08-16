@@ -8,11 +8,15 @@ export const dynamic = "force-dynamic";
 
 export default async function AtenuPage() {
   const settings = await getSiteSettings();
-  const [clients, packages] = await Promise.all([
+  const [clients, webDevPackages, agencyPackages] = await Promise.all([
     prisma.client.findMany({
       where: { active: true },
       orderBy: { order: "asc" },
       include: { stories: { where: { active: true }, orderBy: { order: "asc" } } },
+    }),
+    prisma.service.findMany({
+      where: { active: true, scope: "PERSONAL" },
+      orderBy: { order: "asc" },
     }),
     prisma.service.findMany({
       where: { active: true, scope: "AGENCY" },
@@ -23,6 +27,14 @@ export default async function AtenuPage() {
   const services = settings?.agencyServices?.length
     ? settings.agencyServices
     : ["Fotografía", "Video", "Diseño gráfico", "Impresiones", "Merch"];
+
+  const toGridService = (service: (typeof webDevPackages)[number]) => ({
+    id: service.id,
+    name: service.name,
+    description: service.description,
+    price: service.price ? Number(service.price) : null,
+    features: service.features,
+  });
 
   return (
     <div className="px-4 sm:px-6 md:px-12 py-16 md:py-24">
@@ -56,20 +68,23 @@ export default async function AtenuPage() {
         ))}
       </div>
 
-      {/* Packages */}
-      {packages.length > 0 && (
-        <div className="mb-16">
-          <h2 className="text-xl font-medium mb-6">Paquetes</h2>
-          <PricingGrid
-            services={packages.map((service) => ({
-              id: service.id,
-              name: service.name,
-              description: service.description,
-              price: service.price ? Number(service.price) : null,
-              features: service.features,
-            }))}
-            bookingSource="atenu-paquete"
-          />
+      {/* Desarrollo Web */}
+      {webDevPackages.length > 0 && (
+        <div id="desarrollo-web" className="mb-16 scroll-mt-24">
+          <h2 className="text-xl font-medium mb-1">Desarrollo Web</h2>
+          <p className="text-gray-400 text-sm mb-6">
+            Todos los paquetes incluyen 1 año gratis de hosting y dominio.
+          </p>
+          <PricingGrid services={webDevPackages.map(toGridService)} bookingSource="atenu-webdev" />
+        </div>
+      )}
+
+      {/* Agencia */}
+      {agencyPackages.length > 0 && (
+        <div id="agencia" className="mb-16 scroll-mt-24">
+          <h2 className="text-xl font-medium mb-1">Agencia — Foto, Video, Diseño</h2>
+          <p className="text-gray-400 text-sm mb-6">Contenido y producción para tu marca.</p>
+          <PricingGrid services={agencyPackages.map(toGridService)} bookingSource="atenu-agencia" />
         </div>
       )}
 

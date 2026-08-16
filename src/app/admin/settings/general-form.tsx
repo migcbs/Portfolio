@@ -3,24 +3,14 @@
 import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
 import { MediaUploadField } from "@/components/admin/MediaUploadField";
-import { updateSiteSettings, type SettingsFormState } from "./actions";
+import { updateGeneralSettings, type SettingsFormState } from "./actions";
 
 type Values = {
   portfolioBrand: string;
   agencyBrand: string;
-  heroTitle: string;
-  heroDescription: string;
-  heroVideoUrl: string;
-  heroImageUrl: string;
-  aboutText: string;
-  aboutImageUrl: string;
-  contactEmail: string;
-  agencyTagline: string;
-  agencyServices: string;
-  atenuIntro: string;
-  atenuCustomText: string;
   logoUrl: string;
   backgroundUrl: string;
+  contactEmail: string;
 };
 
 function Field({
@@ -57,9 +47,9 @@ function Field({
   );
 }
 
-export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
+export function GeneralForm({ defaultValues }: { defaultValues: Values }) {
   const [state, formAction, pending] = useActionState<SettingsFormState, FormData>(
-    updateSiteSettings,
+    updateGeneralSettings,
     undefined
   );
   const searchParams = useSearchParams();
@@ -88,77 +78,10 @@ export function SettingsForm({ defaultValues }: { defaultValues: Values }) {
         errors={state?.errors?.agencyBrand}
       />
       <Field
-        name="heroTitle"
-        label="Título del hero"
-        defaultValue={defaultValues.heroTitle}
-        errors={state?.errors?.heroTitle}
-      />
-      <Field
-        name="heroDescription"
-        label="Descripción del hero"
-        defaultValue={defaultValues.heroDescription}
-        errors={state?.errors?.heroDescription}
-        textarea
-      />
-      <MediaUploadField
-        name="heroVideoUrl"
-        label="Video de fondo del hero (opcional)"
-        defaultValue={defaultValues.heroVideoUrl}
-        errors={state?.errors?.heroVideoUrl}
-        kind="video"
-      />
-      <MediaUploadField
-        name="heroImageUrl"
-        label="Imagen de fondo del hero (opcional, se usa si no hay video)"
-        defaultValue={defaultValues.heroImageUrl}
-        errors={state?.errors?.heroImageUrl}
-        kind="image"
-      />
-      <Field
-        name="aboutText"
-        label="Texto de 'Sobre mí' (opcional)"
-        defaultValue={defaultValues.aboutText}
-        errors={state?.errors?.aboutText}
-        textarea
-      />
-      <MediaUploadField
-        name="aboutImageUrl"
-        label="Foto para 'Sobre mí' (opcional)"
-        defaultValue={defaultValues.aboutImageUrl}
-        errors={state?.errors?.aboutImageUrl}
-        kind="image"
-      />
-      <Field
         name="contactEmail"
-        label="Email de contacto (recibe las solicitudes de agenda)"
+        label="Email de contacto (recibe leads, solicitudes de agenda y reseñas nuevas)"
         defaultValue={defaultValues.contactEmail}
         errors={state?.errors?.contactEmail}
-      />
-      <Field
-        name="agencyTagline"
-        label="Subtítulo de ATENU"
-        defaultValue={defaultValues.agencyTagline}
-        errors={state?.errors?.agencyTagline}
-      />
-      <Field
-        name="agencyServices"
-        label="Servicios de ATENU (separados por coma)"
-        defaultValue={defaultValues.agencyServices}
-        errors={state?.errors?.agencyServices}
-      />
-      <Field
-        name="atenuIntro"
-        label="Introducción del landing de ATENU"
-        defaultValue={defaultValues.atenuIntro}
-        errors={state?.errors?.atenuIntro}
-        textarea
-      />
-      <Field
-        name="atenuCustomText"
-        label="Texto de 'A tu medida' (paquetes personalizados)"
-        defaultValue={defaultValues.atenuCustomText}
-        errors={state?.errors?.atenuCustomText}
-        textarea
       />
       <MediaUploadField
         name="backgroundUrl"

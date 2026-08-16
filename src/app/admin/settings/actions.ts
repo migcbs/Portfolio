@@ -4,38 +4,38 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
-import { siteSettingsSchema } from "@/lib/validations/site-settings";
+import {
+  generalSettingsSchema,
+  heroSettingsSchema,
+  aboutSettingsSchema,
+  atenuSettingsSchema,
+} from "@/lib/validations/site-settings";
 import { parseCommaList } from "@/lib/validations/shared";
 
 export type SettingsFormState = { errors?: Record<string, string[] | undefined> } | undefined;
 
-export async function updateSiteSettings(
+function revalidateSite() {
+  revalidatePath("/");
+  revalidatePath("/sobre-mi");
+  revalidatePath("/atenu");
+  revalidatePath("/portafolio");
+  revalidatePath("/paquetes");
+}
+
+export async function updateGeneralSettings(
   _prevState: SettingsFormState,
   formData: FormData
 ): Promise<SettingsFormState> {
   await requireAdmin();
 
-  const parsed = siteSettingsSchema.safeParse({
+  const parsed = generalSettingsSchema.safeParse({
     portfolioBrand: formData.get("portfolioBrand"),
     agencyBrand: formData.get("agencyBrand"),
-    heroTitle: formData.get("heroTitle"),
-    heroDescription: formData.get("heroDescription"),
-    heroVideoUrl: formData.get("heroVideoUrl"),
-    heroImageUrl: formData.get("heroImageUrl"),
-    aboutText: formData.get("aboutText"),
-    aboutImageUrl: formData.get("aboutImageUrl"),
-    contactEmail: formData.get("contactEmail"),
-    agencyTagline: formData.get("agencyTagline"),
-    agencyServices: parseCommaList(String(formData.get("agencyServices") ?? "")),
-    atenuIntro: formData.get("atenuIntro"),
-    atenuCustomText: formData.get("atenuCustomText"),
     logoUrl: formData.get("logoUrl"),
     backgroundUrl: formData.get("backgroundUrl"),
+    contactEmail: formData.get("contactEmail"),
   });
-
-  if (!parsed.success) {
-    return { errors: parsed.error.flatten().fieldErrors };
-  }
+  if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
   await prisma.siteSettings.upsert({
     where: { id: "singleton" },
@@ -44,8 +44,79 @@ export async function updateSiteSettings(
   });
 
   revalidatePath("/admin/settings");
-  revalidatePath("/");
-  revalidatePath("/sobre-mi");
-  revalidatePath("/atenu");
+  revalidateSite();
   redirect("/admin/settings?success=1");
+}
+
+export async function updateHeroSettings(
+  _prevState: SettingsFormState,
+  formData: FormData
+): Promise<SettingsFormState> {
+  await requireAdmin();
+
+  const parsed = heroSettingsSchema.safeParse({
+    heroTitle: formData.get("heroTitle"),
+    heroDescription: formData.get("heroDescription"),
+    heroVideoUrl: formData.get("heroVideoUrl"),
+    heroImageUrl: formData.get("heroImageUrl"),
+  });
+  if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
+
+  await prisma.siteSettings.upsert({
+    where: { id: "singleton" },
+    update: parsed.data,
+    create: { id: "singleton", ...parsed.data },
+  });
+
+  revalidatePath("/admin/settings/hero");
+  revalidateSite();
+  redirect("/admin/settings/hero?success=1");
+}
+
+export async function updateAboutSettings(
+  _prevState: SettingsFormState,
+  formData: FormData
+): Promise<SettingsFormState> {
+  await requireAdmin();
+
+  const parsed = aboutSettingsSchema.safeParse({
+    aboutText: formData.get("aboutText"),
+    aboutImageUrl: formData.get("aboutImageUrl"),
+  });
+  if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
+
+  await prisma.siteSettings.upsert({
+    where: { id: "singleton" },
+    update: parsed.data,
+    create: { id: "singleton", ...parsed.data },
+  });
+
+  revalidatePath("/admin/settings/about");
+  revalidateSite();
+  redirect("/admin/settings/about?success=1");
+}
+
+export async function updateAtenuSettings(
+  _prevState: SettingsFormState,
+  formData: FormData
+): Promise<SettingsFormState> {
+  await requireAdmin();
+
+  const parsed = atenuSettingsSchema.safeParse({
+    agencyTagline: formData.get("agencyTagline"),
+    agencyServices: parseCommaList(String(formData.get("agencyServices") ?? "")),
+    atenuIntro: formData.get("atenuIntro"),
+    atenuCustomText: formData.get("atenuCustomText"),
+  });
+  if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
+
+  await prisma.siteSettings.upsert({
+    where: { id: "singleton" },
+    update: parsed.data,
+    create: { id: "singleton", ...parsed.data },
+  });
+
+  revalidatePath("/admin/settings/atenu");
+  revalidateSite();
+  redirect("/admin/settings/atenu?success=1");
 }

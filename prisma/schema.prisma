@@ -70,16 +70,35 @@ model Story {
   createdAt DateTime      @default(now())
 }
 
+enum ProjectCategory {
+  WEB_DEV
+  DIGITAL_MARKETING
+  PHOTO
+  VIDEO
+  GRAPHIC_DESIGN
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  COMPLETED
+}
+
 model PortfolioProject {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  imageUrl    String?
-  projectUrl  String?
-  tags        String[]
-  order       Int      @default(0)
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
+  id            String          @id @default(cuid())
+  title         String
+  description   String
+  imageUrl      String?
+  projectUrl    String?
+  tags          String[]
+  category      ProjectCategory @default(WEB_DEV)
+  status        ProjectStatus   @default(COMPLETED)
+  progress      Int             @default(100)
+  devTime       String?
+  internalNotes String?
+  order         Int             @default(0)
+  active        Boolean         @default(true)
+  createdAt     DateTime        @default(now())
 }
 
 enum ServiceScope {

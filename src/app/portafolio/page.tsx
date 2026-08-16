@@ -8,6 +8,16 @@ export default async function PortafolioPage() {
   const projects = await prisma.portfolioProject.findMany({
     where: { active: true },
     orderBy: { order: "asc" },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      imageUrl: true,
+      projectUrl: true,
+      tags: true,
+      category: true,
+      status: true,
+    },
   });
 
   return (

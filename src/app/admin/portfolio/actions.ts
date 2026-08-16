@@ -16,6 +16,11 @@ function parseForm(formData: FormData) {
     imageUrl: formData.get("imageUrl"),
     projectUrl: formData.get("projectUrl"),
     tags: parseCommaList(String(formData.get("tags") ?? "")),
+    category: formData.get("category"),
+    status: formData.get("status"),
+    progress: formData.get("progress"),
+    devTime: formData.get("devTime"),
+    internalNotes: formData.get("internalNotes"),
     active: formData.get("active") === "on",
     order: formData.get("order"),
   });
@@ -32,7 +37,6 @@ export async function createPortfolioProject(
   await prisma.portfolioProject.create({ data: parsed.data });
   revalidatePath("/admin/portfolio");
   revalidatePath("/portafolio");
-  revalidatePath("/buscar");
   redirect("/admin/portfolio?success=created");
 }
 
@@ -48,7 +52,6 @@ export async function updatePortfolioProject(
   await prisma.portfolioProject.update({ where: { id }, data: parsed.data });
   revalidatePath("/admin/portfolio");
   revalidatePath("/portafolio");
-  revalidatePath("/buscar");
   redirect("/admin/portfolio?success=updated");
 }
 
@@ -57,5 +60,4 @@ export async function deletePortfolioProject(id: string): Promise<void> {
   await prisma.portfolioProject.delete({ where: { id } });
   revalidatePath("/admin/portfolio");
   revalidatePath("/portafolio");
-  revalidatePath("/buscar");
 }
