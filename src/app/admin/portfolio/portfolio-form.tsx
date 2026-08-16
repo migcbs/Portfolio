@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import type { PortfolioFormState } from "./actions";
 
 type Values = {
@@ -55,17 +56,13 @@ export function PortfolioForm({
           </p>
         ))}
       </div>
-      <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="imageUrl">
-          URL de imagen (opcional)
-        </label>
-        <input id="imageUrl" name="imageUrl" defaultValue={defaultValues?.imageUrl} className={inputClass} />
-        {state?.errors?.imageUrl?.map((e) => (
-          <p key={e} className="text-red-400 text-xs mt-1">
-            {e}
-          </p>
-        ))}
-      </div>
+      <MediaUploadField
+        name="imageUrl"
+        label="Imagen (opcional)"
+        defaultValue={defaultValues?.imageUrl}
+        errors={state?.errors?.imageUrl}
+        kind="image"
+      />
       <div className="mb-4">
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="projectUrl">
           URL del proyecto (opcional)

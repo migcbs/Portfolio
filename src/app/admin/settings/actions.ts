@@ -30,6 +30,7 @@ export async function updateSiteSettings(
     atenuIntro: formData.get("atenuIntro"),
     atenuCustomText: formData.get("atenuCustomText"),
     logoUrl: formData.get("logoUrl"),
+    backgroundUrl: formData.get("backgroundUrl"),
   });
 
   if (!parsed.success) {

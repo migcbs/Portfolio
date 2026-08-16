@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { reviewPublicSchema } from "@/lib/validations/review";
+import { sendReviewNotification } from "@/lib/resend";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export type PublicReviewFormState =
   | { errors?: Record<string, string[] | undefined>; success?: boolean }
@@ -22,9 +24,13 @@ export async function submitPublicReview(
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
-  await prisma.review.create({
+  const review = await prisma.review.create({
     data: { ...parsed.data, approved: false },
   });
+
+  const settings = await getSiteSettings();
+  const toEmail = settings?.contactEmail || process.env.ADMIN_EMAIL || "";
+  await sendReviewNotification(review, toEmail);
 
   revalidatePath("/admin/reviews");
   return { success: true };
