@@ -1,9 +1,12 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import type { SocialLinkFormState } from "./actions";
 
 type Values = { label: string; url: string; scope: "PERSONAL" | "AGENCY"; order: number };
+
+const PRIMARY_PLATFORMS = ["Instagram", "Facebook", "TikTok"];
+const OTHER = "Otro";
 
 export function SocialLinkForm({
   action,
@@ -15,6 +18,9 @@ export function SocialLinkForm({
   onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState<SocialLinkFormState, FormData>(action, undefined);
+  const isPrimary = defaultValues ? PRIMARY_PLATFORMS.includes(defaultValues.label) : true;
+  const [platform, setPlatform] = useState(isPrimary ? (defaultValues?.label ?? PRIMARY_PLATFORMS[0]) : OTHER);
+  const [customLabel, setCustomLabel] = useState(isPrimary ? "" : (defaultValues?.label ?? ""));
 
   useEffect(() => {
     if (state?.success) onSuccess?.();
@@ -26,10 +32,31 @@ export function SocialLinkForm({
   return (
     <form action={formAction} className="liquid-glass rounded-2xl p-6 max-w-xl">
       <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="label">
-          Etiqueta
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="platform">
+          Red social
         </label>
-        <input id="label" name="label" defaultValue={defaultValues?.label} className={inputClass} placeholder="Instagram" required />
+        <select
+          id="platform"
+          value={platform}
+          onChange={(e) => setPlatform(e.target.value)}
+          className={inputClass}
+        >
+          {PRIMARY_PLATFORMS.map((p) => (
+            <option key={p} value={p}>
+              {p}
+            </option>
+          ))}
+          <option value={OTHER}>Otro...</option>
+        </select>
+        {platform === OTHER && (
+          <input
+            value={customLabel}
+            onChange={(e) => setCustomLabel(e.target.value)}
+            placeholder="Nombre de la red"
+            className={`${inputClass} mt-2`}
+          />
+        )}
+        <input type="hidden" name="label" value={platform === OTHER ? customLabel : platform} />
         {state?.errors?.label?.map((e) => (
           <p key={e} className="text-red-400 text-xs mt-1">
             {e}
