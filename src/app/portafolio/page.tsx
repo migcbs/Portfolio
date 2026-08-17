@@ -18,6 +18,7 @@ export default async function PortafolioPage() {
       category: true,
       status: true,
       media: { select: { id: true, category: true, type: true, mediaUrl: true }, orderBy: { order: "asc" } },
+      socialLinks: { select: { id: true, label: true, url: true }, orderBy: { order: "asc" } },
     },
   });
 

@@ -2,10 +2,10 @@ import { prisma } from "@/lib/prisma";
 import { SocialLinksManager } from "./social-links-manager";
 
 export default async function AdminSocialLinksPage() {
-  const [links, clients] = await Promise.all([
-    prisma.socialLink.findMany({ orderBy: { order: "asc" }, include: { client: true } }),
-    prisma.client.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
-  ]);
+  const links = await prisma.socialLink.findMany({
+    where: { projectId: null },
+    orderBy: { order: "asc" },
+  });
 
-  return <SocialLinksManager links={links} clients={clients} />;
+  return <SocialLinksManager links={links} />;
 }

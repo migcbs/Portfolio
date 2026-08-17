@@ -22,6 +22,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 type Task = { id: string; phase: string; label: string; done: boolean };
 type Media = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
+type SocialLink = { id: string; label: string; url: string };
 type Project = {
   id: string;
   title: string;
@@ -39,6 +40,7 @@ type Project = {
   order: number;
   tasks: Task[];
   media: Media[];
+  socialLinks: SocialLink[];
 };
 
 export function PortfolioManager({ projects }: { projects: Project[] }) {
@@ -133,6 +135,7 @@ export function PortfolioManager({ projects }: { projects: Project[] }) {
               progress: editingProject.progress,
               tasks: editingProject.tasks,
               media: editingProject.media,
+              socialLinks: editingProject.socialLinks,
             }}
             onSuccess={() => setEditingId(null)}
           />
