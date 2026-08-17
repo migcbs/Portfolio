@@ -14,7 +14,6 @@ function parseForm(formData: FormData) {
     label: formData.get("label"),
     url: formData.get("url"),
     scope: formData.get("scope"),
-    clientId: formData.get("clientId"),
     order: formData.get("order"),
   });
 }

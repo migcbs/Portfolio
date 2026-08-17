@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, ChevronLeft, Play } from "lucide-react";
 
 export type GalleryItem = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
@@ -17,9 +18,12 @@ const CATEGORY_ORDER: GalleryItem["category"][] = ["PHOTO", "VIDEO", "MERCH"];
 
 /**
  * An Instagram-feed-style thumbnail grid, grouped by category, that opens a
- * full-screen tap-to-advance viewer on click — embeddable inside any modal
- * (it renders its own fixed-overlay viewer via portal-less absolute
- * positioning at a higher z-index, so it works nested inside a parent modal).
+ * full-screen tap-to-advance viewer on click. The viewer portals to
+ * document.body — any `.liquid-glass` ancestor (this is meant to be
+ * embedded inside a modal) sets `backdrop-filter`, which — like
+ * `transform` — creates a new containing block for `position: fixed`
+ * descendants, trapping the viewer inside the modal's box instead of the
+ * full viewport. Portaling escapes that entirely.
  */
 export function MediaGallery({ title, items }: { title: string; items: GalleryItem[] }) {
   const [viewer, setViewer] = useState<{ category: GalleryItem["category"]; startIndex: number } | null>(null);
@@ -97,8 +101,13 @@ function MediaViewer({
   onBack: () => void;
 }) {
   const [index, setIndex] = useState(startIndex);
+  const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const current = items[index];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -134,9 +143,9 @@ function MediaViewer({
     setIndex((i) => Math.max(0, i - 1));
   }
 
-  if (!current) return null;
+  if (!current || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[120] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
       onClick={onBack}
@@ -199,6 +208,7 @@ function MediaViewer({
           />
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

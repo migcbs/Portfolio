@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { X, ExternalLink } from "lucide-react";
 import { MediaGallery } from "@/components/ui/MediaGallery";
+import { SocialIcon, detectPlatform } from "@/components/ui/SocialIcon";
 import type { Project } from "./ProjectGrid";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -81,7 +82,25 @@ export function ProjectModal({ project, onClose }: { project: Project; onClose: 
           )}
 
           {isMarketing ? (
-            <MediaGallery title={project.title} items={project.media} />
+            <>
+              {project.socialLinks.length > 0 && (
+                <div className="flex items-center gap-2 mb-6">
+                  {project.socialLinks.map((link) => (
+                    <a
+                      key={link.id}
+                      href={link.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={link.label}
+                      className="liquid-glass w-9 h-9 rounded-full flex items-center justify-center hover:text-white transition-colors"
+                    >
+                      <SocialIcon platform={detectPlatform(link.label)} size={16} />
+                    </a>
+                  ))}
+                </div>
+              )}
+              <MediaGallery title={project.title} items={project.media} />
+            </>
           ) : (
             project.projectUrl && (
               <a

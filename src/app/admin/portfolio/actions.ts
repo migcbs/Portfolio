@@ -143,3 +143,29 @@ export async function deleteProjectMedia(mediaId: string): Promise<void> {
   revalidatePath("/admin/portfolio");
   revalidatePath("/portafolio");
 }
+
+export async function addProjectSocialLink(id: string, formData: FormData): Promise<void> {
+  await requireAdmin();
+  const label = String(formData.get("label") ?? "").trim();
+  const url = String(formData.get("url") ?? "").trim();
+  if (!label || !url) return;
+  try {
+    new URL(url);
+  } catch {
+    return;
+  }
+
+  const count = await prisma.socialLink.count({ where: { projectId: id } });
+  await prisma.socialLink.create({
+    data: { projectId: id, label, url, order: count },
+  });
+  revalidatePath("/admin/portfolio");
+  revalidatePath("/portafolio");
+}
+
+export async function deleteProjectSocialLink(linkId: string): Promise<void> {
+  await requireAdmin();
+  await prisma.socialLink.delete({ where: { id: linkId } });
+  revalidatePath("/admin/portfolio");
+  revalidatePath("/portafolio");
+}

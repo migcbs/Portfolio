@@ -3,18 +3,15 @@
 import { useActionState, useEffect } from "react";
 import type { SocialLinkFormState } from "./actions";
 
-type Values = { label: string; url: string; scope: "PERSONAL" | "AGENCY"; clientId: string; order: number };
-type ClientOption = { id: string; name: string };
+type Values = { label: string; url: string; scope: "PERSONAL" | "AGENCY"; order: number };
 
 export function SocialLinkForm({
   action,
   defaultValues,
-  clients,
   onSuccess,
 }: {
   action: (prevState: SocialLinkFormState, formData: FormData) => Promise<SocialLinkFormState>;
   defaultValues?: Values;
-  clients: ClientOption[];
   onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState<SocialLinkFormState, FormData>(action, undefined);
@@ -57,19 +54,6 @@ export function SocialLinkForm({
         <select id="scope" name="scope" defaultValue={defaultValues?.scope ?? "PERSONAL"} className={inputClass}>
           <option value="PERSONAL">Personal</option>
           <option value="AGENCY">Agencia</option>
-        </select>
-      </div>
-      <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="clientId">
-          Cliente (opcional)
-        </label>
-        <select id="clientId" name="clientId" defaultValue={defaultValues?.clientId ?? ""} className={inputClass}>
-          <option value="">Ninguno</option>
-          {clients.map((client) => (
-            <option key={client.id} value={client.id}>
-              {client.name}
-            </option>
-          ))}
         </select>
       </div>
       <div className="mb-6">

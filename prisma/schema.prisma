@@ -147,6 +147,7 @@ model PortfolioProject {
   internalNotes String?
   tasks         ProjectTask[]
   media         ProjectMedia[]
+  socialLinks   SocialLink[]
   order         Int             @default(0)
   active        Boolean         @default(true)
   createdAt     DateTime        @default(now())
@@ -213,12 +214,14 @@ enum SocialScope {
 }
 
 model SocialLink {
-  id        String      @id @default(cuid())
+  id        String            @id @default(cuid())
   label     String
   url       String
-  scope     SocialScope @default(PERSONAL)
+  scope     SocialScope       @default(PERSONAL)
   clientId  String?
-  client    Client?     @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  order     Int         @default(0)
-  createdAt DateTime    @default(now())
+  client    Client?           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  projectId String?
+  project   PortfolioProject? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  order     Int               @default(0)
+  createdAt DateTime          @default(now())
 }

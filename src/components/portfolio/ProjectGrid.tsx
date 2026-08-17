@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ProjectModal } from "./ProjectModal";
 
 export type ProjectMediaItem = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
+export type ProjectSocialLink = { id: string; label: string; url: string };
 
 export type Project = {
   id: string;
@@ -15,6 +16,7 @@ export type Project = {
   category: string;
   status: string;
   media: ProjectMediaItem[];
+  socialLinks: ProjectSocialLink[];
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
