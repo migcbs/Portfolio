@@ -47,10 +47,13 @@ export function PricingGrid({
             <p className="text-gray-400 text-sm mb-4">{service.description}</p>
             <div className="mb-6 text-3xl font-semibold">
               {service.price !== null ? (
-                <NumberFlow
-                  value={service.price}
-                  format={{ style: "currency", currency: "USD", trailingZeroDisplay: "stripIfInteger" }}
-                />
+                <span className="inline-flex items-baseline">
+                  $
+                  <NumberFlow
+                    value={service.price}
+                    format={{ style: "decimal", trailingZeroDisplay: "stripIfInteger" }}
+                  />
+                </span>
               ) : (
                 "A cotizar"
               )}
