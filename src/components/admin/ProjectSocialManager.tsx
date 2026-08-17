@@ -7,20 +7,25 @@ import { addProjectSocialLink, deleteProjectSocialLink } from "@/app/admin/portf
 
 type SocialLink = { id: string; label: string; url: string };
 
+const PRIMARY_PLATFORMS = ["Instagram", "Facebook", "TikTok"];
+const OTHER = "Otro";
+
 export function ProjectSocialManager({ projectId, links }: { projectId: string; links: SocialLink[] }) {
   const [, startTransition] = useTransition();
-  const [label, setLabel] = useState("");
+  const [platform, setPlatform] = useState(PRIMARY_PLATFORMS[0]);
+  const [customLabel, setCustomLabel] = useState("");
   const [url, setUrl] = useState("");
   const inputClass =
     "px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
 
   function handleAdd() {
-    if (!label.trim() || !url.trim()) return;
+    const label = platform === OTHER ? customLabel.trim() : platform;
+    if (!label || !url.trim()) return;
     const fd = new FormData();
     fd.set("label", label);
     fd.set("url", url);
     startTransition(() => addProjectSocialLink(projectId, fd));
-    setLabel("");
+    setCustomLabel("");
     setUrl("");
   }
 
@@ -51,12 +56,22 @@ export function ProjectSocialManager({ projectId, links }: { projectId: string; 
       )}
 
       <div className="flex flex-col sm:flex-row gap-2">
-        <input
-          value={label}
-          onChange={(e) => setLabel(e.target.value)}
-          placeholder="Instagram"
-          className={inputClass}
-        />
+        <select value={platform} onChange={(e) => setPlatform(e.target.value)} className={inputClass}>
+          {PRIMARY_PLATFORMS.map((p) => (
+            <option key={p} value={p}>
+              {p}
+            </option>
+          ))}
+          <option value={OTHER}>Otro...</option>
+        </select>
+        {platform === OTHER && (
+          <input
+            value={customLabel}
+            onChange={(e) => setCustomLabel(e.target.value)}
+            placeholder="Nombre de la red"
+            className={inputClass}
+          />
+        )}
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
