@@ -87,3 +87,9 @@ export async function sendProposal(id: string): Promise<void> {
   });
   revalidateAll();
 }
+
+export async function setDepositPaid(id: string, paid: boolean): Promise<void> {
+  await requireAdmin();
+  await prisma.proposal.update({ where: { id }, data: { depositPaidAt: paid ? new Date() : null } });
+  revalidateAll();
+}
