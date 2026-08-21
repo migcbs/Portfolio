@@ -6,6 +6,7 @@ const TABS = [
   { href: "/admin/settings/about", label: "Sobre mí" },
   { href: "/admin/settings/atenu", label: "ATENU" },
   { href: "/admin/settings/legal", label: "Legal" },
+  { href: "/admin/settings/agenda", label: "Agenda" },
   { href: "/admin/settings/account", label: "Cuenta" },
 ];
 

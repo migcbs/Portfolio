@@ -3,9 +3,13 @@
 import { useActionState, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, CalendarCheck } from "lucide-react";
-import { submitBookingRequest, type BookingFormState } from "@/app/booking-actions";
+import { submitBookingRequest, getAvailableSlotsAction, type BookingFormState } from "@/app/booking-actions";
 
 type Variant = "solid" | "glass";
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export function BookingButton({
   source,
@@ -24,10 +28,24 @@ export function BookingButton({
     submitBookingRequest,
     undefined
   );
+  const [date, setDate] = useState(todayStr());
+  const [slots, setSlots] = useState<string[] | null>(null);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [slot, setSlot] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    setLoadingSlots(true);
+    setSlot(null);
+    getAvailableSlotsAction(date)
+      .then(setSlots)
+      .finally(() => setLoadingSlots(false));
+  }, [open, date]);
+
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
 
@@ -80,6 +98,43 @@ export function BookingButton({
             ) : (
               <form action={formAction} className="flex flex-col gap-4">
                 <input type="hidden" name="source" value={source} />
+                <input type="hidden" name="scheduledDate" value={slot ? date : ""} />
+                <input type="hidden" name="scheduledTime" value={slot ?? ""} />
+
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1.5">
+                    ¿Quieres elegir fecha y hora? (opcional)
+                  </label>
+                  <input
+                    type="date"
+                    value={date}
+                    min={todayStr()}
+                    onChange={(e) => setDate(e.target.value)}
+                    className={inputClass}
+                  />
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {loadingSlots && <span className="text-xs text-gray-500">Buscando horarios...</span>}
+                    {!loadingSlots && slots?.length === 0 && (
+                      <span className="text-xs text-gray-500">No hay horarios disponibles ese día.</span>
+                    )}
+                    {!loadingSlots &&
+                      slots?.map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => setSlot(s === slot ? null : s)}
+                          className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                            s === slot
+                              ? "bg-white text-black border-white"
+                              : "liquid-glass border-white/10 hover:bg-white/10"
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                  </div>
+                </div>
+
                 <div>
                   <input name="name" placeholder="Nombre" className={inputClass} required />
                   {state?.errors?.name?.map((e) => (
@@ -123,7 +178,7 @@ export function BookingButton({
                   disabled={pending}
                   className="bg-white text-black rounded-full font-medium py-2.5 hover:bg-gray-200 transition-colors disabled:opacity-50"
                 >
-                  {pending ? "Enviando..." : "Enviar solicitud"}
+                  {pending ? "Enviando..." : slot ? `Agendar ${date} ${slot}` : "Enviar solicitud"}
                 </button>
               </form>
             )}

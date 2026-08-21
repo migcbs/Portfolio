@@ -17,6 +17,7 @@ const GROUPS: { label: string; links: { href: string; label: string }[] }[] = [
       { href: "/admin/settings/about", label: "Sobre mí" },
       { href: "/admin/settings/atenu", label: "ATENU" },
       { href: "/admin/settings/legal", label: "Legal" },
+      { href: "/admin/settings/agenda", label: "Agenda" },
       { href: "/admin/settings/account", label: "Cuenta" },
     ],
   },
@@ -34,6 +35,7 @@ const GROUPS: { label: string; links: { href: string; label: string }[] }[] = [
     links: [
       { href: "/admin/leads", label: "Leads" },
       { href: "/admin/requests", label: "Solicitudes" },
+      { href: "/admin/proposals", label: "Propuestas" },
     ],
   },
 ];

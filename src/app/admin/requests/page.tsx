@@ -1,7 +1,15 @@
 import { Mail, Phone, MessageCircle } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { DeleteButton } from "@/components/admin/DeleteButton";
-import { deleteRequest } from "./actions";
+import { StageSelect } from "@/components/admin/StageSelect";
+import { ActivityDetailsButton } from "@/components/admin/ActivityDetailsButton";
+import {
+  deleteRequest,
+  updateRequestStage,
+  setRequestFollowUp,
+  addRequestNote,
+  deleteRequestNote,
+} from "./actions";
 import { MarkReadButton } from "./mark-read-button";
 
 const CONTACT_ICON: Record<string, typeof Mail> = {
@@ -16,12 +24,15 @@ function waLink(phone: string) {
 }
 
 export default async function AdminRequestsPage() {
-  const requests = await prisma.bookingRequest.findMany({ orderBy: { createdAt: "desc" } });
+  const requests = await prisma.bookingRequest.findMany({
+    orderBy: { createdAt: "desc" },
+    include: { notes: { orderBy: { createdAt: "desc" } } },
+  });
 
   return (
     <div>
       <h1 className="text-2xl font-medium mb-6">Solicitudes</h1>
-      <div className="liquid-glass rounded-2xl overflow-hidden">
+      <div className="liquid-glass rounded-2xl overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-gray-400 border-b border-white/10">
@@ -29,7 +40,10 @@ export default async function AdminRequestsPage() {
               <th className="p-4">Contacto</th>
               <th className="p-4">Prefiere</th>
               <th className="p-4">Origen</th>
+              <th className="p-4">Cita</th>
               <th className="p-4">Mensaje</th>
+              <th className="p-4">Etapa</th>
+              <th className="p-4">Seguimiento</th>
               <th className="p-4">Estado</th>
               <th className="p-4"></th>
             </tr>
@@ -77,7 +91,29 @@ export default async function AdminRequestsPage() {
                     </span>
                   </td>
                   <td className="p-4 text-gray-400">{request.source}</td>
+                  <td className="p-4 text-gray-400">
+                    {request.scheduledAt
+                      ? new Date(request.scheduledAt).toLocaleString("es-MX", {
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                          timeZone: "America/Mexico_City",
+                        })
+                      : "—"}
+                  </td>
                   <td className="p-4 text-gray-400 max-w-xs">{request.message ?? "—"}</td>
+                  <td className="p-4">
+                    <StageSelect id={request.id} stage={request.stage} action={updateRequestStage} />
+                  </td>
+                  <td className="p-4">
+                    <ActivityDetailsButton
+                      id={request.id}
+                      followUpAt={request.followUpAt}
+                      notes={request.notes}
+                      setFollowUpAt={setRequestFollowUp}
+                      addNote={addRequestNote}
+                      deleteNote={deleteRequestNote}
+                    />
+                  </td>
                   <td className="p-4">
                     {request.read ? (
                       <span className="text-xs px-3 py-1 rounded-full bg-white/5 text-gray-400">Leído</span>
@@ -93,7 +129,7 @@ export default async function AdminRequestsPage() {
             })}
             {requests.length === 0 && (
               <tr>
-                <td colSpan={7} className="p-4 text-gray-500">
+                <td colSpan={10} className="p-4 text-gray-500">
                   Aún no hay solicitudes de agenda.
                 </td>
               </tr>
