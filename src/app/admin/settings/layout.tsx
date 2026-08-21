@@ -6,6 +6,7 @@ const TABS = [
   { href: "/admin/settings/about", label: "Sobre mí" },
   { href: "/admin/settings/atenu", label: "ATENU" },
   { href: "/admin/settings/legal", label: "Legal" },
+  { href: "/admin/settings/account", label: "Cuenta" },
 ];
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
