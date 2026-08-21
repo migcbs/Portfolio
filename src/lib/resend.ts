@@ -46,10 +46,21 @@ export async function sendBookingNotification(booking: BookingRequest, toEmail: 
   );
 }
 
+const PROJECT_TYPE_LABEL: Record<string, string> = {
+  WEB_DEV: "Desarrollo Web",
+  DIGITAL_MARKETING: "Marketing Digital",
+};
+const MARKETING_FOCUS_LABEL: Record<string, string> = {
+  DESIGN: "Diseño",
+  PHOTO_VIDEO: "Fotografía y Video",
+};
+
 export async function sendLeadNotification(lead: Lead, toEmail: string) {
   await sendNotification(`Nuevo mensaje de contacto — ${lead.name}`, [
     `Nombre: ${lead.name}`,
     `Email: ${lead.email}`,
+    lead.projectType ? `Tipo de proyecto: ${PROJECT_TYPE_LABEL[lead.projectType] ?? lead.projectType}` : null,
+    lead.marketingFocus ? `Enfoque: ${MARKETING_FOCUS_LABEL[lead.marketingFocus] ?? lead.marketingFocus}` : null,
     `Mensaje:\n${lead.message}`,
   ], toEmail);
 }
