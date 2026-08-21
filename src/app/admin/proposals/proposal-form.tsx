@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useState, useTransition } from "react";
 import { Check, Copy } from "lucide-react";
 import { ProposalItemsManager } from "@/components/admin/ProposalItemsManager";
-import { sendProposal, type ProposalFormState } from "./actions";
+import { sendProposal, setDepositPaid, type ProposalFormState } from "./actions";
 
 type Item = { id: string; label: string; price: string };
 
@@ -45,6 +45,7 @@ export function ProposalForm({
   const [state, formAction, pending] = useActionState<ProposalFormState, FormData>(action, undefined);
   const [copied, setCopied] = useState(false);
   const [sending, startSendTransition] = useTransition();
+  const [togglingDeposit, startDepositTransition] = useTransition();
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
 
@@ -91,10 +92,26 @@ export function ProposalForm({
           Firmada por {editing.signedByName} el {new Date(editing.signedAt).toLocaleString("es-MX")}
         </p>
       )}
-      {editing?.depositPaidAt && (
-        <p className="text-green-400 text-xs mb-4">
-          Anticipo pagado el {new Date(editing.depositPaidAt).toLocaleString("es-MX")}
-        </p>
+      {editing?.status === "ACCEPTED" && (
+        <div className="flex items-center gap-2 mb-4">
+          {editing.depositPaidAt ? (
+            <p className="text-green-400 text-xs">
+              Anticipo pagado el {new Date(editing.depositPaidAt).toLocaleString("es-MX")}
+            </p>
+          ) : (
+            <p className="text-xs text-gray-500">Anticipo pendiente (transferencia o efectivo, coordinado directamente).</p>
+          )}
+          <button
+            type="button"
+            disabled={togglingDeposit}
+            onClick={() =>
+              startDepositTransition(() => setDepositPaid(editing.id, !editing.depositPaidAt))
+            }
+            className="liquid-glass px-3 py-1 rounded-full text-xs shrink-0 disabled:opacity-50"
+          >
+            {editing.depositPaidAt ? "Marcar como no pagado" : "Marcar como pagado"}
+          </button>
+        </div>
       )}
 
       <div className="mb-4">

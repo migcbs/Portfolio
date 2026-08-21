@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState, useTransition } from "react";
-import { acceptProposal, declineProposal, createDepositCheckout, type AcceptFormState } from "./actions";
+import { acceptProposal, declineProposal, type AcceptFormState } from "./actions";
 
 type Item = { id: string; label: string; price: string };
 type Proposal = {
@@ -24,8 +24,6 @@ export function ProposalView({ proposal }: { proposal: Proposal }) {
   const [state, formAction, pending] = useActionState<AcceptFormState, FormData>(acceptWithToken, undefined);
   const [declining, startDeclineTransition] = useTransition();
   const [declined, setDeclined] = useState(false);
-  const [payError, setPayError] = useState<string | null>(null);
-  const [payLoading, setPayLoading] = useState(false);
 
   const total = proposal.items.reduce((sum, item) => sum + Number(item.price), 0);
   const depositAmount = total * (proposal.depositPercent / 100);
@@ -33,18 +31,6 @@ export function ProposalView({ proposal }: { proposal: Proposal }) {
   const isDeclined = proposal.status === "DECLINED" || declined;
   const inputClass =
     "w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm outline-none focus:border-white/30";
-
-  async function handlePay() {
-    setPayLoading(true);
-    setPayError(null);
-    const result = await createDepositCheckout(proposal.token);
-    if (result.url) {
-      window.location.href = result.url;
-      return;
-    }
-    setPayError(result.error ?? "No se pudo iniciar el pago.");
-    setPayLoading(false);
-  }
 
   return (
     <div className="liquid-glass rounded-2xl p-6 sm:p-10 animate-blur-fade-up">
@@ -88,17 +74,10 @@ export function ProposalView({ proposal }: { proposal: Proposal }) {
             (proposal.depositPaidAt ? (
               <p className="text-green-400 text-sm">Anticipo pagado. ¡Gracias!</p>
             ) : (
-              <div>
-                <button
-                  type="button"
-                  onClick={handlePay}
-                  disabled={payLoading}
-                  className="bg-white text-black rounded-full font-medium px-6 py-2.5 hover:bg-gray-200 transition-colors disabled:opacity-50"
-                >
-                  {payLoading ? "Cargando..." : `Pagar anticipo ($${depositAmount.toLocaleString("es-MX")})`}
-                </button>
-                {payError && <p className="text-yellow-400 text-xs mt-2">{payError}</p>}
-              </div>
+              <p className="text-sm text-gray-400">
+                Nos pondremos en contacto contigo directamente para coordinar el pago del anticipo (transferencia
+                o efectivo).
+              </p>
             ))}
         </div>
       ) : (
