@@ -23,6 +23,18 @@ export const bookingSchema = z.object({
     .or(z.literal(""))
     .transform((v) => (v ? v : null)),
   source: z.string().trim().min(1),
+  scheduledDate: z
+    .string()
+    .trim()
+    .optional()
+    .or(z.literal(""))
+    .transform((v) => (v ? v : null)),
+  scheduledTime: z
+    .string()
+    .trim()
+    .optional()
+    .or(z.literal(""))
+    .transform((v) => (v ? v : null)),
 });
 
 export type BookingInput = z.infer<typeof bookingSchema>;

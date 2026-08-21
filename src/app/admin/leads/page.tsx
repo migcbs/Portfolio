@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { DeleteButton } from "@/components/admin/DeleteButton";
-import { deleteLead } from "./actions";
+import { StageSelect } from "@/components/admin/StageSelect";
+import { ActivityDetailsButton } from "@/components/admin/ActivityDetailsButton";
+import { deleteLead, updateLeadStage, setLeadFollowUp, addLeadNote, deleteLeadNote } from "./actions";
 import { MarkReadButton } from "./mark-read-button";
 
 const PROJECT_TYPE_LABEL: Record<string, string> = {
@@ -13,7 +15,10 @@ const MARKETING_FOCUS_LABEL: Record<string, string> = {
 };
 
 export default async function AdminLeadsPage() {
-  const leads = await prisma.lead.findMany({ orderBy: { createdAt: "desc" } });
+  const leads = await prisma.lead.findMany({
+    orderBy: { createdAt: "desc" },
+    include: { notes: { orderBy: { createdAt: "desc" } } },
+  });
 
   return (
     <div>
@@ -26,6 +31,8 @@ export default async function AdminLeadsPage() {
               <th className="p-4">Email</th>
               <th className="p-4">Proyecto</th>
               <th className="p-4">Mensaje</th>
+              <th className="p-4">Etapa</th>
+              <th className="p-4">Seguimiento</th>
               <th className="p-4">Estado</th>
               <th className="p-4"></th>
             </tr>
@@ -55,6 +62,19 @@ export default async function AdminLeadsPage() {
                 </td>
                 <td className="p-4 text-gray-400 max-w-xs">{lead.message}</td>
                 <td className="p-4">
+                  <StageSelect id={lead.id} stage={lead.stage} action={updateLeadStage} />
+                </td>
+                <td className="p-4">
+                  <ActivityDetailsButton
+                    id={lead.id}
+                    followUpAt={lead.followUpAt}
+                    notes={lead.notes}
+                    setFollowUpAt={setLeadFollowUp}
+                    addNote={addLeadNote}
+                    deleteNote={deleteLeadNote}
+                  />
+                </td>
+                <td className="p-4">
                   {lead.read ? (
                     <span className="text-xs px-3 py-1 rounded-full bg-white/5 text-gray-400">Leído</span>
                   ) : (
@@ -68,7 +88,7 @@ export default async function AdminLeadsPage() {
             ))}
             {leads.length === 0 && (
               <tr>
-                <td colSpan={6} className="p-4 text-gray-500">
+                <td colSpan={8} className="p-4 text-gray-500">
                   Aún no hay mensajes de contacto.
                 </td>
               </tr>
