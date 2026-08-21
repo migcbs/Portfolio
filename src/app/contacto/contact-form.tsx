@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useActionState } from "react";
 import { submitContactForm, type ContactFormState } from "./actions";
 
@@ -8,6 +9,7 @@ export function ContactForm() {
     submitContactForm,
     undefined
   );
+  const [projectType, setProjectType] = useState<"WEB_DEV" | "DIGITAL_MARKETING" | "">("");
   const inputClass =
     "px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm placeholder:text-gray-500 outline-none focus:border-white/30";
 
@@ -39,6 +41,47 @@ export function ContactForm() {
           </p>
         ))}
       </div>
+
+      <div>
+        <label className="block text-sm text-gray-400 mb-1.5">¿Qué tipo de proyecto es?</label>
+        <select
+          name="projectType"
+          value={projectType}
+          onChange={(e) => setProjectType(e.target.value as typeof projectType)}
+          className={`${inputClass} w-full`}
+          required
+        >
+          <option value="" disabled>
+            Selecciona una opción
+          </option>
+          <option value="WEB_DEV">Desarrollo Web</option>
+          <option value="DIGITAL_MARKETING">Marketing Digital</option>
+        </select>
+        {state?.errors?.projectType?.map((e) => (
+          <p key={e} className="text-red-400 text-xs mt-1">
+            {e}
+          </p>
+        ))}
+      </div>
+
+      {projectType === "DIGITAL_MARKETING" && (
+        <div>
+          <label className="block text-sm text-gray-400 mb-1.5">¿Diseño, o fotografía y video?</label>
+          <select name="marketingFocus" defaultValue="" className={`${inputClass} w-full`} required>
+            <option value="" disabled>
+              Selecciona una opción
+            </option>
+            <option value="DESIGN">Diseño</option>
+            <option value="PHOTO_VIDEO">Fotografía y Video</option>
+          </select>
+          {state?.errors?.marketingFocus?.map((e) => (
+            <p key={e} className="text-red-400 text-xs mt-1">
+              {e}
+            </p>
+          ))}
+        </div>
+      )}
+
       <div>
         <textarea name="message" placeholder="Mensaje" rows={5} className={`${inputClass} w-full`} required />
         {state?.errors?.message?.map((e) => (

@@ -179,14 +179,26 @@ model Review {
   createdAt  DateTime @default(now())
 }
 
+enum LeadProjectType {
+  WEB_DEV
+  DIGITAL_MARKETING
+}
+
+enum LeadMarketingFocus {
+  DESIGN
+  PHOTO_VIDEO
+}
+
 model Lead {
-  id                String   @id @default(cuid())
+  id                String              @id @default(cuid())
   name              String
   email             String
   message           String
   interestedPackage String?
-  read              Boolean  @default(false)
-  createdAt         DateTime @default(now())
+  projectType       LeadProjectType?
+  marketingFocus    LeadMarketingFocus?
+  read              Boolean             @default(false)
+  createdAt         DateTime            @default(now())
 }
 
 enum PreferredContact {

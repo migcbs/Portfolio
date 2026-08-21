@@ -18,6 +18,8 @@ export async function submitContactForm(
     name: formData.get("name"),
     email: formData.get("email"),
     message: formData.get("message"),
+    projectType: formData.get("projectType"),
+    marketingFocus: formData.get("marketingFocus"),
   });
 
   if (!parsed.success) {
