@@ -90,8 +90,8 @@ export function ServiceForm({
           Para qué sección
         </label>
         <select id="scope" name="scope" defaultValue={defaultValues?.scope ?? "PERSONAL"} className={inputClass}>
-          <option value="PERSONAL">Desarrollo Web (ATENU)</option>
-          <option value="AGENCY">Agencia — foto/video/diseño (ATENU)</option>
+          <option value="PERSONAL">Desarrollo Web (JXRXNX)</option>
+          <option value="AGENCY">Agencia — foto/video/diseño (JXRXNX)</option>
         </select>
       </div>
       <div className="mb-4">

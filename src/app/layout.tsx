@@ -32,13 +32,13 @@ const barlowCondensed = Barlow_Condensed({
 
 export const metadata: Metadata = {
   title: "Miguel Ceballos — Portafolio",
-  description: "Desarrollo web y soluciones digitales — ATENU BrandHouse",
+  description: "Desarrollo web y soluciones digitales — JXRXNX BrandHouse",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings();
   const portfolioBrand = settings?.portfolioBrand ?? "Miguel Ceballos — Portafolio";
-  const agencyBrand = settings?.agencyBrand ?? "ATENU BrandHouse";
+  const agencyBrand = settings?.agencyBrand ?? "JXRXNX BrandHouse";
 
   return (
     <html lang="es" className={`${bebasNeue.variable} ${spaceMono.variable} ${barlowCondensed.variable}`}>
@@ -47,7 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <CustomCursor />
         <Navbar brand={portfolioBrand} logoUrl={settings?.logoUrl ?? null} />
         <main className="flex-1 flex flex-col">{children}</main>
-        <Footer agencyBrand={agencyBrand} />
+        <Footer portfolioBrand={portfolioBrand} agencyBrand={agencyBrand} />
         <CookieConsentBanner />
       </body>
     </html>
