@@ -28,6 +28,7 @@ export default async function AtenuPage() {
     description: service.description,
     price: service.price ? Number(service.price) : null,
     features: service.features,
+    isFavorite: service.isFavorite,
   });
 
   return (
@@ -69,7 +70,11 @@ export default async function AtenuPage() {
           <p className="text-gray-400 text-sm mb-6">
             Todos los paquetes incluyen 1 año gratis de hosting y dominio.
           </p>
-          <PricingGrid services={webDevPackages.map(toGridService)} bookingSource="atenu-webdev" />
+          <PricingGrid
+            services={webDevPackages.map(toGridService)}
+            bookingSource="atenu-webdev"
+            showHostingBadge
+          />
         </div>
       )}
 

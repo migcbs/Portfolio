@@ -17,6 +17,7 @@ function parseForm(formData: FormData) {
     features: parseCommaList(String(formData.get("features") ?? "")),
     scope: formData.get("scope"),
     active: formData.get("active") === "on",
+    isFavorite: formData.get("isFavorite") === "on",
     order: formData.get("order"),
   });
 }

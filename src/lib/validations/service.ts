@@ -7,6 +7,7 @@ export const serviceSchema = z.object({
   features: z.array(z.string()).default([]),
   scope: z.enum(["PERSONAL", "AGENCY"]),
   active: z.boolean(),
+  isFavorite: z.boolean(),
   order: z.coerce.number().int().default(0),
 });
 
