@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { SocialIcon, detectPlatform } from "@/components/ui/SocialIcon";
+import { BookingButton } from "@/components/booking/BookingButton";
 
 export default async function Footer({
   portfolioBrand,
@@ -28,9 +29,14 @@ export default async function Footer({
           </Link>
         </div>
       </div>
-      {socialLinks.length > 0 && (
-        <div className="flex items-center gap-3">
-          {socialLinks.map((link) => (
+      <div className="flex items-center gap-3">
+        <BookingButton
+          source="footer"
+          variant="glass"
+          className="!px-4 !py-1.5 !text-xs"
+        />
+        {socialLinks.length > 0 &&
+          socialLinks.map((link) => (
             <a
               key={link.id}
               href={link.url}
@@ -42,8 +48,7 @@ export default async function Footer({
               <SocialIcon platform={detectPlatform(link.label)} size={16} />
             </a>
           ))}
-        </div>
-      )}
+      </div>
     </footer>
   );
 }
