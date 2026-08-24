@@ -14,6 +14,7 @@ type Service = {
   features: string[];
   scope: "PERSONAL" | "AGENCY";
   active: boolean;
+  isFavorite: boolean;
   order: number;
 };
 
@@ -41,6 +42,7 @@ export function PackagesManager({ services }: { services: Service[] }) {
               <th className="p-4">Sección</th>
               <th className="p-4">Precio</th>
               <th className="p-4">Activo</th>
+              <th className="p-4">Favorito</th>
               <th className="p-4"></th>
             </tr>
           </thead>
@@ -51,6 +53,7 @@ export function PackagesManager({ services }: { services: Service[] }) {
                 <td className="p-4 text-gray-400">{service.scope === "AGENCY" ? "Agencia" : "Desarrollo Web"}</td>
                 <td className="p-4 text-gray-400">{service.price ? `$${service.price}` : "—"}</td>
                 <td className="p-4 text-gray-400">{service.active ? "Sí" : "No"}</td>
+                <td className="p-4 text-gray-400">{service.isFavorite ? "⭐" : "—"}</td>
                 <td className="p-4 text-right space-x-4">
                   <button type="button" onClick={() => setEditing(service)} className="text-sm hover:text-gray-300">
                     Editar
@@ -61,7 +64,7 @@ export function PackagesManager({ services }: { services: Service[] }) {
             ))}
             {services.length === 0 && (
               <tr>
-                <td colSpan={5} className="p-4 text-gray-500">
+                <td colSpan={6} className="p-4 text-gray-500">
                   Aún no hay paquetes.
                 </td>
               </tr>
@@ -85,6 +88,7 @@ export function PackagesManager({ services }: { services: Service[] }) {
               features: editing.features.join(", "),
               scope: editing.scope,
               active: editing.active,
+              isFavorite: editing.isFavorite,
               order: editing.order,
             }}
             onSuccess={() => setEditing(null)}

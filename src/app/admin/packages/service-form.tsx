@@ -10,6 +10,7 @@ type Values = {
   features: string;
   scope: "PERSONAL" | "AGENCY";
   active: boolean;
+  isFavorite: boolean;
   order: number;
 };
 
@@ -116,6 +117,18 @@ export function ServiceForm({
         />
         <label htmlFor="active" className="text-sm text-gray-400">
           Activo (visible en el sitio público)
+        </label>
+      </div>
+      <div className="mb-6 flex items-center gap-2">
+        <input
+          id="isFavorite"
+          name="isFavorite"
+          type="checkbox"
+          defaultChecked={defaultValues?.isFavorite ?? false}
+          className="w-4 h-4"
+        />
+        <label htmlFor="isFavorite" className="text-sm text-gray-400">
+          Favorito entre los clientes (se resalta en el sitio)
         </label>
       </div>
       <button

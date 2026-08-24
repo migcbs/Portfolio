@@ -168,6 +168,7 @@ model Service {
   scope       ServiceScope @default(PERSONAL)
   order       Int          @default(0)
   active      Boolean      @default(true)
+  isFavorite  Boolean      @default(false)
   createdAt   DateTime     @default(now())
 }
 
