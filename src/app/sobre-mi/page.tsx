@@ -1,4 +1,5 @@
 import { getSiteSettings } from "@/lib/site-settings";
+import { BookingButton } from "@/components/booking/BookingButton";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,9 @@ export default async function SobreMiPage() {
           {settings?.aboutText ||
             "Desarrollador web freelance y fundador de JXRXNX BrandHouse, ayudando a marcas a construir su presencia digital."}
         </p>
+      </div>
+      <div className="mt-10 animate-blur-fade-up" style={{ animationDelay: "200ms" }}>
+        <BookingButton source="sobre-mi" />
       </div>
     </div>
   );

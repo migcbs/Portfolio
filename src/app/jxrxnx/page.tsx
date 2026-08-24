@@ -95,7 +95,7 @@ export default async function JxrxnxPage() {
           <h2 className="text-xl font-medium mb-2">A tu medida</h2>
           <p className="text-gray-300">{settings?.jxrxnxCustomText}</p>
         </div>
-        <BookingButton source="jxrxnx-custom" variant="glass" label="Cuéntanos qué necesitas" />
+        <BookingButton source="jxrxnx-custom" variant="glass" />
       </div>
     </div>
   );

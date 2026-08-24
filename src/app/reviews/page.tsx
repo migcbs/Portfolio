@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { BookingButton } from "@/components/booking/BookingButton";
 import { ReviewFab } from "./review-fab";
 
 export const dynamic = "force-dynamic";
@@ -30,6 +31,9 @@ export default async function ReviewsPage() {
           </div>
         ))}
         {reviews.length === 0 && <p className="text-gray-500">Aún no hay reviews publicadas.</p>}
+      </div>
+      <div className="mt-10">
+        <BookingButton source="reviews" />
       </div>
       <ReviewFab />
     </div>

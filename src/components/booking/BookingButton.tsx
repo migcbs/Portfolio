@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
-import { X, CalendarCheck } from "lucide-react";
+import { X, MessageCircle } from "lucide-react";
 import { submitBookingRequest, getAvailableSlotsAction, type BookingFormState } from "@/app/booking-actions";
 
 type Variant = "solid" | "glass";
@@ -13,14 +13,16 @@ function todayStr() {
 
 export function BookingButton({
   source,
-  label = "Agenda ya",
+  label = "Contáctanos",
   variant = "solid",
   className = "",
+  style,
 }: {
   source: string;
   label?: string;
   variant?: Variant;
   className?: string;
+  style?: CSSProperties;
 }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -64,8 +66,8 @@ export function BookingButton({
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={`${buttonClass} ${className}`}>
-        <CalendarCheck size={18} />
+      <button type="button" onClick={() => setOpen(true)} className={`${buttonClass} ${className}`} style={style}>
+        <MessageCircle size={18} />
         {label}
       </button>
 
@@ -81,7 +83,7 @@ export function BookingButton({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-medium">Agenda una cita</h2>
+              <h2 className="text-lg font-medium">Contáctanos</h2>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Cerrar"
@@ -178,7 +180,7 @@ export function BookingButton({
                   disabled={pending}
                   className="bg-white text-black rounded-full font-medium py-2.5 hover:bg-gray-200 transition-colors disabled:opacity-50"
                 >
-                  {pending ? "Enviando..." : slot ? `Agendar ${date} ${slot}` : "Enviar solicitud"}
+                  {pending ? "Enviando..." : slot ? `Agendar ${date} ${slot}` : "Enviar mensaje"}
                 </button>
               </form>
             )}

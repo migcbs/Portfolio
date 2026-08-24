@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { X, ExternalLink } from "lucide-react";
 import { MediaGallery } from "@/components/ui/MediaGallery";
 import { SocialIcon, detectPlatform } from "@/components/ui/SocialIcon";
+import { BookingButton } from "@/components/booking/BookingButton";
 import type { Project } from "./ProjectGrid";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -107,12 +108,16 @@ export function ProjectModal({ project, onClose }: { project: Project; onClose: 
                 href={project.projectUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 bg-white text-black rounded-full font-medium px-6 py-2.5 hover:bg-gray-200 transition-colors"
+                className="inline-flex items-center gap-2 bg-white text-black rounded-full font-medium px-6 py-2.5 hover:bg-gray-200 transition-colors mb-6"
               >
                 Ver sitio <ExternalLink size={16} />
               </a>
             )
           )}
+
+          <div className="mt-6">
+            <BookingButton source={`project-modal:${project.title}`} variant="glass" />
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { Star, Clock, Calendar } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
+import { BookingButton } from "@/components/booking/BookingButton";
 
 export const dynamic = "force-dynamic";
 
@@ -63,13 +64,11 @@ export default async function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-3 sm:gap-4">
-              <a
-                href="/contacto"
-                className="bg-white text-black rounded-full font-medium px-6 sm:px-8 py-2.5 sm:py-3 flex items-center gap-2 hover:bg-gray-200 transition-colors animate-blur-fade-up"
+              <BookingButton
+                source="home-hero"
+                className="animate-blur-fade-up"
                 style={{ animationDelay: "600ms" }}
-              >
-                Contáctame
-              </a>
+              />
               <a
                 href="/portafolio"
                 className="liquid-glass rounded-full font-medium px-6 sm:px-8 py-2.5 sm:py-3 animate-blur-fade-up"
