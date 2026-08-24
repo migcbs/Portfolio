@@ -2,13 +2,13 @@
 
 import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
-import { updateAtenuSettings, type SettingsFormState } from "../actions";
+import { updateJxrxnxSettings, type SettingsFormState } from "../actions";
 
 type Values = {
   agencyTagline: string;
   agencyServices: string;
-  atenuIntro: string;
-  atenuCustomText: string;
+  jxrxnxIntro: string;
+  jxrxnxCustomText: string;
 };
 
 function Field({
@@ -45,8 +45,8 @@ function Field({
   );
 }
 
-export function AtenuForm({ defaultValues }: { defaultValues: Values }) {
-  const [state, formAction, pending] = useActionState<SettingsFormState, FormData>(updateAtenuSettings, undefined);
+export function JxrxnxForm({ defaultValues }: { defaultValues: Values }) {
+  const [state, formAction, pending] = useActionState<SettingsFormState, FormData>(updateJxrxnxSettings, undefined);
   const searchParams = useSearchParams();
   const justSaved = searchParams.get("success") === "1";
 
@@ -54,7 +54,7 @@ export function AtenuForm({ defaultValues }: { defaultValues: Values }) {
     <form action={formAction} className="liquid-glass rounded-2xl p-6 max-w-xl">
       {justSaved && <p className="text-green-400 text-sm mb-4">Guardado correctamente.</p>}
       <p className="text-xs text-gray-500 mb-4">
-        Esto controla el texto de la página pública /atenu. Los paquetes (desarrollo web y agencia) se gestionan
+        Esto controla el texto de la página pública /jxrxnx. Los paquetes (desarrollo web y agencia) se gestionan
         aparte, en la pestaña Paquetes.
       </p>
       <Field
@@ -70,17 +70,17 @@ export function AtenuForm({ defaultValues }: { defaultValues: Values }) {
         errors={state?.errors?.agencyServices}
       />
       <Field
-        name="atenuIntro"
+        name="jxrxnxIntro"
         label="Introducción del landing de JXRXNX"
-        defaultValue={defaultValues.atenuIntro}
-        errors={state?.errors?.atenuIntro}
+        defaultValue={defaultValues.jxrxnxIntro}
+        errors={state?.errors?.jxrxnxIntro}
         textarea
       />
       <Field
-        name="atenuCustomText"
+        name="jxrxnxCustomText"
         label="Texto de 'A tu medida' (trabajo personalizado)"
-        defaultValue={defaultValues.atenuCustomText}
-        errors={state?.errors?.atenuCustomText}
+        defaultValue={defaultValues.jxrxnxCustomText}
+        errors={state?.errors?.jxrxnxCustomText}
         textarea
       />
       <button

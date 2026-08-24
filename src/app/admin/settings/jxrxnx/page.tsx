@@ -1,16 +1,16 @@
 import { getSiteSettings } from "@/lib/site-settings";
-import { AtenuForm } from "./atenu-form";
+import { JxrxnxForm } from "./jxrxnx-form";
 
-export default async function AdminAtenuSettingsPage() {
+export default async function AdminJxrxnxSettingsPage() {
   const settings = await getSiteSettings();
 
   return (
-    <AtenuForm
+    <JxrxnxForm
       defaultValues={{
         agencyTagline: settings?.agencyTagline ?? "",
         agencyServices: (settings?.agencyServices ?? []).join(", "),
-        atenuIntro: settings?.atenuIntro ?? "",
-        atenuCustomText: settings?.atenuCustomText ?? "",
+        jxrxnxIntro: settings?.jxrxnxIntro ?? "",
+        jxrxnxCustomText: settings?.jxrxnxCustomText ?? "",
       }}
     />
   );

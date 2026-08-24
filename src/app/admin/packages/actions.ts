@@ -25,7 +25,7 @@ function parseForm(formData: FormData) {
 function revalidateAll() {
   revalidatePath("/admin/packages");
   revalidatePath("/paquetes");
-  revalidatePath("/atenu");
+  revalidatePath("/jxrxnx");
 }
 
 export async function createService(

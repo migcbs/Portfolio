@@ -8,7 +8,7 @@ import {
   generalSettingsSchema,
   heroSettingsSchema,
   aboutSettingsSchema,
-  atenuSettingsSchema,
+  jxrxnxSettingsSchema,
 } from "@/lib/validations/site-settings";
 import { parseCommaList } from "@/lib/validations/shared";
 
@@ -17,7 +17,7 @@ export type SettingsFormState = { errors?: Record<string, string[] | undefined> 
 function revalidateSite() {
   revalidatePath("/");
   revalidatePath("/sobre-mi");
-  revalidatePath("/atenu");
+  revalidatePath("/jxrxnx");
   revalidatePath("/portafolio");
   revalidatePath("/paquetes");
 }
@@ -96,17 +96,17 @@ export async function updateAboutSettings(
   redirect("/admin/settings/about?success=1");
 }
 
-export async function updateAtenuSettings(
+export async function updateJxrxnxSettings(
   _prevState: SettingsFormState,
   formData: FormData
 ): Promise<SettingsFormState> {
   await requireAdmin();
 
-  const parsed = atenuSettingsSchema.safeParse({
+  const parsed = jxrxnxSettingsSchema.safeParse({
     agencyTagline: formData.get("agencyTagline"),
     agencyServices: parseCommaList(String(formData.get("agencyServices") ?? "")),
-    atenuIntro: formData.get("atenuIntro"),
-    atenuCustomText: formData.get("atenuCustomText"),
+    jxrxnxIntro: formData.get("jxrxnxIntro"),
+    jxrxnxCustomText: formData.get("jxrxnxCustomText"),
   });
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
@@ -116,7 +116,7 @@ export async function updateAtenuSettings(
     create: { id: "singleton", ...parsed.data },
   });
 
-  revalidatePath("/admin/settings/atenu");
+  revalidatePath("/admin/settings/jxrxnx");
   revalidateSite();
-  redirect("/admin/settings/atenu?success=1");
+  redirect("/admin/settings/jxrxnx?success=1");
 }

@@ -26,7 +26,7 @@ model LegalPage {
 model SiteSettings {
   id              String   @id @default("singleton")
   portfolioBrand  String   @default("Miguel Ceballos — Portafolio")
-  agencyBrand     String   @default("ATENU BrandHouse")
+  agencyBrand     String   @default("JXRXNX BrandHouse")
   heroTitle       String   @default("Step Through. Work Smarter.")
   heroDescription String   @default("Desarrollo web y soluciones digitales para tu marca.")
   heroVideoUrl    String?
@@ -36,8 +36,8 @@ model SiteSettings {
   contactEmail    String   @default("")
   agencyTagline   String   @default("Agencia de marketing digital.")
   agencyServices  String[] @default(["Fotografía", "Video", "Diseño gráfico", "Impresiones", "Merch"])
-  atenuIntro      String   @default("Ayudamos a marcas a verse y sonar como se sienten: fotografía, video, diseño e impresión bajo un mismo equipo.")
-  atenuCustomText String   @default("¿Tu negocio necesita algo distinto? También armamos soluciones a la medida, fuera de estos paquetes.")
+  jxrxnxIntro      String   @default("Ayudamos a marcas a verse y sonar como se sienten: fotografía, video, diseño e impresión bajo un mismo equipo.")
+  jxrxnxCustomText String   @default("¿Tu negocio necesita algo distinto? También armamos soluciones a la medida, fuera de estos paquetes.")
   logoUrl         String?
   backgroundUrl   String?
   meetingDurationMinutes Int @default(30)
