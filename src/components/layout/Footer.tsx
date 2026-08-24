@@ -2,7 +2,13 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { SocialIcon, detectPlatform } from "@/components/ui/SocialIcon";
 
-export default async function Footer({ agencyBrand }: { agencyBrand: string }) {
+export default async function Footer({
+  portfolioBrand,
+  agencyBrand,
+}: {
+  portfolioBrand: string;
+  agencyBrand: string;
+}) {
   const socialLinks = await prisma.socialLink.findMany({
     where: { clientId: null },
     orderBy: { order: "asc" },
@@ -11,7 +17,7 @@ export default async function Footer({ agencyBrand }: { agencyBrand: string }) {
   return (
     <footer className="label-mono relative z-10 px-4 sm:px-6 md:px-12 py-8 text-gray-500 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-start sm:items-center">
-        <span>© {new Date().getFullYear()} Miguel Ceballos — Portafolio</span>
+        <span>© {new Date().getFullYear()} {portfolioBrand}</span>
         <span>{agencyBrand}</span>
         <div className="flex gap-4">
           <Link href="/terminos" className="hover:text-gray-300 transition-colors">

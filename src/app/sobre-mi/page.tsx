@@ -23,7 +23,7 @@ export default async function SobreMiPage() {
           style={{ animationDelay: "150ms" }}
         >
           {settings?.aboutText ||
-            "Desarrollador web freelance y fundador de ATENU BrandHouse, ayudando a marcas a construir su presencia digital."}
+            "Desarrollador web freelance y fundador de JXRXNX BrandHouse, ayudando a marcas a construir su presencia digital."}
         </p>
       </div>
     </div>

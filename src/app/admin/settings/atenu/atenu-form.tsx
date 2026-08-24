@@ -59,19 +59,19 @@ export function AtenuForm({ defaultValues }: { defaultValues: Values }) {
       </p>
       <Field
         name="agencyTagline"
-        label="Subtítulo de ATENU"
+        label="Subtítulo de JXRXNX"
         defaultValue={defaultValues.agencyTagline}
         errors={state?.errors?.agencyTagline}
       />
       <Field
         name="agencyServices"
-        label="Servicios de ATENU (separados por coma)"
+        label="Servicios de JXRXNX (separados por coma)"
         defaultValue={defaultValues.agencyServices}
         errors={state?.errors?.agencyServices}
       />
       <Field
         name="atenuIntro"
-        label="Introducción del landing de ATENU"
+        label="Introducción del landing de JXRXNX"
         defaultValue={defaultValues.atenuIntro}
         errors={state?.errors?.atenuIntro}
         textarea
