@@ -35,7 +35,7 @@ export default async function JxrxnxPage() {
     <div className="px-4 sm:px-6 md:px-12 py-16 md:py-24">
       {/* Header */}
       <h1 className="text-3xl md:text-5xl font-normal mb-2 animate-blur-fade-up">
-        {settings?.agencyBrand ?? "JXRXNX BrandHouse"}
+        {settings?.agencyBrand ?? "JARANA BrandHouse"}
       </h1>
       <p className="text-gray-400 mb-4 animate-blur-fade-up" style={{ animationDelay: "100ms" }}>
         {settings?.agencyTagline ?? "Agencia de marketing digital."}

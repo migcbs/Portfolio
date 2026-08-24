@@ -59,19 +59,19 @@ export function JxrxnxForm({ defaultValues }: { defaultValues: Values }) {
       </p>
       <Field
         name="agencyTagline"
-        label="Subtítulo de JXRXNX"
+        label="Subtítulo de JARANA"
         defaultValue={defaultValues.agencyTagline}
         errors={state?.errors?.agencyTagline}
       />
       <Field
         name="agencyServices"
-        label="Servicios de JXRXNX (separados por coma)"
+        label="Servicios de JARANA (separados por coma)"
         defaultValue={defaultValues.agencyServices}
         errors={state?.errors?.agencyServices}
       />
       <Field
         name="jxrxnxIntro"
-        label="Introducción del landing de JXRXNX"
+        label="Introducción del landing de JARANA"
         defaultValue={defaultValues.jxrxnxIntro}
         errors={state?.errors?.jxrxnxIntro}
         textarea

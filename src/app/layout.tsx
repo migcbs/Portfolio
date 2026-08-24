@@ -33,7 +33,7 @@ const barlowCondensed = Barlow_Condensed({
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   const portfolioBrand = settings?.portfolioBrand ?? "Miguel Ceballos — Portafolio";
-  const agencyBrand = settings?.agencyBrand ?? "JXRXNX BrandHouse";
+  const agencyBrand = settings?.agencyBrand ?? "JARANA BrandHouse";
 
   return {
     title: portfolioBrand,
@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings();
   const portfolioBrand = settings?.portfolioBrand ?? "Miguel Ceballos — Portafolio";
-  const agencyBrand = settings?.agencyBrand ?? "JXRXNX BrandHouse";
+  const agencyBrand = settings?.agencyBrand ?? "JARANA BrandHouse";
 
   return (
     <html lang="es" className={`${bebasNeue.variable} ${spaceMono.variable} ${barlowCondensed.variable}`}>
