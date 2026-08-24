@@ -3,7 +3,9 @@ import { z } from "zod";
 export const optionalUrl = z
   .string()
   .trim()
-  .url("Debe ser una URL válida")
+  .refine((v) => v === "" || /^(https?:\/\/|\/)/.test(v), {
+    message: "Debe ser una URL válida (o una ruta que empiece con /, como /logo.png)",
+  })
   .optional()
   .or(z.literal(""))
   .transform((v) => (v ? v : null));
