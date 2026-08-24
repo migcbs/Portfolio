@@ -24,7 +24,7 @@ export default async function SobreMiPage() {
           style={{ animationDelay: "150ms" }}
         >
           {settings?.aboutText ||
-            "Desarrollador web freelance y fundador de JXRXNX BrandHouse, ayudando a marcas a construir su presencia digital."}
+            "Desarrollador web freelance y fundador de JARANA BrandHouse, ayudando a marcas a construir su presencia digital."}
         </p>
       </div>
       <div className="mt-10 animate-blur-fade-up" style={{ animationDelay: "200ms" }}>
