@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 
 const NAV_LINKS = [
-  { href: "/sobre-mi", label: "Sobre mí" },
+  { href: "/sobre-mi", label: "BIO" },
   { href: "/portafolio", label: "Portafolio" },
   { href: "/jxrxnx", label: "JARANA" },
   { href: "/reviews", label: "Reviews" },
