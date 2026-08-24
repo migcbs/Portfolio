@@ -5,7 +5,7 @@ import { BookingButton } from "@/components/booking/BookingButton";
 
 export const dynamic = "force-dynamic";
 
-export default async function AtenuPage() {
+export default async function JxrxnxPage() {
   const settings = await getSiteSettings();
   const [webDevPackages, agencyPackages] = await Promise.all([
     prisma.service.findMany({
@@ -44,10 +44,10 @@ export default async function AtenuPage() {
         className="text-base md:text-lg text-gray-300 max-w-2xl mb-8 animate-blur-fade-up"
         style={{ animationDelay: "150ms" }}
       >
-        {settings?.atenuIntro}
+        {settings?.jxrxnxIntro}
       </p>
       <div className="mb-12 animate-blur-fade-up" style={{ animationDelay: "200ms" }}>
-        <BookingButton source="atenu-header" />
+        <BookingButton source="jxrxnx-header" />
       </div>
 
       {/* Services strip */}
@@ -72,7 +72,7 @@ export default async function AtenuPage() {
           </p>
           <PricingGrid
             services={webDevPackages.map(toGridService)}
-            bookingSource="atenu-webdev"
+            bookingSource="jxrxnx-webdev"
             showHostingBadge
           />
         </div>
@@ -83,7 +83,7 @@ export default async function AtenuPage() {
         <div id="agencia" className="mb-16 scroll-mt-24">
           <h2 className="text-xl font-medium mb-1">Agencia — Foto, Video, Diseño</h2>
           <p className="text-gray-400 text-sm mb-6">Contenido y producción para tu marca.</p>
-          <PricingGrid services={agencyPackages.map(toGridService)} bookingSource="atenu-agencia" />
+          <PricingGrid services={agencyPackages.map(toGridService)} bookingSource="jxrxnx-agencia" />
         </div>
       )}
 
@@ -93,9 +93,9 @@ export default async function AtenuPage() {
       <div className="liquid-glass rounded-2xl p-8 md:p-10 mb-16 flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
         <div className="flex-1">
           <h2 className="text-xl font-medium mb-2">A tu medida</h2>
-          <p className="text-gray-300">{settings?.atenuCustomText}</p>
+          <p className="text-gray-300">{settings?.jxrxnxCustomText}</p>
         </div>
-        <BookingButton source="atenu-custom" variant="glass" label="Cuéntanos qué necesitas" />
+        <BookingButton source="jxrxnx-custom" variant="glass" label="Cuéntanos qué necesitas" />
       </div>
     </div>
   );

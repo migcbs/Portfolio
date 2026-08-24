@@ -21,7 +21,7 @@ function parseForm(formData: FormData) {
 function revalidateAll() {
   revalidatePath("/admin/social-links");
   revalidatePath("/");
-  revalidatePath("/atenu");
+  revalidatePath("/jxrxnx");
   revalidatePath("/contacto");
 }
 

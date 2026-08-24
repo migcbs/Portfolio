@@ -1,7 +1,7 @@
 # Miguel Ceballos — Portafolio
 
 Portafolio freelance con panel admin oculto, construido con Next.js 15, Prisma y Auth.js.
-Incluye la sección de agencia **ATENU BrandHouse** (clientes, stories, paquetes, reviews).
+Incluye la sección de agencia **JXRXNX BrandHouse** (paquetes, reviews).
 
 ## Desarrollo local
 
