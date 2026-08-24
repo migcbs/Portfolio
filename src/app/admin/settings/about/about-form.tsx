@@ -22,7 +22,7 @@ export function AboutForm({ defaultValues }: { defaultValues: Values }) {
       {justSaved && <p className="text-green-400 text-sm mb-4">Guardado correctamente.</p>}
       <div className="mb-4">
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="aboutText">
-          Texto de &quot;Sobre mí&quot; (opcional)
+          Texto de &quot;BIO&quot; (opcional)
         </label>
         <textarea
           id="aboutText"
@@ -39,7 +39,7 @@ export function AboutForm({ defaultValues }: { defaultValues: Values }) {
       </div>
       <MediaUploadField
         name="aboutImageUrl"
-        label="Foto para 'Sobre mí' (opcional)"
+        label="Foto para 'BIO' (opcional)"
         defaultValue={defaultValues.aboutImageUrl}
         errors={state?.errors?.aboutImageUrl}
         kind="image"

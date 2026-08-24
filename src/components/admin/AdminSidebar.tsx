@@ -14,7 +14,7 @@ const GROUPS: { label: string; links: { href: string; label: string }[] }[] = [
     links: [
       { href: "/admin/settings", label: "General" },
       { href: "/admin/settings/hero", label: "Inicio" },
-      { href: "/admin/settings/about", label: "Sobre mí" },
+      { href: "/admin/settings/about", label: "BIO" },
       { href: "/admin/settings/jxrxnx", label: "JARANA" },
       { href: "/admin/settings/legal", label: "Legal" },
       { href: "/admin/settings/agenda", label: "Agenda" },
