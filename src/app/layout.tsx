@@ -30,10 +30,16 @@ const barlowCondensed = Barlow_Condensed({
   variable: "--font-accent",
 });
 
-export const metadata: Metadata = {
-  title: "Miguel Ceballos — Portafolio",
-  description: "Desarrollo web y soluciones digitales — JXRXNX BrandHouse",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const portfolioBrand = settings?.portfolioBrand ?? "Miguel Ceballos — Portafolio";
+  const agencyBrand = settings?.agencyBrand ?? "JXRXNX BrandHouse";
+
+  return {
+    title: portfolioBrand,
+    description: `Desarrollo web y soluciones digitales — ${agencyBrand}`,
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings();
