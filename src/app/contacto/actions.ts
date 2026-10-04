@@ -18,15 +18,13 @@ export async function submitContactForm(
     name: formData.get("name"),
     email: formData.get("email"),
     message: formData.get("message"),
-    projectType: formData.get("projectType"),
-    marketingFocus: formData.get("marketingFocus"),
   });
 
   if (!parsed.success) {
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
-  const lead = await prisma.lead.create({ data: parsed.data });
+  const lead = await prisma.lead.create({ data: { ...parsed.data, projectType: "WEB_DEV" } });
 
   const settings = await getSiteSettings();
   const toEmail = settings?.contactEmail || process.env.ADMIN_EMAIL || "";

@@ -32,7 +32,7 @@ export async function sendResendNotification(subject: string, lines: (string | n
 
 export async function sendBookingNotification(booking: BookingRequest, toEmail: string) {
   await sendResendNotification(
-    `Nueva solicitud de agenda — ${booking.name}${booking.company ? ` (${booking.company})` : ""}`,
+    `Nueva solicitud de contacto — ${booking.name}${booking.company ? ` (${booking.company})` : ""}`,
     [
       `Nombre: ${booking.name}`,
       booking.company ? `Empresa: ${booking.company}` : null,

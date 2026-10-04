@@ -9,13 +9,10 @@ import { parseCommaList } from "@/lib/validations/shared";
 export type ServiceFormState = { errors?: Record<string, string[] | undefined>; success?: boolean } | undefined;
 
 function parseForm(formData: FormData) {
-  const rawPrice = String(formData.get("price") ?? "").trim();
   return serviceSchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
-    price: rawPrice === "" ? null : rawPrice,
     features: parseCommaList(String(formData.get("features") ?? "")),
-    scope: formData.get("scope"),
     active: formData.get("active") === "on",
     isFavorite: formData.get("isFavorite") === "on",
     order: formData.get("order"),
@@ -36,7 +33,7 @@ export async function createService(
   const parsed = parseForm(formData);
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };
 
-  await prisma.service.create({ data: parsed.data });
+  await prisma.service.create({ data: { ...parsed.data, scope: "PERSONAL" } });
   revalidateAll();
   return { success: true };
 }

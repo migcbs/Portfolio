@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default async function PortafolioPage() {
   const projects = await prisma.portfolioProject.findMany({
-    where: { active: true },
+    where: { active: true, category: "WEB_DEV" },
     orderBy: { order: "asc" },
     select: {
       id: true,
@@ -15,10 +15,7 @@ export default async function PortafolioPage() {
       imageUrl: true,
       projectUrl: true,
       tags: true,
-      category: true,
       status: true,
-      media: { select: { id: true, category: true, type: true, mediaUrl: true }, orderBy: { order: "asc" } },
-      socialLinks: { select: { id: true, label: true, url: true }, orderBy: { order: "asc" } },
     },
   });
 

@@ -8,7 +8,6 @@ export default async function AdminJxrxnxSettingsPage() {
     <JxrxnxForm
       defaultValues={{
         agencyTagline: settings?.agencyTagline ?? "",
-        agencyServices: (settings?.agencyServices ?? []).join(", "),
         jxrxnxIntro: settings?.jxrxnxIntro ?? "",
         jxrxnxCustomText: settings?.jxrxnxCustomText ?? "",
       }}

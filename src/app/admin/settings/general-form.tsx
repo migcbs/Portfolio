@@ -79,7 +79,7 @@ export function GeneralForm({ defaultValues }: { defaultValues: Values }) {
       />
       <Field
         name="contactEmail"
-        label="Email de contacto (recibe leads, solicitudes de agenda y reseñas nuevas)"
+        label="Email de contacto (recibe leads, solicitudes y reseñas nuevas)"
         defaultValue={defaultValues.contactEmail}
         errors={state?.errors?.contactEmail}
       />

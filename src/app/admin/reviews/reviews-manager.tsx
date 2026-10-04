@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Modal } from "@/components/admin/Modal";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { AddButton, EditButton } from "@/components/admin/IconButton";
 import { ReviewForm } from "./review-form";
 import { createReview, updateReview, deleteReview } from "./actions";
 import { ApproveToggle } from "./approve-toggle";
@@ -17,13 +18,7 @@ export function ReviewsManager({ reviews }: { reviews: Review[] }) {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-medium">Reviews</h1>
-        <button
-          type="button"
-          onClick={() => setCreating(true)}
-          className="bg-white text-black rounded-full font-medium px-4 py-2 text-sm hover:bg-gray-200 transition-colors"
-        >
-          Nueva review
-        </button>
+        <AddButton onClick={() => setCreating(true)} label="Nueva review" />
       </div>
       <div className="liquid-glass rounded-2xl overflow-hidden">
         <table className="w-full text-sm">
@@ -43,11 +38,11 @@ export function ReviewsManager({ reviews }: { reviews: Review[] }) {
                 <td className="p-4">
                   <ApproveToggle id={review.id} approved={review.approved} />
                 </td>
-                <td className="p-4 text-right space-x-4">
-                  <button type="button" onClick={() => setEditing(review)} className="text-sm hover:text-gray-300">
-                    Editar
-                  </button>
-                  <DeleteButton id={review.id} action={deleteReview} itemLabel={review.authorName} />
+                <td className="p-4">
+                  <div className="flex justify-end gap-2">
+                    <EditButton onClick={() => setEditing(review)} />
+                    <DeleteButton id={review.id} action={deleteReview} itemLabel={review.authorName} />
+                  </div>
                 </td>
               </tr>
             ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { X } from "lucide-react";
+import { AddButton, RemoveButton } from "@/components/admin/IconButton";
 import { addProposalItem, deleteProposalItem } from "@/app/admin/proposals/actions";
 
 type Item = { id: string; label: string; price: string };
@@ -35,14 +35,7 @@ export function ProposalItemsManager({ proposalId, items }: { proposalId: string
             <span className="text-sm">{item.label}</span>
             <div className="flex items-center gap-3">
               <span className="text-sm text-gray-400">${Number(item.price).toLocaleString("es-MX")}</span>
-              <button
-                type="button"
-                onClick={() => startTransition(() => deleteProposalItem(item.id))}
-                aria-label="Quitar"
-                className="text-gray-500 hover:text-red-400"
-              >
-                <X size={14} />
-              </button>
+              <RemoveButton onClick={() => startTransition(() => deleteProposalItem(item.id))} label={`Quitar ${item.label}`} />
             </div>
           </div>
         ))}
@@ -53,7 +46,7 @@ export function ProposalItemsManager({ proposalId, items }: { proposalId: string
         <p className="text-sm font-medium mb-3">Total: ${total.toLocaleString("es-MX")}</p>
       )}
 
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <input
           value={label}
           onChange={(e) => setLabel(e.target.value)}
@@ -68,13 +61,7 @@ export function ProposalItemsManager({ proposalId, items }: { proposalId: string
           placeholder="0.00"
           className={`${inputClass} w-28`}
         />
-        <button
-          type="button"
-          onClick={handleAdd}
-          className="bg-white text-black rounded-xl font-medium px-4 py-2 text-sm hover:bg-gray-200 transition-colors shrink-0"
-        >
-          Agregar
-        </button>
+        <AddButton onClick={handleAdd} label="Agregar concepto" />
       </div>
     </div>
   );

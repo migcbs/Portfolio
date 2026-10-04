@@ -6,9 +6,7 @@ import type { ServiceFormState } from "./actions";
 type Values = {
   name: string;
   description: string;
-  price: string;
   features: string;
-  scope: "PERSONAL" | "AGENCY";
   active: boolean;
   isFavorite: boolean;
   order: number;
@@ -64,17 +62,6 @@ export function ServiceForm({
         ))}
       </div>
       <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="price">
-          Precio (opcional)
-        </label>
-        <input id="price" name="price" type="number" step="0.01" defaultValue={defaultValues?.price} className={inputClass} />
-        {state?.errors?.price?.map((e) => (
-          <p key={e} className="text-red-400 text-xs mt-1">
-            {e}
-          </p>
-        ))}
-      </div>
-      <div className="mb-4">
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="features">
           Características (separadas por coma)
         </label>
@@ -85,15 +72,6 @@ export function ServiceForm({
           className={inputClass}
           placeholder="Diseño a medida, Hosting incluido"
         />
-      </div>
-      <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="scope">
-          Para qué sección
-        </label>
-        <select id="scope" name="scope" defaultValue={defaultValues?.scope ?? "PERSONAL"} className={inputClass}>
-          <option value="PERSONAL">Desarrollo Web (JARANA)</option>
-          <option value="AGENCY">Agencia — foto/video/diseño (JARANA)</option>
-        </select>
       </div>
       <div className="mb-4">
         <label className="block text-sm text-gray-400 mb-1.5" htmlFor="order">

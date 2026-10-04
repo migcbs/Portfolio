@@ -92,15 +92,6 @@
   mask-image: linear-gradient(to top, black 0%, transparent 45%);
 }
 
-@keyframes story-progress {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
-}
-
 /* Only hides the OS cursor once CustomCursor.tsx confirms a real desktop
    mouse (hover + fine pointer) and toggles this class — never touches
    touch/mobile, where the class is never added. */

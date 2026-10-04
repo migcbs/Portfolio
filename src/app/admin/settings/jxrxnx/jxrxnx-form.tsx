@@ -6,7 +6,6 @@ import { updateJxrxnxSettings, type SettingsFormState } from "../actions";
 
 type Values = {
   agencyTagline: string;
-  agencyServices: string;
   jxrxnxIntro: string;
   jxrxnxCustomText: string;
 };
@@ -54,7 +53,7 @@ export function JxrxnxForm({ defaultValues }: { defaultValues: Values }) {
     <form action={formAction} className="liquid-glass rounded-2xl p-6 max-w-xl">
       {justSaved && <p className="text-green-400 text-sm mb-4">Guardado correctamente.</p>}
       <p className="text-xs text-gray-500 mb-4">
-        Esto controla el texto de la página pública /jxrxnx. Los paquetes (desarrollo web y agencia) se gestionan
+        Esto controla el texto de la página pública /jxrxnx. Los paquetes de desarrollo web se gestionan
         aparte, en la pestaña Paquetes.
       </p>
       <Field
@@ -62,12 +61,6 @@ export function JxrxnxForm({ defaultValues }: { defaultValues: Values }) {
         label="Subtítulo de JARANA"
         defaultValue={defaultValues.agencyTagline}
         errors={state?.errors?.agencyTagline}
-      />
-      <Field
-        name="agencyServices"
-        label="Servicios de JARANA (separados por coma)"
-        defaultValue={defaultValues.agencyServices}
-        errors={state?.errors?.agencyServices}
       />
       <Field
         name="jxrxnxIntro"

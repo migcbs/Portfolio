@@ -23,7 +23,6 @@ export const aboutSettingsSchema = z.object({
 
 export const jxrxnxSettingsSchema = z.object({
   agencyTagline: z.string().trim().min(1, "Requerido"),
-  agencyServices: z.array(z.string()).default([]),
   jxrxnxIntro: z.string().trim().min(1, "Requerido"),
   jxrxnxCustomText: z.string().trim().min(1, "Requerido"),
 });

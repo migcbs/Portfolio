@@ -10,7 +10,6 @@ import {
   aboutSettingsSchema,
   jxrxnxSettingsSchema,
 } from "@/lib/validations/site-settings";
-import { parseCommaList } from "@/lib/validations/shared";
 
 export type SettingsFormState = { errors?: Record<string, string[] | undefined> } | undefined;
 
@@ -104,7 +103,6 @@ export async function updateJxrxnxSettings(
 
   const parsed = jxrxnxSettingsSchema.safeParse({
     agencyTagline: formData.get("agencyTagline"),
-    agencyServices: parseCommaList(String(formData.get("agencyServices") ?? "")),
     jxrxnxIntro: formData.get("jxrxnxIntro"),
     jxrxnxCustomText: formData.get("jxrxnxCustomText"),
   });

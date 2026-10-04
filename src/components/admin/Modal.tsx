@@ -1,40 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+
+// Modals can stack (e.g. a delete confirmation over a detail pop-up), so
+// Escape and the body scroll lock must only follow the top-most one.
+const openStack: symbol[] = [];
+
+const SIZE_CLASS = { sm: "max-w-md", md: "max-w-xl", lg: "max-w-2xl" } as const;
 
 export function Modal({
   open,
   onClose,
   children,
+  size = "md",
 }: {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  size?: "sm" | "md" | "lg";
 }) {
   const [mounted, setMounted] = useState(false);
+  const idRef = useRef(Symbol("modal"));
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
-    }
-    if (open) document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [open, onClose]);
+    if (!open) return;
+    const id = idRef.current;
+    openStack.push(id);
+    document.body.style.overflow = "hidden";
 
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape" && openStack[openStack.length - 1] === id) onCloseRef.current();
     }
+    document.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKeyDown);
+      openStack.splice(openStack.indexOf(id), 1);
+      if (openStack.length === 0) document.body.style.overflow = "";
     };
   }, [open]);
 
@@ -45,7 +55,10 @@ export function Modal({
       className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-sm px-4 py-8 overflow-y-auto"
       onClick={onClose}
     >
-      <div className="relative w-full max-w-xl" onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`relative w-full ${SIZE_CLASS[size]}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           onClick={onClose}
           aria-label="Cerrar"

@@ -3,15 +3,12 @@
 import { useState } from "react";
 import { Modal } from "@/components/admin/Modal";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { AddButton, EditButton } from "@/components/admin/IconButton";
 import { PortfolioForm } from "./portfolio-form";
 import { createPortfolioProject, updatePortfolioProject, deletePortfolioProject } from "./actions";
 
 const CATEGORY_LABELS: Record<string, string> = {
   WEB_DEV: "Desarrollo Web",
-  DIGITAL_MARKETING: "Marketing Digital",
-  PHOTO: "Fotografía",
-  VIDEO: "Video",
-  GRAPHIC_DESIGN: "Diseño Gráfico",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -21,8 +18,6 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 type Task = { id: string; phase: string; label: string; done: boolean };
-type Media = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
-type SocialLink = { id: string; label: string; url: string };
 type Project = {
   id: string;
   title: string;
@@ -39,8 +34,6 @@ type Project = {
   active: boolean;
   order: number;
   tasks: Task[];
-  media: Media[];
-  socialLinks: SocialLink[];
 };
 
 export function PortfolioManager({ projects }: { projects: Project[] }) {
@@ -61,13 +54,7 @@ export function PortfolioManager({ projects }: { projects: Project[] }) {
             Tu portafolio público y tu herramienta de seguimiento de proyectos en un solo lugar.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => setCreating(true)}
-          className="bg-white text-black rounded-full font-medium px-4 py-2 text-sm hover:bg-gray-200 transition-colors"
-        >
-          Nuevo proyecto
-        </button>
+        <AddButton onClick={() => setCreating(true)} label="Nuevo proyecto" />
       </div>
       <div className="liquid-glass rounded-2xl overflow-x-auto">
         <table className="w-full text-sm">
@@ -85,15 +72,15 @@ export function PortfolioManager({ projects }: { projects: Project[] }) {
             {projects.map((project) => (
               <tr key={project.id} className="border-b border-white/5 last:border-0">
                 <td className="p-4">{project.title}</td>
-                <td className="p-4 text-gray-400">{CATEGORY_LABELS[project.category] ?? project.category}</td>
+                <td className="p-4 text-gray-400">{CATEGORY_LABELS[project.category] ?? "Otro (oculto en el sitio)"}</td>
                 <td className="p-4 text-gray-400">{STATUS_LABELS[project.status] ?? project.status}</td>
                 <td className="p-4 text-gray-400">{project.progress}%</td>
                 <td className="p-4 text-gray-400">{project.active ? "Sí" : "No"}</td>
-                <td className="p-4 text-right space-x-4">
-                  <button type="button" onClick={() => setEditingId(project.id)} className="text-sm hover:text-gray-300">
-                    Editar
-                  </button>
-                  <DeleteButton id={project.id} action={deletePortfolioProject} itemLabel={project.title} />
+                <td className="p-4">
+                  <div className="flex justify-end gap-2">
+                    <EditButton onClick={() => setEditingId(project.id)} />
+                    <DeleteButton id={project.id} action={deletePortfolioProject} itemLabel={project.title} />
+                  </div>
                 </td>
               </tr>
             ))}
@@ -134,8 +121,6 @@ export function PortfolioManager({ projects }: { projects: Project[] }) {
               id: editingProject.id,
               progress: editingProject.progress,
               tasks: editingProject.tasks,
-              media: editingProject.media,
-              socialLinks: editingProject.socialLinks,
             }}
             onSuccess={() => setEditingId(null)}
           />

@@ -24,69 +24,6 @@ async function main() {
     create: { id: "singleton", heroImageUrl, logoUrl },
   });
 
-  const client = await prisma.client.upsert({
-    where: { id: "seed-client-1" },
-    update: {
-      logoUrl:
-        "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=400&q=80",
-    },
-    create: {
-      id: "seed-client-1",
-      name: "Cliente Demo",
-      website: "https://example.com",
-      logoUrl:
-        "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=400&q=80",
-      order: 0,
-    },
-  });
-
-  const stories = [
-    {
-      id: "seed-story-1",
-      category: "PHOTO" as const,
-      type: "IMAGE" as const,
-      mediaUrl: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=720&q=80",
-    },
-    {
-      id: "seed-story-2",
-      category: "PHOTO" as const,
-      type: "IMAGE" as const,
-      mediaUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=720&q=80",
-    },
-    {
-      id: "seed-story-3",
-      category: "VIDEO" as const,
-      type: "VIDEO" as const,
-      mediaUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    },
-    {
-      id: "seed-story-4",
-      category: "MERCH" as const,
-      type: "IMAGE" as const,
-      mediaUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=720&q=80",
-    },
-    {
-      id: "seed-story-5",
-      category: "MERCH" as const,
-      type: "IMAGE" as const,
-      mediaUrl: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=720&q=80",
-    },
-  ];
-  for (const [i, story] of stories.entries()) {
-    await prisma.story.upsert({
-      where: { id: story.id },
-      update: { mediaUrl: story.mediaUrl, category: story.category, type: story.type },
-      create: {
-        id: story.id,
-        clientId: client.id,
-        category: story.category,
-        type: story.type,
-        mediaUrl: story.mediaUrl,
-        order: i,
-      },
-    });
-  }
-
   await prisma.portfolioProject.upsert({
     where: { id: "seed-project-1" },
     update: {
@@ -109,23 +46,6 @@ async function main() {
     },
   });
 
-  await prisma.portfolioProject.upsert({
-    where: { id: "seed-project-2" },
-    update: { category: "DIGITAL_MARKETING" },
-    create: {
-      id: "seed-project-2",
-      title: "Cliente Demo",
-      description: "Campaña de marketing digital y gestión de redes sociales.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=800&q=80",
-      tags: ["Redes sociales", "Ads"],
-      category: "DIGITAL_MARKETING",
-      status: "COMPLETED",
-      progress: 100,
-      order: 1,
-    },
-  });
-
   await prisma.service.upsert({
     where: { id: "seed-package-1" },
     update: {},
@@ -133,25 +53,11 @@ async function main() {
       id: "seed-package-1",
       name: "Paquete Esencial",
       description: "Sitio web de una página, optimizado y responsivo.",
-      price: 8000,
       features: ["Diseño a medida", "1 año gratis de hosting y dominio", "Soporte 30 días"],
       order: 0,
     },
   });
 
-  await prisma.service.upsert({
-    where: { id: "seed-agency-package-1" },
-    update: {},
-    create: {
-      id: "seed-agency-package-1",
-      name: "Contenido Mensual",
-      description: "Sesión de fotografía y video para redes sociales, una vez al mes.",
-      price: 4500,
-      features: ["1 sesión de foto/video", "10 piezas editadas", "Entrega en 5 días hábiles"],
-      scope: "AGENCY",
-      order: 0,
-    },
-  });
 
   await prisma.review.upsert({
     where: { id: "seed-review-1" },
@@ -183,7 +89,7 @@ async function main() {
   await prisma.legalPage.upsert({
     where: { id: "terms" },
     update: {},
-    create: { id: "terms", title: "Términos y Condiciones", content: "TÉRMINOS Y CONDICIONES\n\nÚltima actualización: [fecha]\n\n1. Identificación\n\nEste sitio web es operado por Miguel Ceballos, bajo la marca JARANA BrandHouse (\"nosotros\", \"el prestador\"). Puedes contactarnos en miguelcq13@gmail.com para cualquier consulta relacionada con estos términos.\n\n2. Objeto\n\nEstos términos regulan el acceso y uso de este sitio web, así como la contratación de servicios de desarrollo web, marketing digital, fotografía, video y diseño gráfico ofrecidos a través de él.\n\n3. Uso del sitio\n\nAl usar este sitio aceptas hacerlo de forma lícita, sin dañar, inutilizar o sobrecargar el servicio, y sin realizar acciones que puedan afectar su normal funcionamiento o el de terceros.\n\n4. Solicitudes de contacto y agenda\n\nLos formularios de contacto, reseñas y solicitudes de agenda recopilan únicamente los datos necesarios para responder a tu consulta o coordinar un proyecto. Consulta nuestra Política de Privacidad para más detalle sobre el tratamiento de estos datos.\n\n5. Presupuestos y contratación de servicios\n\nLos precios mostrados en el sitio son orientativos y pueden ajustarse según el alcance real de cada proyecto. La contratación formal de cualquier servicio se confirma por escrito (correo electrónico u otro medio acordado) antes de iniciar el trabajo.\n\n6. Propiedad intelectual\n\nEl contenido de este sitio (textos, imágenes, diseño, código) es propiedad de Miguel Ceballos / JARANA BrandHouse o de sus clientes, según corresponda, y no puede reproducirse sin autorización, salvo que la ley lo permita.\n\n7. Enlaces a terceros\n\nEste sitio puede incluir enlaces a redes sociales o sitios de terceros. No somos responsables del contenido ni de las prácticas de privacidad de esos sitios externos.\n\n8. Limitación de responsabilidad\n\nHacemos un esfuerzo razonable para mantener el sitio disponible y actualizado, pero no garantizamos que esté libre de errores o interrupciones en todo momento.\n\n9. Modificaciones\n\nPodemos actualizar estos términos cuando sea necesario. La versión vigente siempre estará disponible en esta página, con la fecha de última actualización.\n\n10. Legislación aplicable\n\nEstos términos se rigen por la legislación aplicable en la jurisdicción del prestador, sin perjuicio de los derechos que la normativa de protección al consumidor de tu país de residencia pueda reconocerte." },
+    create: { id: "terms", title: "Términos y Condiciones", content: "TÉRMINOS Y CONDICIONES\n\nÚltima actualización: [fecha]\n\n1. Identificación\n\nEste sitio web es operado por Miguel Ceballos, bajo la marca JARANA BrandHouse (\"nosotros\", \"el prestador\"). Puedes contactarnos en miguelcq13@gmail.com para cualquier consulta relacionada con estos términos.\n\n2. Objeto\n\nEstos términos regulan el acceso y uso de este sitio web, así como la contratación de servicios de desarrollo web ofrecidos a través de él.\n\n3. Uso del sitio\n\nAl usar este sitio aceptas hacerlo de forma lícita, sin dañar, inutilizar o sobrecargar el servicio, y sin realizar acciones que puedan afectar su normal funcionamiento o el de terceros.\n\n4. Solicitudes de contacto y agenda\n\nLos formularios de contacto, reseñas y solicitudes de agenda recopilan únicamente los datos necesarios para responder a tu consulta o coordinar un proyecto. Consulta nuestra Política de Privacidad para más detalle sobre el tratamiento de estos datos.\n\n5. Presupuestos y contratación de servicios\n\nLos paquetes publicados en el sitio son descriptivos y no incluyen precios: cada proyecto se cotiza de forma personalizada según su alcance y necesidades. La contratación formal de cualquier servicio se confirma por escrito (correo electrónico u otro medio acordado) antes de iniciar el trabajo.\n\n6. Propiedad intelectual\n\nEl contenido de este sitio (textos, imágenes, diseño, código) es propiedad de Miguel Ceballos / JARANA BrandHouse o de sus clientes, según corresponda, y no puede reproducirse sin autorización, salvo que la ley lo permita.\n\n7. Enlaces a terceros\n\nEste sitio puede incluir enlaces a redes sociales o sitios de terceros. No somos responsables del contenido ni de las prácticas de privacidad de esos sitios externos.\n\n8. Limitación de responsabilidad\n\nHacemos un esfuerzo razonable para mantener el sitio disponible y actualizado, pero no garantizamos que esté libre de errores o interrupciones en todo momento.\n\n9. Modificaciones\n\nPodemos actualizar estos términos cuando sea necesario. La versión vigente siempre estará disponible en esta página, con la fecha de última actualización.\n\n10. Legislación aplicable\n\nEstos términos se rigen por la legislación aplicable en la jurisdicción del prestador, sin perjuicio de los derechos que la normativa de protección al consumidor de tu país de residencia pueda reconocerte." },
   });
 
   await prisma.legalPage.upsert({

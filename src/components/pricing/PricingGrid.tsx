@@ -1,6 +1,5 @@
 "use client";
 
-import NumberFlow from "@number-flow/react";
 import { Check } from "lucide-react";
 import { BookingButton } from "@/components/booking/BookingButton";
 
@@ -8,7 +7,6 @@ type Service = {
   id: string;
   name: string;
   description: string;
-  price: number | null;
   features: string[];
   isFavorite?: boolean;
 };
@@ -53,20 +51,7 @@ export function PricingGrid({
               )}
             </div>
             <h2 className="text-xl mb-2">{service.name}</h2>
-            <p className="text-gray-400 text-sm mb-4">{service.description}</p>
-            <div className="mb-6 text-3xl font-semibold">
-              {service.price !== null ? (
-                <span className="inline-flex items-baseline">
-                  $
-                  <NumberFlow
-                    value={service.price}
-                    format={{ style: "decimal", trailingZeroDisplay: "stripIfInteger" }}
-                  />
-                </span>
-              ) : (
-                "A cotizar"
-              )}
-            </div>
+            <p className="text-gray-400 text-sm mb-6">{service.description}</p>
             <ul className="text-sm text-gray-400 space-y-2 flex-1 mb-6">
               {service.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-2">
@@ -78,7 +63,7 @@ export function PricingGrid({
             {bookingSource ? (
               <BookingButton
                 source={`${bookingSource}:${service.name}`}
-                label="Agenda ya"
+                label="Cotiza tu proyecto"
                 className="w-full justify-center"
               />
             ) : (

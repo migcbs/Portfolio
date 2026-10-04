@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { X } from "lucide-react";
+import { AddButton, RemoveButton } from "@/components/admin/IconButton";
 import {
   addProjectTask,
   applyProjectTemplate,
@@ -86,14 +86,9 @@ export function ProjectChecklist({
                   <span className={`text-sm flex-1 ${task.done ? "line-through text-gray-500" : "text-gray-200"}`}>
                     {task.label}
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => startTransition(() => deleteProjectTask(task.id))}
-                    aria-label="Quitar tarea"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-500 hover:text-red-400 shrink-0"
-                  >
-                    <X size={14} />
-                  </button>
+                  <span className="opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+                    <RemoveButton onClick={() => startTransition(() => deleteProjectTask(task.id))} label={`Quitar ${task.label}`} />
+                  </span>
                 </div>
               ))}
             </div>
@@ -101,7 +96,7 @@ export function ProjectChecklist({
         );
       })}
 
-      <div className="flex flex-col sm:flex-row gap-2 mt-3">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-3">
         <select value={newPhase} onChange={(e) => setNewPhase(e.target.value)} className={inputClass}>
           {TASK_PHASES.map((phase) => (
             <option key={phase} value={phase}>
@@ -121,13 +116,7 @@ export function ProjectChecklist({
           placeholder="Nueva tarea..."
           className={`${inputClass} flex-1`}
         />
-        <button
-          type="button"
-          onClick={handleAdd}
-          className="bg-white text-black rounded-xl font-medium px-4 py-2 text-sm hover:bg-gray-200 transition-colors shrink-0"
-        >
-          Agregar
-        </button>
+        <AddButton onClick={handleAdd} label="Agregar tarea" />
       </div>
     </div>
   );

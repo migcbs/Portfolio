@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Modal } from "@/components/admin/Modal";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { AddButton, EditButton } from "@/components/admin/IconButton";
 import { ServiceForm } from "./service-form";
 import { createService, updateService, deleteService } from "./actions";
 
@@ -10,9 +11,7 @@ type Service = {
   id: string;
   name: string;
   description: string;
-  price: string | null;
   features: string[];
-  scope: "PERSONAL" | "AGENCY";
   active: boolean;
   isFavorite: boolean;
   order: number;
@@ -25,22 +24,17 @@ export function PackagesManager({ services }: { services: Service[] }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-medium">Paquetes</h1>
-        <button
-          type="button"
-          onClick={() => setCreating(true)}
-          className="bg-white text-black rounded-full font-medium px-4 py-2 text-sm hover:bg-gray-200 transition-colors"
-        >
-          Nuevo paquete
-        </button>
+        <div>
+          <h1 className="text-2xl font-medium">Paquetes</h1>
+          <p className="text-sm text-gray-500 mt-1">Sin precios públicos: cada paquete se cotiza con el cliente.</p>
+        </div>
+        <AddButton onClick={() => setCreating(true)} label="Nuevo paquete" />
       </div>
       <div className="liquid-glass rounded-2xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-gray-400 border-b border-white/10">
               <th className="p-4">Nombre</th>
-              <th className="p-4">Sección</th>
-              <th className="p-4">Precio</th>
               <th className="p-4">Activo</th>
               <th className="p-4">Favorito</th>
               <th className="p-4"></th>
@@ -50,21 +44,19 @@ export function PackagesManager({ services }: { services: Service[] }) {
             {services.map((service) => (
               <tr key={service.id} className="border-b border-white/5 last:border-0">
                 <td className="p-4">{service.name}</td>
-                <td className="p-4 text-gray-400">{service.scope === "AGENCY" ? "Agencia" : "Desarrollo Web"}</td>
-                <td className="p-4 text-gray-400">{service.price ? `$${service.price}` : "—"}</td>
                 <td className="p-4 text-gray-400">{service.active ? "Sí" : "No"}</td>
                 <td className="p-4 text-gray-400">{service.isFavorite ? "⭐" : "—"}</td>
-                <td className="p-4 text-right space-x-4">
-                  <button type="button" onClick={() => setEditing(service)} className="text-sm hover:text-gray-300">
-                    Editar
-                  </button>
-                  <DeleteButton id={service.id} action={deleteService} itemLabel={service.name} />
+                <td className="p-4">
+                  <div className="flex justify-end gap-2">
+                    <EditButton onClick={() => setEditing(service)} />
+                    <DeleteButton id={service.id} action={deleteService} itemLabel={service.name} />
+                  </div>
                 </td>
               </tr>
             ))}
             {services.length === 0 && (
               <tr>
-                <td colSpan={6} className="p-4 text-gray-500">
+                <td colSpan={4} className="p-4 text-gray-500">
                   Aún no hay paquetes.
                 </td>
               </tr>
@@ -84,9 +76,7 @@ export function PackagesManager({ services }: { services: Service[] }) {
             defaultValues={{
               name: editing.name,
               description: editing.description,
-              price: editing.price ?? "",
               features: editing.features.join(", "),
-              scope: editing.scope,
               active: editing.active,
               isFavorite: editing.isFavorite,
               order: editing.order,

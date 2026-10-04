@@ -1,17 +1,13 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect } from "react";
 import { MediaUploadField } from "@/components/admin/MediaUploadField";
 import { ProgressSlider } from "@/components/admin/ProgressSlider";
 import { ProjectChecklist } from "@/components/admin/ProjectChecklist";
-import { ProjectMediaManager } from "@/components/admin/ProjectMediaManager";
-import { ProjectSocialManager } from "@/components/admin/ProjectSocialManager";
 import { PROJECT_TYPE_LABELS } from "@/lib/project-templates";
 import type { PortfolioFormState } from "./actions";
 
 type Task = { id: string; phase: string; label: string; done: boolean };
-type Media = { id: string; category: "PHOTO" | "VIDEO" | "MERCH"; type: "IMAGE" | "VIDEO"; mediaUrl: string };
-type SocialLink = { id: string; label: string; url: string };
 
 type Values = {
   title: string;
@@ -28,14 +24,6 @@ type Values = {
   order: number;
 };
 
-const CATEGORY_LABELS: Record<string, string> = {
-  WEB_DEV: "Desarrollo Web",
-  DIGITAL_MARKETING: "Marketing Digital",
-  PHOTO: "Fotografía",
-  VIDEO: "Video",
-  GRAPHIC_DESIGN: "Diseño Gráfico",
-};
-
 const STATUS_LABELS: Record<string, string> = {
   PLANNING: "Procesando (aún no inicia)",
   IN_PROGRESS: "En desarrollo",
@@ -50,12 +38,11 @@ export function PortfolioForm({
 }: {
   action: (prevState: PortfolioFormState, formData: FormData) => Promise<PortfolioFormState>;
   defaultValues?: Values;
-  /** Set when editing an existing project — enables the live progress slider, checklist, and gallery. */
-  editing?: { id: string; progress: number; tasks: Task[]; media: Media[]; socialLinks: SocialLink[] };
+  /** Set when editing an existing project — enables the live progress slider and checklist. */
+  editing?: { id: string; progress: number; tasks: Task[] };
   onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState<PortfolioFormState, FormData>(action, undefined);
-  const [category, setCategory] = useState(defaultValues?.category ?? "WEB_DEV");
 
   useEffect(() => {
     if (state?.success) onSuccess?.();
@@ -95,47 +82,29 @@ export function PortfolioForm({
           </p>
         ))}
       </div>
+      {/* Web-dev only now; legacy projects keep their category and stay hidden publicly. */}
+      <input type="hidden" name="category" value={defaultValues?.category ?? "WEB_DEV"} />
       <div className="mb-4">
-        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="category">
-          Categoría
+        <label className="block text-sm text-gray-400 mb-1.5" htmlFor="projectType">
+          Tipo de proyecto
         </label>
         <select
-          id="category"
-          name="category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          id="projectType"
+          name="projectType"
+          defaultValue={defaultValues?.projectType ?? ""}
           className={inputClass}
         >
-          {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
+          <option value="">Sin especificar</option>
+          {Object.entries(PROJECT_TYPE_LABELS).map(([value, label]) => (
             <option key={value} value={value}>
               {label}
             </option>
           ))}
         </select>
+        <p className="text-xs text-gray-500 mt-1.5">
+          Define qué checklist sugerido está disponible más abajo (landing, SaaS, e-commerce...).
+        </p>
       </div>
-      {category === "WEB_DEV" && (
-        <div className="mb-4">
-          <label className="block text-sm text-gray-400 mb-1.5" htmlFor="projectType">
-            Tipo de proyecto
-          </label>
-          <select
-            id="projectType"
-            name="projectType"
-            defaultValue={defaultValues?.projectType ?? ""}
-            className={inputClass}
-          >
-            <option value="">Sin especificar</option>
-            {Object.entries(PROJECT_TYPE_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-          <p className="text-xs text-gray-500 mt-1.5">
-            Define qué checklist sugerido está disponible más abajo (landing, SaaS, e-commerce...).
-          </p>
-        </div>
-      )}
       <MediaUploadField
         name="imageUrl"
         label="Imagen (opcional)"
@@ -257,12 +226,6 @@ export function PortfolioForm({
         />
       )}
 
-      {editing && category === "DIGITAL_MARKETING" && (
-        <>
-          <ProjectSocialManager projectId={editing.id} links={editing.socialLinks} />
-          <ProjectMediaManager projectId={editing.id} media={editing.media} />
-        </>
-      )}
     </form>
   );
 }

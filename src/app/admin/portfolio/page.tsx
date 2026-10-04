@@ -6,8 +6,6 @@ export default async function AdminPortfolioPage() {
     orderBy: { order: "asc" },
     include: {
       tasks: { orderBy: { order: "asc" } },
-      media: { orderBy: { order: "asc" } },
-      socialLinks: { orderBy: { order: "asc" } },
     },
   });
 

@@ -34,10 +34,10 @@ model SiteSettings {
   aboutText       String   @default("")
   aboutImageUrl   String?
   contactEmail    String   @default("")
-  agencyTagline   String   @default("Agencia de marketing digital.")
-  agencyServices  String[] @default(["Fotografía", "Video", "Diseño gráfico", "Impresiones", "Merch"])
-  jxrxnxIntro      String   @default("Ayudamos a marcas a verse y sonar como se sienten: fotografía, video, diseño e impresión bajo un mismo equipo.")
-  jxrxnxCustomText String   @default("¿Tu negocio necesita algo distinto? También armamos soluciones a la medida, fuera de estos paquetes.")
+  agencyTagline   String   @default("Desarrollo web a la medida.")
+  agencyServices  String[] @default([]) // unused since the site went web-dev only
+  jxrxnxIntro      String   @default("Sitios y aplicaciones web a la medida: diseño, desarrollo, hosting y soporte bajo un mismo equipo.")
+  jxrxnxCustomText String   @default("¿Tu proyecto necesita algo distinto? También desarrollamos soluciones a la medida, fuera de estos paquetes.")
   logoUrl         String?
   backgroundUrl   String?
   meetingDurationMinutes Int @default(30)

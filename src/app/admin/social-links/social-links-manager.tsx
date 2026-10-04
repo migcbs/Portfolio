@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Modal } from "@/components/admin/Modal";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { AddButton, EditButton } from "@/components/admin/IconButton";
 import { SocialLinkForm } from "./social-link-form";
 import { createSocialLink, updateSocialLink, deleteSocialLink } from "./actions";
 
@@ -22,17 +23,10 @@ export function SocialLinksManager({ links }: { links: SocialLink[] }) {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-medium">Redes sociales</h1>
-        <button
-          type="button"
-          onClick={() => setCreating(true)}
-          className="bg-white text-black rounded-full font-medium px-4 py-2 text-sm hover:bg-gray-200 transition-colors"
-        >
-          Nuevo enlace
-        </button>
+        <AddButton onClick={() => setCreating(true)} label="Nuevo enlace" />
       </div>
       <p className="text-sm text-gray-500 mb-4">
-        Enlaces globales del sitio (footer y contacto). Los de un proyecto de marketing digital específico se
-        gestionan en Proyectos → editar ese proyecto.
+        Enlaces globales del sitio (footer y contacto).
       </p>
       <div className="liquid-glass rounded-2xl overflow-hidden">
         <table className="w-full text-sm">
@@ -48,11 +42,11 @@ export function SocialLinksManager({ links }: { links: SocialLink[] }) {
               <tr key={link.id} className="border-b border-white/5 last:border-0">
                 <td className="p-4">{link.label}</td>
                 <td className="p-4 text-gray-400">{link.scope === "AGENCY" ? "Agencia" : "Personal"}</td>
-                <td className="p-4 text-right space-x-4">
-                  <button type="button" onClick={() => setEditing(link)} className="text-sm hover:text-gray-300">
-                    Editar
-                  </button>
-                  <DeleteButton id={link.id} action={deleteSocialLink} itemLabel={link.label} />
+                <td className="p-4">
+                  <div className="flex justify-end gap-2">
+                    <EditButton onClick={() => setEditing(link)} />
+                    <DeleteButton id={link.id} action={deleteSocialLink} itemLabel={link.label} />
+                  </div>
                 </td>
               </tr>
             ))}
