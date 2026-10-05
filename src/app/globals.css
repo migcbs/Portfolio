@@ -213,3 +213,14 @@ body.custom-cursor-active * {
     radial-gradient(ellipse 55% 40% at 95% 100%, rgba(245, 243, 238, 0.05), transparent 60%),
     linear-gradient(180deg, rgba(12, 12, 12, 0.15) 0%, rgba(12, 12, 12, 0.55) 100%);
 }
+
+/* Hero background video is decorative: never show iOS/WebKit's native start
+   button or controls (it's under the hero overlays and can't be tapped anyway). */
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-play-button,
+.hero-video::-webkit-media-controls-start-playback-button,
+.hero-video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+}

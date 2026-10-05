@@ -1,6 +1,7 @@
 import { Star, Clock, Calendar } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
 import { BookingButton } from "@/components/booking/BookingButton";
+import { HeroVideo } from "@/components/layout/HeroVideo";
 
 export const dynamic = "force-dynamic";
 
@@ -30,18 +31,13 @@ export default async function HomePage() {
           {/* Solid backdrop in the video's own black, so the zoom/nudge never reveals the
               starry site background around the footage. Hero-only; other pages keep the stars. */}
           <div className="fixed inset-0 z-0 bg-[#070709]" aria-hidden="true" />
-          <video
+          <HeroVideo
+            src={videoUrl}
+            mobileSrc={mobileVideoUrl}
             className={`fixed inset-0 w-full h-full object-cover portrait:object-contain bg-[#070709] z-0 ${
               mobileVideoUrl ? "portrait:scale-[1.12] portrait:origin-[36%_0%] portrait:translate-y-[12px]" : ""
             }`}
-            autoPlay
-            muted
-            loop
-            playsInline
-          >
-            {mobileVideoUrl && <source src={mobileVideoUrl} media="(orientation: portrait)" />}
-            <source src={videoUrl} />
-          </video>
+          />
         </>
       ) : imageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
