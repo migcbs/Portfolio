@@ -22,21 +22,14 @@ export default async function HomePage() {
         // Portrait screens get the vertical cut when there is one. Either way they use
         // "contain": phones are taller than 9:16 (and far from 16:9), so "cover" would
         // crop the text in the footage. The letterbox matches its background (#070709).
-        // The vertical cut gets a slight zoom biased right: its code is clipped ~8% before
-        // the right edge, so this pushes that clip off-screen while keeping the start of
-        // each code line (~5% in) and the "BUILT DIFFERENT" title fully visible. The zoom
-        // grows from the top edge (not the center) so the first typed line never leaves
-        // the screen, even on phones whose browser chrome makes the viewport wider than 9:16.
         <>
-          {/* Solid backdrop in the video's own black, so the zoom/nudge never reveals the
+          {/* Solid backdrop in the video's own black, so the letterbox never reveals the
               starry site background around the footage. Hero-only; other pages keep the stars. */}
           <div className="fixed inset-0 z-0 bg-[#070709]" aria-hidden="true" />
           <HeroVideo
             src={videoUrl}
             mobileSrc={mobileVideoUrl}
-            className={`fixed inset-0 w-full h-full object-cover portrait:object-contain bg-[#070709] z-0 ${
-              mobileVideoUrl ? "portrait:scale-[1.12] portrait:origin-[36%_0%] portrait:translate-y-[12px]" : ""
-            }`}
+            className="fixed inset-0 w-full h-full object-cover portrait:object-contain bg-[#070709] z-0"
           />
         </>
       ) : imageUrl ? (
@@ -61,7 +54,7 @@ export default async function HomePage() {
             }}
           />
           <div className="fixed inset-0 z-[1] backdrop-blur-sm bottom-blur-mask pointer-events-none" />
-          <div className="fixed inset-x-0 bottom-0 h-[45%] z-[1] bg-gradient-to-t from-[#070709]/95 via-[#070709]/70 to-transparent pointer-events-none" />
+          <div className="fixed inset-x-0 bottom-0 h-[30%] z-[1] bg-gradient-to-t from-[#070709]/95 via-[#070709]/70 to-transparent pointer-events-none" />
         </>
       )}
 
