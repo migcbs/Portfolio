@@ -23,11 +23,12 @@ export default async function HomePage() {
         // crop the text in the footage. The letterbox matches its background (#070709).
         // The vertical cut gets a slight zoom biased right: its code is clipped ~8% before
         // the right edge, so this pushes that clip off-screen while keeping the start of
-        // each code line (~5% in) and the "BUILT DIFFERENT" title fully visible. Nudged
-        // 10px down so the first typed line isn't pushed under the top edge by the zoom.
+        // each code line (~5% in) and the "BUILT DIFFERENT" title fully visible. The zoom
+        // grows from the top edge (not the center) so the first typed line never leaves
+        // the screen, even on phones whose browser chrome makes the viewport wider than 9:16.
         <video
           className={`fixed inset-0 w-full h-full object-cover portrait:object-contain bg-[#070709] z-0 ${
-            mobileVideoUrl ? "portrait:scale-[1.12] portrait:origin-[36%_50%] portrait:translate-y-[10px]" : ""
+            mobileVideoUrl ? "portrait:scale-[1.12] portrait:origin-[36%_0%] portrait:translate-y-[12px]" : ""
           }`}
           autoPlay
           muted
