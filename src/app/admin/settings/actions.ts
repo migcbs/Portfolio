@@ -57,6 +57,7 @@ export async function updateHeroSettings(
     heroTitle: formData.get("heroTitle"),
     heroDescription: formData.get("heroDescription"),
     heroVideoUrl: formData.get("heroVideoUrl"),
+    heroVideoMobileUrl: formData.get("heroVideoMobileUrl"),
     heroImageUrl: formData.get("heroImageUrl"),
   });
   if (!parsed.success) return { errors: parsed.error.flatten().fieldErrors };

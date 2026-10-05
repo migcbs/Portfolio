@@ -30,6 +30,7 @@ model SiteSettings {
   heroTitle       String   @default("Step Through. Work Smarter.")
   heroDescription String   @default("Desarrollo web y soluciones digitales para tu marca.")
   heroVideoUrl    String?
+  heroVideoMobileUrl String?
   heroImageUrl    String?
   aboutText       String   @default("")
   aboutImageUrl   String?

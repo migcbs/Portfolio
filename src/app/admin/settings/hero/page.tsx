@@ -10,6 +10,7 @@ export default async function AdminHeroSettingsPage() {
         heroTitle: settings?.heroTitle ?? "",
         heroDescription: settings?.heroDescription ?? "",
         heroVideoUrl: settings?.heroVideoUrl ?? "",
+        heroVideoMobileUrl: settings?.heroVideoMobileUrl ?? "",
         heroImageUrl: settings?.heroImageUrl ?? "",
       }}
     />

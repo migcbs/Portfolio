@@ -9,6 +9,7 @@ type Values = {
   heroTitle: string;
   heroDescription: string;
   heroVideoUrl: string;
+  heroVideoMobileUrl: string;
   heroImageUrl: string;
 };
 
@@ -69,9 +70,16 @@ export function HeroForm({ defaultValues }: { defaultValues: Values }) {
       />
       <MediaUploadField
         name="heroVideoUrl"
-        label="Video de fondo del hero (opcional)"
+        label="Video de fondo del hero (opcional; si hay video se ocultan el título, la descripción y las etiquetas)"
         defaultValue={defaultValues.heroVideoUrl}
         errors={state?.errors?.heroVideoUrl}
+        kind="video"
+      />
+      <MediaUploadField
+        name="heroVideoMobileUrl"
+        label="Video para celular (opcional, vertical 9:16; si no hay, el celular muestra el de arriba completo)"
+        defaultValue={defaultValues.heroVideoMobileUrl}
+        errors={state?.errors?.heroVideoMobileUrl}
         kind="video"
       />
       <MediaUploadField

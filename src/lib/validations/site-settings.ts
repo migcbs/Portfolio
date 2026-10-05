@@ -13,6 +13,7 @@ export const heroSettingsSchema = z.object({
   heroTitle: z.string().trim().min(1, "Requerido"),
   heroDescription: z.string().trim().min(1, "Requerido"),
   heroVideoUrl: optionalUrl,
+  heroVideoMobileUrl: optionalUrl,
   heroImageUrl: optionalUrl,
 });
 
