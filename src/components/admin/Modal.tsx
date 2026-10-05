@@ -52,7 +52,7 @@ export function Modal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-sm px-4 py-8 overflow-y-auto"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
       onClick={onClose}
     >
       <div
@@ -66,7 +66,10 @@ export function Modal({
         >
           <X size={18} />
         </button>
-        {children}
+        {/* Capped height with its own scroll so long forms don't run off-screen. */}
+        <div className="max-h-[85vh] overflow-y-auto overscroll-contain rounded-2xl [&>*]:max-w-none">
+          {children}
+        </div>
       </div>
     </div>,
     document.body

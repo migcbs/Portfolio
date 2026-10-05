@@ -34,6 +34,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     return NextResponse.json(jsonResponse);
   } catch (error) {
+    console.error("Error en /api/upload:", error);
     return NextResponse.json({ error: (error as Error).message }, { status: 400 });
   }
 }

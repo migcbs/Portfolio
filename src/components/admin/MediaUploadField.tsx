@@ -5,6 +5,20 @@ import { UploadCloud, X } from "lucide-react";
 
 type Kind = "image" | "video";
 
+async function uploadToBlob(file: File): Promise<string> {
+  const { upload } = await import("@vercel/blob/client");
+  const blob = await upload(file.name, file, { access: "public", handleUploadUrl: "/api/upload" });
+  return blob.url;
+}
+
+async function uploadLocally(file: File): Promise<string> {
+  const body = new FormData();
+  body.set("file", file);
+  const res = await fetch("/api/upload/local", { method: "POST", body });
+  if (!res.ok) throw new Error("local upload failed");
+  return ((await res.json()) as { url: string }).url;
+}
+
 export function MediaUploadField({
   name,
   label,
@@ -38,14 +52,15 @@ export function MediaUploadField({
     setUploading(true);
     setError(null);
     try {
-      const { upload } = await import("@vercel/blob/client");
-      const blob = await upload(file.name, file, {
-        access: "public",
-        handleUploadUrl: "/api/upload",
-      });
-      setValue(blob.url);
-    } catch {
-      setError("No se pudo subir el archivo. Verifica que BLOB_READ_WRITE_TOKEN esté configurado.");
+      setValue(await uploadToBlob(file));
+    } catch (blobError) {
+      try {
+        // Local dev without BLOB_READ_WRITE_TOKEN: the server stores it in public/uploads.
+        setValue(await uploadLocally(file));
+      } catch {
+        const reason = blobError instanceof Error ? blobError.message : String(blobError);
+        setError(`No se pudo subir el archivo: ${reason}`);
+      }
     } finally {
       setUploading(false);
     }
