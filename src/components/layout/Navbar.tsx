@@ -13,20 +13,14 @@ const NAV_LINKS = [
   { href: "/contacto", label: "Contacto" },
 ];
 
-export default function Navbar({ brand, logoUrl }: { brand: string; logoUrl: string | null }) {
+export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <nav className="relative z-50 flex justify-between items-center px-4 sm:px-6 md:px-12 py-4 md:py-6">
-        <Link href="/" className="animate-blur-fade-up" style={{ animationDelay: "0ms" }}>
-          {logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={logoUrl} alt={brand} className="h-8 md:h-10 w-auto brightness-0 invert" />
-          ) : (
-            <span className="font-display uppercase text-xl md:text-2xl tracking-wide">{brand}</span>
-          )}
-        </Link>
+        {/* Left slot intentionally empty: no logo or brand text, so the hero video stays clean. */}
+        <div aria-hidden="true" />
 
         <div className="hidden lg:flex items-center gap-8">
           {NAV_LINKS.map((link, i) => (

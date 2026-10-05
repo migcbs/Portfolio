@@ -51,7 +51,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="font-mono bg-black text-white antialiased min-h-screen flex flex-col">
         <AmbientBackground backgroundUrl={settings?.backgroundUrl} />
         <CustomCursor />
-        <Navbar brand={portfolioBrand} logoUrl={settings?.logoUrl ?? null} />
+        <Navbar />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer portfolioBrand={portfolioBrand} agencyBrand={agencyBrand} />
         <CookieConsentBanner />
