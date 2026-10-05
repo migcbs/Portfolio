@@ -7,7 +7,7 @@ export default function AdminLoginPage() {
   const [error, formAction, pending] = useActionState(loginAction, undefined);
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="flex-1 min-h-[calc(100vh-88px)] flex items-center justify-center px-4">
       <form
         action={formAction}
         className="liquid-glass rounded-2xl p-8 w-full max-w-sm animate-blur-fade-up"

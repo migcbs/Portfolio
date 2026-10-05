@@ -26,18 +26,23 @@ export default async function HomePage() {
         // each code line (~5% in) and the "BUILT DIFFERENT" title fully visible. The zoom
         // grows from the top edge (not the center) so the first typed line never leaves
         // the screen, even on phones whose browser chrome makes the viewport wider than 9:16.
-        <video
-          className={`fixed inset-0 w-full h-full object-cover portrait:object-contain bg-[#070709] z-0 ${
-            mobileVideoUrl ? "portrait:scale-[1.12] portrait:origin-[36%_0%] portrait:translate-y-[12px]" : ""
-          }`}
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          {mobileVideoUrl && <source src={mobileVideoUrl} media="(orientation: portrait)" />}
-          <source src={videoUrl} />
-        </video>
+        <>
+          {/* Solid backdrop in the video's own black, so the zoom/nudge never reveals the
+              starry site background around the footage. Hero-only; other pages keep the stars. */}
+          <div className="fixed inset-0 z-0 bg-[#070709]" aria-hidden="true" />
+          <video
+            className={`fixed inset-0 w-full h-full object-cover portrait:object-contain bg-[#070709] z-0 ${
+              mobileVideoUrl ? "portrait:scale-[1.12] portrait:origin-[36%_0%] portrait:translate-y-[12px]" : ""
+            }`}
+            autoPlay
+            muted
+            loop
+            playsInline
+          >
+            {mobileVideoUrl && <source src={mobileVideoUrl} media="(orientation: portrait)" />}
+            <source src={videoUrl} />
+          </video>
+        </>
       ) : imageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={imageUrl} alt="" className="fixed inset-0 w-full h-full object-cover z-0" />
