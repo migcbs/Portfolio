@@ -214,13 +214,23 @@ body.custom-cursor-active * {
     linear-gradient(180deg, rgba(12, 12, 12, 0.15) 0%, rgba(12, 12, 12, 0.55) 100%);
 }
 
-/* Hero background video is decorative: never show iOS/WebKit's native start
-   button or controls (it's under the hero overlays and can't be tapped anyway). */
-.hero-video::-webkit-media-controls,
-.hero-video::-webkit-media-controls-panel,
-.hero-video::-webkit-media-controls-play-button,
-.hero-video::-webkit-media-controls-start-playback-button,
-.hero-video::-webkit-media-controls-overlay-play-button {
-  display: none !important;
-  -webkit-appearance: none;
+/* Terminal-style typed line in the hero intro (BrandIntro.tsx): a block cursor
+   that stays solid while typing and blinks once the line is idle. */
+.terminal-cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.05em;
+  margin-left: 0.08em;
+  vertical-align: -0.15em;
+  background: currentColor;
+}
+
+.terminal-line[data-typing="false"] .terminal-cursor {
+  animation: terminal-blink 1s steps(1) infinite;
+}
+
+@keyframes terminal-blink {
+  50% {
+    opacity: 0;
+  }
 }
