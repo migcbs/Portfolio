@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getSiteSettings } from "@/lib/site-settings";
 import { PricingGrid } from "@/components/pricing/PricingGrid";
 import { BookingButton } from "@/components/booking/BookingButton";
+import { BRAND_NAME } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +25,7 @@ export default async function JxrxnxPage() {
     <div className="px-4 sm:px-6 md:px-12 py-16 md:py-24">
       {/* Header */}
       <h1 className="text-3xl md:text-5xl font-normal mb-2 animate-blur-fade-up">
-        {settings?.agencyBrand ?? "JARANA BrandHouse"}
+        {settings?.agencyBrand ?? BRAND_NAME}
       </h1>
       <p className="text-gray-400 mb-4 animate-blur-fade-up" style={{ animationDelay: "100ms" }}>
         {settings?.agencyTagline ?? "Desarrollo web a la medida."}

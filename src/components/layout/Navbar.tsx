@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
+import { VinylLogo } from "@/components/brand/VinylLogo";
 
 const NAV_LINKS = [
   { href: "/sobre-mi", label: "BIO" },
@@ -19,8 +20,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="relative z-50 flex justify-between items-center px-4 sm:px-6 md:px-12 py-4 md:py-6">
-        {/* Left slot intentionally empty: no logo or brand text, so the hero video stays clean. */}
-        <div aria-hidden="true" />
+        <VinylLogo />
 
         <div className="hidden lg:flex items-center gap-8">
           {NAV_LINKS.map((link, i) => (

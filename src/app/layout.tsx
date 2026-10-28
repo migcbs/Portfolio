@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Bebas_Neue, Space_Mono, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import { getSiteSettings } from "@/lib/site-settings";
+import { BRAND_BYLINE, BRAND_NAME } from "@/lib/brand";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/CustomCursor";
@@ -32,19 +33,16 @@ const barlowCondensed = Barlow_Condensed({
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
-  const portfolioBrand = settings?.portfolioBrand ?? "Miguel Ceballos — Portafolio";
-  const agencyBrand = settings?.agencyBrand ?? "JARANA BrandHouse";
-
   return {
-    title: portfolioBrand,
-    description: `Desarrollo web y soluciones digitales — ${agencyBrand}`,
+    title: { default: BRAND_NAME, template: `%s · ${BRAND_NAME}` },
+    description: settings?.heroDescription ?? `${BRAND_NAME} ${BRAND_BYLINE}. Desarrollo web y soluciones digitales.`,
+    applicationName: BRAND_NAME,
+    openGraph: { siteName: BRAND_NAME, title: BRAND_NAME },
   };
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings();
-  const portfolioBrand = settings?.portfolioBrand ?? "Miguel Ceballos — Portafolio";
-  const agencyBrand = settings?.agencyBrand ?? "JARANA BrandHouse";
 
   return (
     <html lang="es" className={`${bebasNeue.variable} ${spaceMono.variable} ${barlowCondensed.variable}`}>
@@ -53,7 +51,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <CustomCursor />
         <Navbar />
         <main className="flex-1 flex flex-col">{children}</main>
-        <Footer portfolioBrand={portfolioBrand} agencyBrand={agencyBrand} />
+        <Footer />
         <CookieConsentBanner />
       </body>
     </html>
